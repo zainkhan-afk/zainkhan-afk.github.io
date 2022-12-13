@@ -1,7 +1,7 @@
-# theme: jekyll-theme-slate
-theme: minima
-title: Changed the page
-author: Zain
+theme: jekyll-theme-slate
+# theme: minima
+# title: Changed the page
+# author: Zain
 # email: zain.9496@gmail.com
 # description: > # this means to ignore newlines until "baseurl:"
   # Changed the description of the document.
