@@ -60,8 +60,6 @@ params:
   profileMode:
     enabled: true # needs to be explicitly set
     title: Zain Khan
-    subtitle: "Hi, I am a Robotics and AI engineer currently working as an AI Developer at SiParadigm. I specialize in Computer Vision "
-    subtitle: "Hi, I am an AI Developer at SiParadigm, where I develop . I also offer my expertise as a freelancer in the field of Computer Vision development. My projects have included developing custom computer vision"
     subtitle: "### **Education**
 
     ---
@@ -93,9 +91,9 @@ params:
     **Internee** | NCRA | August 2018 - August 2019
 
     "
-    imageUrl: "/images/profile.JPG"
-    imageWidth: 140
-    imageHeight: 140
+    imageUrl: "/images/profile/profile.JPG"
+    imageWidth: 120
+    imageHeight: 120
     imageTitle: my image
     buttons:
       - name: Posts
@@ -110,13 +108,17 @@ params:
 
   socialIcons:
     - name: email
-      url: "zain.9496@gmail.com"
+      url: "mailto:zain.9496@gmail.com"
     - name: github
       url: "https://github.com/zainkhan-afk"
     - name: twitter
       url: "https://twitter.com/Zain9496"
     - name: linkedIn
       url: "https://www.linkedin.com/in/zainullah-k/"
+    - name: researchgate
+      url: "https://www.researchgate.net/profile/Zainullah-Khan"
+    - name: CV
+      url: "downloads/documents/CV.pdf"
 
   analytics:
     google:
