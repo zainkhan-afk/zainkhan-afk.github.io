@@ -20,5 +20,14 @@
       <description>Velocity kinematics derivation for a differential drive robot.</description>
     </item>
     
+    <item>
+      <title>Triplet Loss</title>
+      <link>https://zainkhan-afk.github.io/posts/triplet-loss/</link>
+      <pubDate>Wed, 15 Feb 2023 02:35:02 +0500</pubDate>
+      
+      <guid>https://zainkhan-afk.github.io/posts/triplet-loss/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
