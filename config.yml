@@ -158,14 +158,18 @@ menu:
       name: projects
       url: /projects/
       weight: 20
+    - identifier: simulations
+      name: simulations
+      url:  https://zainkhan-afk.github.io/simvis.github.io/
+      weight: 30
     - identifier: notes
       name: notes
       url: /notes/
-      weight: 30
+      weight: 40
     - identifier: tags
       name: tags
       url: /tags/
-      weight: 40
+      weight: 50
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
