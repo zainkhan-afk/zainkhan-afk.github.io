@@ -160,7 +160,7 @@ menu:
       weight: 20
     - identifier: simulations
       name: simulations
-      url:  https://zainkhan-afk.github.io/simvis.github.io/
+      url:  https://zainkhan-afk.github.io/Simulations/
       weight: 30
     - identifier: notes
       name: notes
