@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio Cover Sketch</title>
+
+    <!-- Bulma CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+
+    <!-- Google Pixel Font -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" /> -->
+
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+    <style>
+      body {
+        font-family: 'Press Start 2P', monospace;
+      }
+      h1, h2, .navbar, .navbar-item {
+        font-family: 'Press Start 2P', monospace;
+      }
+      .title, .subtitle {
+        word-break: break-word;
+        font-size: 1rem; /* Adjust if too large */
+      }
+    </style>
+  </head>
+
+  <body>  	
+    <!-- Load Navbar -->
+    <div id="navbar"></div>
+    
+    <!-- Cover Section with Sketch -->
+    <section class="hero is-fullheight is-info is-bold">
+      <div class="hero-body" style="position: relative; overflow: hidden;">
+        <!-- Sketch holder -->
+        <div
+          id="sketch-holder"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"
+        ></div>
+
+        <!-- Overlay Text -->
+        <div
+          class="container has-text-centered"
+          style="position: relative; z-index: 1; padding-top: 2rem; padding-bottom: 2rem;"
+        >
+          <h1 class="title is-2 has-text-white">John Doe</h1>
+          <h2 class="subtitle is-4 has-text-white">AI DEVELOPER | CREATIVE DEVELOPER | VISUAL ARTIST</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="title">ABOUT ME</h2>
+        <p>I'm an AI developer who enjoys blending technology with creativity. I build intelligent systems for real-world tasks like automation, computer vision, and data analysis. In my free time, I explore creative coding—making generative art, interactive sketches, and visual experiments with tools like p5.js and shaders. For me, coding is both a profession and a form of expression.</p>
+      </div>
+    </section>
+
+    <!-- Load Footer -->
+    <div id="footer"></div>
+
+    <!-- JS to include HTML -->
+    <script src="include.js"></script>
+    
+    <!-- p5.js Sketch -->
+    <script src="sketch.js"></script>
+  </body>
+</html>
