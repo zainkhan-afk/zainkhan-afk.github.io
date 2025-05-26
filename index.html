@@ -7,7 +7,7 @@
     <!-- Bulma CSS -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
     />
 
     <!-- Google Pixel Font -->
@@ -17,25 +17,83 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 
     <style>
-      body {
-        font-family: 'Press Start 2P', monospace;
-      }
-      h1, h2, .navbar, .navbar-item {
-        font-family: 'Press Start 2P', monospace;
-      }
-      .title, .subtitle {
-        word-break: break-word;
-        font-size: 1rem; /* Adjust if too large */
-      }
+      
     </style>
   </head>
 
+
+    <!-- Chat Toggle Button -->
+  <div class="buttons is-right" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;">
+    <button id="chat-toggle" class="button is-info is-rounded">
+      💬 Chat
+    </button>
+  </div>
+
+  <!-- Chat Widget -->
+  <div id="chat-widget" class="box" style="position: fixed; bottom: 4.5rem; right: 1.5rem; width: 300px; display: none; z-index: 1000;">
+    <div class="content">
+      <p class="has-text-weight-bold mb-2">Chat with me</p>
+      <div id="chat-messages" class="mb-3" style="max-height: 200px; overflow-y: auto; font-size: 0.9rem;"></div>
+      <div class="field has-addons">
+        <div class="control is-expanded">
+          <input id="chat-input" class="input is-small" type="text" placeholder="Type a message..." />
+        </div>
+        <div class="control">
+          <button class="button is-info is-small" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById("chat-toggle");
+    const chatWidget = document.getElementById("chat-widget");
+    const chatMessages = document.getElementById("chat-messages");
+  
+    toggleBtn.addEventListener("click", () => {
+      chatWidget.style.display = chatWidget.style.display === "none" ? "block" : "none";
+    });
+  
+    async function sendMessage() {
+      const input = document.getElementById("chat-input");
+      const message = input.value.trim();
+      if (!message) return;
+  
+      const userMsg = document.createElement("p");
+      userMsg.className = "has-text-right has-text-weight-semibold";
+      userMsg.textContent = "You: " + message;
+      chatMessages.appendChild(userMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      input.value = "";
+  
+      try {
+        const res = await fetch("http://localhost:8000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+  
+        const botMsg = document.createElement("p");
+        botMsg.className = "has-text-left";
+        botMsg.textContent = "Bot: " + data.reply;
+        chatMessages.appendChild(botMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      } catch (e) {
+        const errorMsg = document.createElement("p");
+        errorMsg.className = "has-text-danger";
+        errorMsg.textContent = "Bot: Error reaching server.";
+        chatMessages.appendChild(errorMsg);
+      }
+    }
+  </script>
+  
+  
   <body>  	
-    <!-- Load Navbar -->
-    <div id="navbar"></div>
-    
     <!-- Cover Section with Sketch -->
-    <section class="hero is-fullheight is-info is-bold">
+    <section class="hero is-fullheight is-black is-bold">
+      <!-- Load Navbar -->
+    <div id="navbar"></div>
       <div class="hero-body" style="position: relative; overflow: hidden;">
         <!-- Sketch holder -->
         <div
@@ -56,10 +114,12 @@
 
     <!-- About Section -->
     <section class="section">
-      <div class="container">
-        <h2 class="title">ABOUT ME</h2>
-        <p>I'm an AI developer who enjoys blending technology with creativity. I build intelligent systems for real-world tasks like automation, computer vision, and data analysis. In my free time, I explore creative coding—making generative art, interactive sketches, and visual experiments with tools like p5.js and shaders. For me, coding is both a profession and a form of expression.</p>
-      </div>
+        <div class="content">
+            <div class="container">
+                <h2 class="title">ABOUT ME</h2>
+                <p>I'm an AI developer who enjoys blending technology with creativity. I build intelligent systems for real-world tasks like automation, computer vision, and data analysis. In my free time, I explore creative coding—making generative art, interactive sketches, and visual experiments with tools like p5.js and shaders. For me, coding is both a profession and a form of expression.</p>
+            </div>
+        </div>
     </section>
 
     <!-- Load Footer -->

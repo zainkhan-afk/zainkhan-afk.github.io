@@ -1,0 +1,23 @@
+<!-- Chat Toggle Button -->
+<div class="buttons is-right" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;">
+    <button id="chat-toggle" class="button is-info is-rounded">
+      💬 Chat
+    </button>
+  </div>
+  
+  <!-- Chat Widget -->
+  <div id="chat-widget" class="box" style="position: fixed; bottom: 4.5rem; right: 1.5rem; width: 300px; display: none; z-index: 1000;">
+    <div class="content">
+      <p class="has-text-weight-bold mb-2">Chat with me</p>
+      <div id="chat-messages" class="mb-3" style="max-height: 200px; overflow-y: auto; font-size: 0.9rem;"></div>
+      <div class="field has-addons">
+        <div class="control is-expanded">
+          <input id="chat-input" class="input is-small" type="text" placeholder="Type a message..." />
+        </div>
+        <div class="control">
+          <button class="button is-info is-small" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

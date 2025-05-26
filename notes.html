@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio Cover Sketch</title>
+
+    <!-- Bulma CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    
+  </head>
+
+  <body>  	
+    <!-- Load Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Projects Section -->
+    <section class="section">
+        <div class="content">
+            <div class="container">
+                <h2 class="title">Notes</h2>
+            </div>
+        </div>
+        <div class="container content" id="markdown-container">
+            Loading...
+        </div>
+    </section>
+    
+    <!-- Load Footer -->
+    <div id="footer"></div>
+
+    <!-- JS to include HTML -->
+    <script src="include.js"></script>
+
+    <script type="module">
+      import { loadContent } from './loadContent.js';
+    
+      loadContent({
+        apiUrl: "http://0.0.0.0:8000/portfolio/get-all-notes",
+        containerId: "markdown-container",
+        title: "notes"
+      });
+    </script>
+  </body>
+</html>

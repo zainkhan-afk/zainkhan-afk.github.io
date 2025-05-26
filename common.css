@@ -1,0 +1,40 @@
+.fixed-box {
+    height: 320px; /* Or whatever height works for you */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.fixed-box .title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.fixed-box p {
+    flex-grow: 1;
+}
+
+
+body {
+    font-family: 'Press Start 2P', monospace;
+}
+h1, h2, .navbar, .navbar-item {
+    font-family: 'Press Start 2P', monospace;
+}
+.title, .subtitle {
+    word-break: break-word;
+    font-size: 1rem; /* Adjust if too large */
+}
+  
+
+.fixed-box {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-content {
+    padding-bottom: 0.5rem;
+  }
