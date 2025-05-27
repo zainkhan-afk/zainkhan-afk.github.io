@@ -26,9 +26,9 @@ export async function loadContent({ apiUrl, containerId, title }) {
         //   ${item.link ? `<a href="${item.link}" target="_blank" class="button is-link is-light mt-2">View</a>` : ""}
         // `;
         
-        const res = await fetch(`/content/projects/OpenCV-3D-Renderer.md`);
-        const markdown = await res.text();
-        const html = marked.parse(markdown); // use marked.js for markdown -> HTML
+        // const res = await fetch(`/content/projects/OpenCV-3D-Renderer.md`);
+        // const markdown = await res.text();
+        // const html = marked.parse(markdown); // use marked.js for markdown -> HTML
 
         block.classList.add("card");
 
@@ -38,8 +38,18 @@ export async function loadContent({ apiUrl, containerId, title }) {
           </header>
         
           <div class="card-content fixed-box">
-            ${html}
-            
+            <div class="columns is-vcentered is-mobile">
+              <div class="column is-8">
+                <div class="content has-text-justified" style="max-height: 200px; ">
+                  ${item.description}
+                </div>
+              </div>
+              <div class="column is-4 has-text-centered">
+                <figure class="image is-128x128" style="margin: auto;">
+                  <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt="project image" />
+                </figure>
+              </div>
+            </div>
           </div>
         
           <footer class="card-footer">

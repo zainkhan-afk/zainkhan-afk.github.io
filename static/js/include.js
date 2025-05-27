@@ -13,7 +13,7 @@ function includeHTML(id, file) {
   }
   
   document.addEventListener("DOMContentLoaded", function () {
-    includeHTML("navbar", "navbar.html");
-    includeHTML("footer", "footer.html");
+    includeHTML("navbar", "/components/navbar.html");
+    includeHTML("footer", "/components/footer.html");
   });
   
