@@ -1,0 +1,29 @@
+{
+  "name": "zainkhan-afk.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "lucide-react": "^0.539.0",
+    "next": "15.4.6",
+    "p5": "^2.0.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.6",
+    "gh-pages": "^6.3.0",
+    "tailwindcss": "^4"
+  }
+}
