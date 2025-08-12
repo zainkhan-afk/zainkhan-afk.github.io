@@ -35,10 +35,10 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-3">Follow Me</h3>
           <div className="flex space-x-4">
-            <Link href="https://github.com" target="_blank" className="hover:text-blue-400">
+            <Link href="https://github.com/zainkhan-afk" target="_blank" className="hover:text-blue-400">
               <FaGithub size={24} />
             </Link>
-            <Link href="https://linkedin.com" target="_blank" className="hover:text-blue-400">
+            <Link href="https://linkedin.com/in/zainullah-k" target="_blank" className="hover:text-blue-400">
               <FaLinkedin size={24} />
             </Link>
             <Link href="https://twitter.com" target="_blank" className="hover:text-blue-400">
@@ -50,8 +50,8 @@ export default function Footer() {
         {/* Contact Info */}
         <div>
           <h3 className="text-lg font-semibold mb-3">Contact Info</h3>
-          <p className="text-gray-400">Email: your.email@example.com</p>
-          <p className="text-gray-400">Phone: +123 456 789</p>
+          <p className="text-gray-400">Email: zain.9496@gamil.com</p>
+          {/* <p className="text-gray-400">Phone: +123 456 789</p> */}
         </div>
       </div>
 
