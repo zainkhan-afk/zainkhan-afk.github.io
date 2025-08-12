@@ -1,4 +1,5 @@
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -11,22 +12,22 @@ export default function Footer() {
           <p className="text-gray-400 mb-4">
             Got a project in mind? Let’s bring it to life.
           </p>
-          <a
+          <Link
             href="/contact"
             className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
           >
             Contact Me
-          </a>
+          </Link>
         </div>
 
         {/* Quick Links */}
         <div>
           <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2 text-gray-400">
-            <li><a href="/" className="hover:text-white">Home</a></li>
-            <li><a href="/projects" className="hover:text-white">Projects</a></li>
-            <li><a href="/about" className="hover:text-white">About</a></li>
-            <li><a href="/contact" className="hover:text-white">Contact</a></li>
+            <li><Link href="/" className="hover:text-white">Home</Link></li>
+            <li><Link href="/projects" className="hover:text-white">Projects</Link></li>
+            <li><Link href="/about" className="hover:text-white">About</Link></li>
+            <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
           </ul>
         </div>
 
@@ -34,15 +35,15 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-3">Follow Me</h3>
           <div className="flex space-x-4">
-            <a href="https://github.com" target="_blank" className="hover:text-blue-400">
+            <Link href="https://github.com" target="_blank" className="hover:text-blue-400">
               <FaGithub size={24} />
-            </a>
-            <a href="https://linkedin.com" target="_blank" className="hover:text-blue-400">
+            </Link>
+            <Link href="https://linkedin.com" target="_blank" className="hover:text-blue-400">
               <FaLinkedin size={24} />
-            </a>
-            <a href="https://twitter.com" target="_blank" className="hover:text-blue-400">
+            </Link>
+            <Link href="https://twitter.com" target="_blank" className="hover:text-blue-400">
               <FaTwitter size={24} />
-            </a>
+            </Link>
           </div>
         </div>
 

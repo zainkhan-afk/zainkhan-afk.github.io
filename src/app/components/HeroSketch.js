@@ -6,11 +6,16 @@ export default function HeroSketch() {
   const sketchRef = useRef();
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // ✅ Prevent SSR crash
+
     const sketch = (p) => {
       let particles = [];
 
       p.setup = () => {
-        p.createCanvas(window.innerWidth, window.innerHeight).parent(sketchRef.current);
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        p.createCanvas(width, height).parent(sketchRef.current);
         for (let i = 0; i < 100; i++) {
           particles.push({
             x: p.random(p.width),
@@ -26,7 +31,7 @@ export default function HeroSketch() {
         p.background(20, 20, 30, 50); // dark with slight trails
         p.noStroke();
         p.fill(255, 0, 100);
-        particles.forEach(pt => {
+        particles.forEach((pt) => {
           p.circle(pt.x, pt.y, pt.r * 2);
           pt.x += pt.xSpeed;
           pt.y += pt.ySpeed;
@@ -44,5 +49,10 @@ export default function HeroSketch() {
     return () => myP5.remove();
   }, []);
 
-  return <div ref={sketchRef} className="absolute top-0 left-0 w-full h-full z-0"></div>;
+  return (
+    <div
+      ref={sketchRef}
+      className="absolute top-0 left-0 w-full h-full z-0"
+    ></div>
+  );
 }
