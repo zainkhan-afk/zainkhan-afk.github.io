@@ -13,6 +13,7 @@ const HeroSketch = dynamic(() => import("./HeroSketch"), {
 export default function Hero() {
   return (
     <section className="relative flex items-center justify-center h-screen text-white">
+    {/* <section className="min-h-screen flex items-center justify-center bg-gray-900"> */}
       {/* p5.js background */}
       <HeroSketch />
 
