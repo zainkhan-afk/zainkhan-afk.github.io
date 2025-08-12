@@ -20,3 +20,14 @@ function navigateTo(url) {
     }
   }
   
+
+  async function loadProject(slug) {
+    const res = await fetch(`/data/projects/${slug}.md`);
+    const text = await res.text();
+  
+    document.getElementById("app").innerHTML = `
+      <h1>${slug}</h1>
+      <pre>${text}</pre>
+    `;
+  }
+  

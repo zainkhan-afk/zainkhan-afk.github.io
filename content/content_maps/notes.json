@@ -1,0 +1,12 @@
+{
+    "notes" : {
+        "topic 1" : [
+            "part1.md",
+            "part2.md"
+        ],
+        "topic 2" : [
+            "part1.md",
+            "part2.md"
+        ]
+    }
+}
