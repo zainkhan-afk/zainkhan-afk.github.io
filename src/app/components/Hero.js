@@ -8,9 +8,9 @@ export default function Hero() {
 
       {/* Text overlay */}
       <div className="relative z-10 text-center">
-        <h1 className="text-5xl font-bold mb-4">Hi, I’m Zain</h1>
+        <h1 className="text-5xl font-bold mb-4">Hi, I'm Zain</h1>
         <p className="text-lg max-w-xl mx-auto">
-          I’m a developer passionate about building interactive experiences.
+          I'm a developer passionate about building interactive experiences.
         </p>
       </div>
     </section>
