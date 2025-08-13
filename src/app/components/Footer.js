@@ -38,7 +38,7 @@ export default function Footer() {
             <Link href="https://github.com/zainkhan-afk" target="_blank" className="hover:text-blue-400">
               <FaGithub size={24} />
             </Link>
-            <Link href="https://linkedin.com/in/zainullah-k" target="_blank" className="hover:text-blue-400">
+            <Link href="https://www.linkedin.com/in/zainullah-k" target="_blank" className="hover:text-blue-400">
               <FaLinkedin size={24} />
             </Link>
             <Link href="https://twitter.com" target="_blank" className="hover:text-blue-400">
