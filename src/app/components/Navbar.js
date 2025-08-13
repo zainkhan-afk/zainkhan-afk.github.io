@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,13 +11,15 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-80 text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo / Name */}
-        <h1 className="text-2xl font-bold">Home</h1>
+        <h1 className="text-2xl font-bold">
+          <Link href="/">Home</Link>
+        </h1>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6">
-          <li><a href="#about" className="hover:text-pink-400">About</a></li>
-          <li><a href="#projects" className="hover:text-pink-400">Projects</a></li>
-          <li><a href="#contact" className="hover:text-pink-400">Contact</a></li>
+          <li><Link href="/about" className="hover:text-pink-400">About</Link></li>
+          <li><Link href="/projects" className="hover:text-pink-400">Projects</Link></li>
+          <li><Link href="/contact" className="hover:text-pink-400">Contact</Link></li>
         </ul>
 
         {/* Mobile Menu Button */}
@@ -32,9 +35,9 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-gray-900 bg-opacity-95 px-4 pb-4">
           <ul className="flex flex-col space-y-4">
-            <li><a href="#about" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>About</a></li>
-            <li><a href="#projects" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Projects</a></li>
-            <li><a href="#contact" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Contact</a></li>
+            <li><Link href="/about" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>About</Link></li>
+            <li><Link href="/projects" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Projects</Link></li>
+            <li><Link href="/contact" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Contact</Link></li>
           </ul>
         </div>
       )}

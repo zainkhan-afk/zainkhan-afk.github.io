@@ -12,10 +12,14 @@ const HeroSketch = dynamic(() => import("./HeroSketch"), {
 
 export default function Hero() {
   return (
-    <section className="relative flex items-center justify-center h-screen text-white">
-    {/* <section className="min-h-screen flex items-center justify-center bg-gray-900"> */}
+    // <section className="relative flex items-center justify-center min-h-screen text-white">
+    <section className="relative w-full h-screen flex items-center justify-center text-white" >
+      
       {/* p5.js background */}
-      <HeroSketch />
+      {/* <HeroSketch /> */}
+      <div className="absolute top-13 left-0 w-full h-[calc(100%-3rem)] z-0">
+        <HeroSketch />
+      </div>
 
       {/* Text overlay */}
       <div className="relative z-10 text-center">
