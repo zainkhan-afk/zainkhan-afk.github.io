@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,8 +13,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo / Name */}
         <h1 className="text-2xl font-bold">
-          <Link href="/">Home</Link>
+          <Link href="/"><stron>Home</stron></Link>
         </h1>
+        {/* <Link href="/" className="flex items-center">
+          <Image
+            src="/portfolio-favicon.png" // path from public/
+            alt="Home"
+            width={32} // adjust size
+            height={32}
+            className="rounded"
+          />
+        </Link> */}
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6">

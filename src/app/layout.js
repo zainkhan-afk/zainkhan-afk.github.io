@@ -16,11 +16,17 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Zain Khan",
   description: "A place for me to show my work.",
+  icons: {
+    icon: '/portfolio-favicon.png', // Can also be png or svg
+  }
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+          <link rel="icon" href="/portfolio-favicon.png" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}> */}
         <Navbar />
