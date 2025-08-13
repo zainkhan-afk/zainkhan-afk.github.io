@@ -64,7 +64,7 @@ export default function HeroSketch() {
   return (
     <div
       ref={sketchRef}
-      className="absolute inset-0 w-full h-[50%] z-0"
+      className="absolute inset-0 w-full h-full z-0"
     />
   );
 }
