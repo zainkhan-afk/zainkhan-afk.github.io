@@ -26,7 +26,8 @@ const projects = [
 
 export default function Projects() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-6 flex flex-col items-center">
+    // <div className="min-h-screen bg-gray-900 text-white px-6 flex flex-col items-center">
+      <>
       <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">Projects</h1>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
@@ -62,6 +63,6 @@ export default function Projects() {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

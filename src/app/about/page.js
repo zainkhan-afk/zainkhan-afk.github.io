@@ -2,7 +2,8 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6">
+    // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6"></div>
+    <>
       <section className="max-w-3xl text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
         <p className="text-lg md:text-xl mb-4">
@@ -34,6 +35,6 @@ export default function About() {
           Beyond coding, I love exploring creative technologies, generative art, and interactive visualizations. I’m always looking for ways to make digital experiences more engaging and memorable.
         </p>
       </section>
-    </div>
+      </>
   );
 }
