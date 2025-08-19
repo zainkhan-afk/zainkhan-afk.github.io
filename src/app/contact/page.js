@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
 export default function Contact() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6 py-12">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6">
       <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">Contact Me</h1>
 
       <div className="w-full max-w-2xl">

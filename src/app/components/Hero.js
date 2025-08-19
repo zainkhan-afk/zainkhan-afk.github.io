@@ -17,7 +17,7 @@ export default function Hero() {
       
       {/* p5.js background */}
       {/* <HeroSketch /> */}
-      <div className="absolute top-13 left-0 w-full h-[calc(100%-3rem)] z-0 pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-[calc(100%-3rem)] z-0 pointer-events-none">
         <HeroSketch />
       </div>
 

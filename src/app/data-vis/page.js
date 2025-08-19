@@ -37,36 +37,7 @@ export default function PakistanMap() {
         .join("path")
         .attr("d", path)
         .attr("fill", "#e0e0e0")
-        .attr("stroke", "#333");
-
-      // Example cities with climate data
-    //   const cities = [
-    //     {
-    //       name: "Karachi",
-    //       coords: [67.0099, 24.8615],
-    //       climate: { avgTemp: "30°C", rainfall: "200mm", years: "2000–2020" },
-    //     },
-    //     {
-    //       name: "Lahore",
-    //       coords: [74.3587, 31.5204],
-    //       climate: { avgTemp: "28°C", rainfall: "500mm", years: "2000–2020" },
-    //     },
-    //     {
-    //       name: "Islamabad",
-    //       coords: [73.0551, 33.6844],
-    //       climate: { avgTemp: "26°C", rainfall: "1100mm", years: "2000–2020" },
-    //     },
-    //     {
-    //       name: "Peshawar",
-    //       coords: [71.5249, 34.0151],
-    //       climate: { avgTemp: "27°C", rainfall: "400mm", years: "2000–2020" },
-    //     },
-    //     {
-    //       name: "Quetta",
-    //       coords: [66.975, 30.1798],
-    //       climate: { avgTemp: "22°C", rainfall: "250mm", years: "2000–2020" },
-    //     },
-    //   ];
+        .attr("stroke", "#302828ff");
 
       const cities = [
             { name: "Gilgit", lat: 35.920834, lon: 74.308334 },
@@ -209,11 +180,15 @@ export default function PakistanMap() {
   }, []);
 
   return (
-    <svg
-      ref={svgRef}
-      width={600}
-      height={500}
-      style={{ border: "1px solid #ccc" }}
-    ></svg>
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+        <section className="w-full h-screen">
+            <svg
+            ref={svgRef}
+            className="w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+            ></svg>
+        </section>
+    </div>
+
   );
 }
