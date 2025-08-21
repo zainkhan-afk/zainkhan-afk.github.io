@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +14,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Zain Khan",
+  title: "Zain",
   description: "A place for me to show my work.",
   icons: {
-    icon: '/portfolio-favicon.png', // Can also be png or svg
+    icon: [
+      { url: 'portfolio-favicon.png' },
+      { url: 'portfolio-favicon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/portfolio-favicon.png' },
+    ],
   }
 };
 
@@ -25,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-          <link rel="icon" href="/portfolio-favicon.png" />
+          {/* <link rel="icon" href="/portfolio-favicon.png"/> */}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}> */}

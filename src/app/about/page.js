@@ -1,10 +1,20 @@
 import React from "react";
+import ProfessionalSummary from "@/components/about/ProfessionalSummary";
+
 
 export default function About() {
   return (
     // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6"></div>
     <>
-      <section className="max-w-3xl text-center">
+      <section className="w-full max-w-6xl">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">Zain Khan</h1>
+      </section>
+
+      <div className="w-full max-w-6xl">
+        <ProfessionalSummary/>
+      </div>
+      
+      {/* <section className="max-w-6xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
         <p className="text-lg md:text-xl mb-4">
           Hi! I’m Zain, a passionate developer specializing in building interactive, user-friendly web applications and experiences.
@@ -34,7 +44,7 @@ export default function About() {
         <p className="text-lg md:text-xl">
           Beyond coding, I love exploring creative technologies, generative art, and interactive visualizations. I’m always looking for ways to make digital experiences more engaging and memorable.
         </p>
-      </section>
+      </section> */}
       </>
   );
 }
