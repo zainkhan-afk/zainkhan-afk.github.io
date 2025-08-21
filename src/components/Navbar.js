@@ -9,7 +9,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-80 text-white shadow-md z-50">
+    <nav className="fixed top-0 left-0 w-full bg-gray-700 bg-opacity-80 text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo / Name */}
         <h1 className="text-2xl font-bold">
