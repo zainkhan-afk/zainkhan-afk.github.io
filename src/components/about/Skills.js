@@ -1,7 +1,12 @@
+import { CodeIcon } from "lucide-react";
+
 export default function AboutSkills() {
   return (
     <div className="pt-6">
-      <h2 className="text-3xl font-semibold mb-3">Skills</h2>
+      <div className="flex items-center gap-2 mb-3">
+          <CodeIcon className="w-7 h-7 text-blue-400" />
+          <h2 className="text-3xl font-semibold">Skills</h2>
+      </div>
       <section className="w-full bg-gray-800 border border-gray-600 rounded-3xl bg-opacity-10 text-white shadow-md p-6">
         <div className="flex gap-3 flex-wrap">
           {/* Machine Learning */}

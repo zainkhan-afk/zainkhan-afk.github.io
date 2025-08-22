@@ -6,7 +6,7 @@ export default function AboutHead() {
             {/* Left side - Picture */}
             <div className="w-32 h-32">
                 <img
-                    src="favicon.ico"
+                    // src="/profile/profile.JPG"
                     alt="Image"
                     className="w-full h-full rounded-full object-cover border-4 border-gray-600 shadow-md"
                 />
