@@ -1,14 +1,10 @@
 "use client";
-// import HeroSketch from "./HeroSketch";
-
-
-
-import dynamic from "next/dynamic";
+import GlobalP5Wrapper from "./GlobalP5Wrapper";
 
 // Import HeroSketch with SSR disabled
-const HeroSketch = dynamic(() => import("./HeroSketch"), {
-  ssr: false,
-});
+// const HeroSketch = dynamic(() => import("./HeroSketch"), {
+//   ssr: false,
+// });
 
 export default function Hero() {
   return (
@@ -18,7 +14,8 @@ export default function Hero() {
       {/* p5.js background */}
       {/* <HeroSketch /> */}
       <div className="absolute top-0 left-0 w-full h-[calc(100%-3rem)] z-0 pointer-events-none">
-        <HeroSketch />
+        {/* <HeroSketch /> */} 
+        <GlobalP5Wrapper src="/sketches/test_sketch.js" />
       </div>
 
       {/* Text overlay */}

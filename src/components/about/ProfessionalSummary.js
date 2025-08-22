@@ -6,8 +6,8 @@ export default function ProfessionalSummary() {
             <p className="text-gray-400">
                 I love building intelligent systems that combine AI, creativity, and real-world impact. 
                 My background includes building healthcare AI systems, research in robotics, freelancing as a machine 
-                learning and computer vision engineer, and experimenting with creative coding projects. Whether it's deploying 
-                production-ready ML pipelines or exploring the artistic side of code, I'm motivated by 
+                learning and computer vision engineer, and experimenting with creative coding projects. Whether it’s deploying 
+                production-ready ML pipelines or exploring the artistic side of code, I’m motivated by 
                 learning, building, and sharing solutions that matter.
             </p>
         </section>
