@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function AboutHead() {
 
     return (
@@ -5,9 +6,11 @@ export default function AboutHead() {
         <section className="mt-6 p-6 flex items-center gap-6">
             {/* Left side - Picture */}
             <div className="w-44 h-44">
-                <img
+                <Image
                     src="/profile/profile.JPG"
                     alt="Image"
+                    width = "44"
+                    height = "44"
                     className="w-full h-full rounded-full object-cover border-4 border-gray-600 shadow-md"
                 />
             </div>
