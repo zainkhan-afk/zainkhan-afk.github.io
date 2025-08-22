@@ -1,17 +1,15 @@
 import React from "react";
+import AboutHead from "@/components/about/Head";
 import ProfessionalSummary from "@/components/about/ProfessionalSummary";
-
-
+import AboutSkills from "@/components/about/Skills";
 export default function About() {
   return (
     // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6"></div>
     <>
-      <section className="w-full max-w-6xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Zain Khan</h1>
-      </section>
-
       <div className="w-full max-w-6xl">
+        <AboutHead/>
         <ProfessionalSummary/>
+        <AboutSkills/>
       </div>
       
       {/* <section className="max-w-6xl">
