@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-          {/* <link rel="icon" href="/portfolio-favicon.png"/> */}
+          
+        {/* <!-- Google tag (gtag.js) --> */}
+        <Script 
+        async src="https://www.googletagmanager.com/gtag/js?id=G-RZZBC2P6RL"
+        ></Script>
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-RZZBC2P6RL');
+          `}
+        </Script>
+
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}> */}
