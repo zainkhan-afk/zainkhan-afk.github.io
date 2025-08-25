@@ -15,7 +15,7 @@ export default function Hero() {
       {/* <HeroSketch /> */}
       <div className="absolute top-0 left-0 w-full h-[calc(100%-3rem)] z-0 pointer-events-none">
         {/* <HeroSketch /> */} 
-        <GlobalP5Wrapper src="/sketches/test_sketch.js" />
+        <GlobalP5Wrapper />
       </div>
 
       {/* Text overlay */}
