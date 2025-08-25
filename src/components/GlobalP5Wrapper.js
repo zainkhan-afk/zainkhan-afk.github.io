@@ -5,6 +5,7 @@ export default function GlobalP5Wrapper() {
       src="https://zainkhan-afk.github.io/Simulations/Planets/index.html"
       className="absolute inset-0 w-full h-full z-0 border-0"
       style={{ overflow: "hidden" }}
+      sandbox="allow-scripts allow-same-origin"
     ></iframe>
   );
 }
