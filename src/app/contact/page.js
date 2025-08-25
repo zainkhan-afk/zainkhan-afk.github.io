@@ -16,7 +16,7 @@ export default function Contact() {
       <div className="w-full max-w-2xl">
         {/* Contact Form */}
         <form
-          action="mailto:your-email@example.com"
+          action="mailto:zain.9496@gmail.com"
           method="POST"
           className="flex flex-col gap-4"
         >
