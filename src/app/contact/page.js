@@ -1,6 +1,12 @@
 import React from "react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Contact | Zain Khan",
+  description: "Reach out if you want to collaborate.",
+};
+
 export default function Contact() {
   return (
     // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">

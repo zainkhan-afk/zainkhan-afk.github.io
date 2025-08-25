@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zainkhan-afk.github.io/sitemap.xml

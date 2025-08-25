@@ -1,5 +1,11 @@
 import React from "react";
 
+export const metadata = {
+  title: "Projects | Zain Khan",
+  description: "Learn more about projects.",
+};
+
+
 const projects = [
   {
     title: "Interactive Particle Simulator",

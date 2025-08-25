@@ -4,6 +4,13 @@ import ProfessionalSummary from "@/components/about/ProfessionalSummary";
 import AboutSkills from "@/components/about/Skills";
 import AboutWorkExperience from "@/components/about/WorkExperience";
 import AboutEducation from "@/components/about/Education";
+
+
+export const metadata = {
+  title: "About | Zain Khan",
+  description: "Learn more about me, my skills, work experience, and education.",
+};
+
 export default function About() {
   return (
     // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center px-6"></div>
