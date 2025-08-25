@@ -1,13 +1,36 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeHighlight from "rehype-highlight";
+import Link from "next/link";
+import { getAllTopics } from "@/lib/notes";
+import { getAllChapters, getTopicDetails } from "@/lib/notes";
+
+
+export async function generateStaticParams() {
+  const notesTopics = getAllTopics();
+  return notesTopics.map((notesTopic) => ({ topic: notesTopic.slug }));
+}
 
 export default async function NotesTopic({ params }) {
-  const { slug } = await params;
-  
-  return (
-    <div className="max-w-5xl w-full mx-auto py-12">  
-    </div>
-  );
+    const { topic } = await params;
+
+    const topicData = getTopicDetails(topic);
+    const chapters = getAllChapters(topic);
+    
+
+    return (
+        <div className="max-w-5xl w-full mx-auto py-12">
+            <h1 className="text-4xl font-bold mb-8 text-center">{topicData.metadata.title}</h1>
+            <ul className="space-y-6">
+                {chapters.map((post) => (
+                    <li key={post.slug} className="border-b border-gray-700 pb-4">
+                    <Link href={`/blog/${post.slug}`}>
+                        <h2 className="text-2xl font-semibold hover:underline">
+                        {post.metadata.title}
+                        </h2>
+                    </Link>
+                    <p className="text-sm text-gray-400">{post.metadata.date}</p>
+                    <p className="mt-2">{post.metadata.description}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
