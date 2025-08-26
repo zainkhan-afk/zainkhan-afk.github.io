@@ -19,15 +19,15 @@ export default async function NotesTopic({ params }) {
         <div className="max-w-5xl w-full mx-auto py-12">
             <h1 className="text-4xl font-bold mb-8 text-center">{topicData.metadata.title}</h1>
             <ul className="space-y-6">
-                {chapters.map((post) => (
-                    <li key={post.slug} className="border-b border-gray-700 pb-4">
-                    <Link href={`/blog/${post.slug}`}>
+                {chapters.map((chapter) => (
+                    <li key={chapter.slug} className="border-b border-gray-700 pb-4">
+                    <Link href={`/notes/${topic}/${chapter.slug}`}>
                         <h2 className="text-2xl font-semibold hover:underline">
-                        {post.metadata.title}
+                        {chapter.metadata.title}
                         </h2>
                     </Link>
-                    <p className="text-sm text-gray-400">{post.metadata.date}</p>
-                    <p className="mt-2">{post.metadata.description}</p>
+                    <p className="text-sm text-gray-400">{chapter.metadata.date}</p>
+                    <p className="mt-2">{chapter.metadata.description}</p>
                     </li>
                 ))}
             </ul>

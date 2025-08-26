@@ -26,6 +26,21 @@ export function getTopicDetails(topicSlug) {
     };
 }
 
+
+export function getChapterDetails(topicSlug, chapterSlug) {
+    const filePath = path.join(notesDirectory, topicSlug, "notes", `${chapterSlug}.md`);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+
+    const { data, content } = matter(fileContents);
+
+    return {
+        topic: topicSlug,
+        chapter: chapterSlug,
+        metadata: data,
+        content,
+    };
+}
+
 export function getAllTopics() {
   const dirNames = fs.readdirSync(notesDirectory);
   console.log("dirNames", dirNames)
@@ -48,6 +63,7 @@ export function getAllTopics() {
 
 
 export function getAllChapters(topicSlug) {
+    console.log("topicSlug", topicSlug);
   const topicPath = path.join(notesDirectory, topicSlug);
   const notesPath = path.join(topicPath, "notes");
   const fileNames = fs.readdirSync(notesPath);
