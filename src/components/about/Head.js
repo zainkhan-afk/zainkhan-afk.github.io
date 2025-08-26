@@ -3,7 +3,7 @@ export default function AboutHead() {
 
     return (
         <>
-        <section className="mt-6 p-6 flex items-center gap-6">
+        <section className="p-6 flex items-center gap-6">
             {/* Left side - Picture */}
             <div className="w-44 h-44">
                 <Image
