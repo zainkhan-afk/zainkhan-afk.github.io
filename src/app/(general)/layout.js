@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   return (
       <main className="flex-grow">
-        <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col items-center pt-14">
+        <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col items-center pt-24">
           {children}
         </div>
       </main>
