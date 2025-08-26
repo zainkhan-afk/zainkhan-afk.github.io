@@ -19,6 +19,9 @@ export function getTopicDetails(topicSlug) {
     const topicFileContents = fs.readFileSync(topicIndexPath, "utf8");
     const { data, content } = matter(topicFileContents);
     
+    if (data.draft){
+      return null;
+    }
     return {
       slug: topicSlug,
       metadata: data,
@@ -32,6 +35,10 @@ export function getChapterDetails(topicSlug, chapterSlug) {
     const fileContents = fs.readFileSync(filePath, "utf8");
 
     const { data, content } = matter(fileContents);
+
+    if (data.draft) {
+      return null;
+    }
 
     return {
         topic: topicSlug,
@@ -75,12 +82,16 @@ export function getAllChapters(topicSlug) {
 
     const { data, content } = matter(fileContents);
 
+    if (data.draft){
+      return null;
+    }
+
     return {
       slug,
       metadata: data,
       content,
     };
-  });
+  }).filter(Boolean);
 
   // Sort by date (newest first)
   return posts.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
