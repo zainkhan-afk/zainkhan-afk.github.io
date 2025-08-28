@@ -10,9 +10,9 @@ const notesDirectory = path.join(process.cwd(), "/src/content/notes");
 export function getTopicDetails(topicSlug) {
     const topicPath = path.join(notesDirectory, topicSlug);
     const topicIndexPath = path.join(topicPath, "index.md");
-    const notesDir = path.join(topicPath, "notes");
-
-    if (!fs.existsSync(notesDir)) {
+    const topicNotesDirectory = path.join(topicPath, "notes");
+    
+    if (!fs.existsSync(topicIndexPath) || !fs.existsSync(topicNotesDirectory)) {
         return null;
     }
 
@@ -23,7 +23,7 @@ export function getTopicDetails(topicSlug) {
       return null;
     }
     return {
-      slug: topicSlug,
+      topic: topicSlug,
       metadata: data,
       content: content,
     };
@@ -57,10 +57,6 @@ export function getAllTopics() {
     
     const topicData = getTopicDetails(topicSlug);
 
-    if (!topicData){
-        return null;
-    }
-
     return topicData;
   }).filter(Boolean);
 
@@ -75,37 +71,14 @@ export function getAllChapters(topicSlug) {
   const notesPath = path.join(topicPath, "notes");
   const fileNames = fs.readdirSync(notesPath);
   
-  const posts = fileNames.map((fileName) => {
-    const slug = fileName.replace(/\.md$/, "");
-    const filePath = path.join(notesPath, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-
-    const { data, content } = matter(fileContents);
-
-    if (data.draft){
-      return null;
-    }
-
-    return {
-      slug,
-      metadata: data,
-      content,
-    };
+  const chapters = fileNames.map((fileName) => {
+    const chapterSlug = fileName.replace(/\.md$/, "");
+    const chapterData = getChapterDetails(topicSlug, chapterSlug);
+    
+    return chapterData;
+ 
   }).filter(Boolean);
 
   // Sort by date (newest first)
-  return posts.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
-}
-// Get single post by slug
-export function getChapterBySlug(slug) {
-  const filePath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(filePath, "utf8");
-
-  const { data, content } = matter(fileContents);
-
-  return {
-    slug,
-    metadata: data,
-    content,
-  };
+  return chapters.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
 }

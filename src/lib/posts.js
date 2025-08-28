@@ -11,17 +11,14 @@ export function getAllPosts() {
 
   const posts = fileNames.map((fileName) => {
     const slug = fileName.replace(/\.md$/, "");
-    const filePath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
+    const data = getPostBySlug(slug);
+    // const filePath = path.join(postsDirectory, fileName);
+    // const fileContents = fs.readFileSync(filePath, "utf8");
 
-    const { data, content } = matter(fileContents);
+    // const { data, content } = matter(fileContenxts);
 
-    return {
-      slug,
-      metadata: data,
-      content,
-    };
-  });
+    return data;
+  }).filter(Boolean);
 
   // Sort by date (newest first)
   return posts.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
@@ -33,6 +30,8 @@ export function getPostBySlug(slug) {
   const fileContents = fs.readFileSync(filePath, "utf8");
 
   const { data, content } = matter(fileContents);
+
+  if (data.draft) { return null; }
 
   return {
     slug,

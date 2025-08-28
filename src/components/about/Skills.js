@@ -4,14 +4,14 @@ export default function AboutSkills() {
   return (
     <div className="pt-6">
       <div className="flex items-center gap-2 mb-3">
-          <CodeIcon className="w-7 h-7 text-blue-400" />
-          <h2 className="text-3xl font-semibold">Skills</h2>
+        <CodeIcon className="w-7 h-7 text-blue-400" />
+        <h2 className="text-2xl sm:text-3xl font-semibold">Skills</h2>
       </div>
       <section className="w-full bg-gray-800 border border-gray-600 rounded-3xl bg-opacity-10 text-white shadow-md p-6">
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-col sm:flex-row gap-3">
           {/* Machine Learning */}
           <div className="border border-gray-600 rounded-3xl flex-1 p-4">
-            <h3 className="text-xl font-semibold mb-3">Machine Learning</h3>
+            <h3 className="text-lg sm:text-xl font-semibold mb-3">Machine Learning</h3>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">TensorFlow</span>
               <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">PyTorch</span>
@@ -22,7 +22,7 @@ export default function AboutSkills() {
 
           {/* Creative Coding */}
           <div className="border border-gray-600 rounded-3xl flex-1 p-4">
-            <h3 className="text-xl font-semibold mb-3">Creative Coding</h3>
+            <h3 className="text-lg sm:text-xl font-semibold mb-3">Creative Coding</h3>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">Three.js</span>
               <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">Processing</span>
