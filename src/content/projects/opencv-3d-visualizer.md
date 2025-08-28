@@ -2,7 +2,7 @@
 title: "OpenCV Based 3D Renderer"
 date: "2025-08-20"
 description: "A 3D renderer created from scratch using OpenCV and numpy."
-link: "https://github.com/zainkhan-afk/OpenCV-3D-Renderer"
+github: "https://github.com/zainkhan-afk/OpenCV-3D-Renderer"
 display_graphic: "https://raw.githubusercontent.com/zainkhan-afk/OpenCV-3D-Renderer/refs/heads/main/media/preview_gif.gif"
 draft: false
 tech: [openCV, numpy, python]

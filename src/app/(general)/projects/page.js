@@ -1,6 +1,10 @@
 import React from "react";
 import { getAllProjects } from "@/lib/projects";
 import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
+import Link from "next/link";
+
+
 export const metadata = {
   title: "Projects | Zain Khan",
   description: "Learn more about projects.",
@@ -38,29 +42,30 @@ export default function Projects() {
       <>
       <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">Projects</h1>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 w-full max-w-6xl">
         {projects.map((project, idx) => (
           <div
             key={idx}
-            className="bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-pink-400 transition-shadow duration-300 flex flex-col justify-between"
+            className="bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-pink-400 transition-shadow duration-300 flex flex-col h-120"
           >
             <h2 className="text-2xl font-semibold mb-2">{project.metadata.title}</h2>
-            {
-              project.metadata.display_graphic && (
-              <div style={{ position: "relative", width: "100%", height: "300px" }}>
-  <Image
-    src={project.metadata.display_graphic}
-    alt="Project graphic"
-    fill
-    style={{ objectFit: "contain" }} // or "cover"
-  />
-</div>
-            )
-            }
+
+            {project.metadata.display_graphic && (
+              <div className="relative w-full h-60 mb-4 mt-4"> 
+                <Image
+                  src={project.metadata.display_graphic}
+                  alt="Project graphic"
+                  fill
+                  // className="object-contain"  // keeps aspect ratio
+                  className="object-contain rounded-2xl border-gray-600"
+                />
+              </div>
+            )}
+
             <p className="text-gray-300 mb-4 flex-grow">{project.metadata.description}</p>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.metadata.tech && project.metadata.tech.map((tech, i) => (
+              {project.metadata.tech?.map((tech, i) => (
                 <span
                   key={i}
                   className="bg-pink-400 text-gray-900 px-2 py-1 rounded-full text-sm font-medium"
@@ -70,15 +75,10 @@ export default function Projects() {
               ))}
             </div>
 
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto inline-block text-pink-400 font-semibold hover:underline"
-              >
-                View Project
-              </a>
+            {project.metadata.github && (
+              <Link href = {project.metadata.github}>
+                <FaGithub size={24} />
+              </Link>
             )}
           </div>
         ))}
