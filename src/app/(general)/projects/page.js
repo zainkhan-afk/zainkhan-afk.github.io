@@ -1,5 +1,6 @@
 import React from "react";
-
+import { getAllProjects } from "@/lib/projects";
+import Image from "next/image";
 export const metadata = {
   title: "Projects | Zain Khan",
   description: "Learn more about projects.",
@@ -31,6 +32,7 @@ const projects = [
 ];
 
 export default function Projects() {
+  const projects = getAllProjects();
   return (
     // <div className="min-h-screen bg-gray-900 text-white px-6 flex flex-col items-center">
       <>
@@ -42,11 +44,23 @@ export default function Projects() {
             key={idx}
             className="bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-pink-400 transition-shadow duration-300 flex flex-col justify-between"
           >
-            <h2 className="text-2xl font-semibold mb-2">{project.title}</h2>
-            <p className="text-gray-300 mb-4 flex-grow">{project.description}</p>
+            <h2 className="text-2xl font-semibold mb-2">{project.metadata.title}</h2>
+            {
+              project.metadata.display_graphic && (
+              <div style={{ position: "relative", width: "100%", height: "300px" }}>
+  <Image
+    src={project.metadata.display_graphic}
+    alt="Project graphic"
+    fill
+    style={{ objectFit: "contain" }} // or "cover"
+  />
+</div>
+            )
+            }
+            <p className="text-gray-300 mb-4 flex-grow">{project.metadata.description}</p>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.tech.map((tech, i) => (
+              {project.metadata.tech && project.metadata.tech.map((tech, i) => (
                 <span
                   key={i}
                   className="bg-pink-400 text-gray-900 px-2 py-1 rounded-full text-sm font-medium"
