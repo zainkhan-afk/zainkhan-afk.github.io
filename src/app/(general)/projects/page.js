@@ -1,7 +1,7 @@
 import React from "react";
 import { getAllProjects } from "@/lib/projects";
 import Image from "next/image";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaLink } from "react-icons/fa";
 import Link from "next/link";
 
 
@@ -74,12 +74,35 @@ export default function Projects() {
                 </span>
               ))}
             </div>
+            
+            <div className="flex">
+              <div className="flex-auto items-left">
+                <div className="flex flex-wrap gap-4 mb-4">
+                  {project.metadata.github && (
+                    <Link href = {project.metadata.github} target="_blank">
+                      <FaGithub size={28} />
+                    </Link>
+                  )}
 
-            {project.metadata.github && (
-              <Link href = {project.metadata.github}>
-                <FaGithub size={24} />
-              </Link>
-            )}
+                  {project.metadata.link && (
+                    <Link href = {project.metadata.link} target="_blank">
+                      <FaLink size={28} />
+                    </Link>
+                  )}
+                </div>
+              </div>
+              
+              <div className="flex-auto text-right">
+                {project.metadata.further_reading && (
+                  <Link 
+                    href={`/projects/${project.slug}`}
+                    className="mt-auto inline-block text-pink-400 font-semibold hover:underline"
+                  >
+                    Read More
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
         ))}
       </div>
