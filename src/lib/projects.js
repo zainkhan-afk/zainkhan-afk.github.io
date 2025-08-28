@@ -11,17 +11,15 @@ export function getAllProjects() {
 
   const projects = fileNames.map((fileName) => {
     const slug = fileName.replace(/\.md$/, "");
-    const filePath = path.join(projectsDirectory, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
+    // const filePath = path.join(projectsDirectory, fileName)
+    const data = getProjectBySlug(slug);
 
-    const { data, content } = matter(fileContents);
+    if (!data) {return null}
 
-    return {
-      slug,
-      metadata: data,
-      content,
-    };
-  });
+    // const { data, content } = matter(fileContents);
+
+    return data;
+  }).filter(Boolean);
 
   // Sort by date (newest first)
   return projects.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
@@ -33,6 +31,8 @@ export function getProjectBySlug(slug) {
   const fileContents = fs.readFileSync(filePath, "utf8");
 
   const { data, content } = matter(fileContents);
+
+  if (data.draft) {return null;}
 
   return {
     slug,

@@ -2,6 +2,7 @@
 title: "My First Blog Post"
 date: "2025-08-20"
 description: "This is a test post to see if markdown rendering works."
+draft: true
 ---
 
 # Hello World

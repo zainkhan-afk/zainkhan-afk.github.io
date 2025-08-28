@@ -9,5 +9,3 @@ draft: false
 tech: [OpenCV, Processing, p5.js]
 further_reading: false
 ---
-
-A 3D renderer implemented from scratch that uses numpy to manipulate matrices and the final rendered scene is shown using openCV. The user can define a primitive object, it's position and rotation along with the camera position and rotation. The intrinsic and extrensic matrices are generated which are used to project the 3D object on to the 2D plane.
