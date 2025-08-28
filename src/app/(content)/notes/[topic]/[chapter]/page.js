@@ -10,12 +10,11 @@ import { getTopicDetails, getChapterDetails } from "@/lib/notes";
 
 export async function generateStaticParams() {
   const notesTopics = getAllTopics();
-//   console.log("notesTopics", notesTopics);
   const paths = notesTopics.flatMap((notesTopic) => {
-    const topicChapters = getAllChapters(notesTopic.slug);
+    const topicChapters = getAllChapters(notesTopic.topic);
     return topicChapters.map((topicChapter) => ({
-      topic: notesTopic.slug,
-      chapter: topicChapter.slug,
+      topic: notesTopic.topic,
+      chapter: topicChapter.chapter,
     }));
   });
 
@@ -42,11 +41,11 @@ export default async function NotesChapter({ params }) {
         <h2 className="text-lg font-semibold mb-4">Chapters</h2>
         <ul className="space-y-2">
           {allChapters.map((c) => (
-            <li key={c.slug}>
+            <li key={c.chapter}>
               <Link
-                href={`/notes/${topic}/${c.slug}`}
+                href={`/notes/${topic}/${c.chapter}`}
                 className={`hover:underline ${
-                  c.slug === chapter ? "font-bold text-blue-400" : ""
+                  c.chapter === chapter ? "font-bold text-blue-400" : ""
                 }`}
               >
                 {c.metadata.title}
