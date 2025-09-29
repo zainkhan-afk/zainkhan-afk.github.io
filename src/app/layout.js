@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Zain",
+  title: "Zain Khan",
   description: "A place for me to show my work.",
   icons: {
     icon: [
