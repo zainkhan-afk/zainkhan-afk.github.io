@@ -1,6 +1,11 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
+
 import { sendChatMessage } from "@/api/chat";
 
 export default function ChatWidget() {
@@ -74,7 +79,14 @@ export default function ChatWidget() {
                     : "mr-auto bg-gray-200 text-gray-800"
                 }`}
               >
-                {msg.content}
+                <article className="max-w-full prose">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                    >
+                      {msg.content}
+                  </ReactMarkdown>
+                </article>
               </div>
             ))}
             {/* dummy div to scroll into */}

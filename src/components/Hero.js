@@ -22,7 +22,7 @@ export default function Hero() {
       <div className="relative z-10 text-center">
         <h1 className="text-5xl font-bold mb-4">Hi, I’m Zain</h1>
         <p className="text-lg max-w-xl mx-auto">
-          I’m an AI Developer. I have experience in AI development, robotics, computer vision, creative coding and data visualization.
+          Hi, I’m Zain Khan, an AI Developer specializing in computer vision, generative AI, and building intelligent agentic systems. I create AI solutions that combine research and production-ready engineering.
         </p>
         {/* <p className="text-lg max-w-xl mx-auto pt-6">
           I enjoy building interactive experiences.
