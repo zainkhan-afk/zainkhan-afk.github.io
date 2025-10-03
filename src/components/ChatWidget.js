@@ -34,7 +34,7 @@ export default function ChatWidget() {
     setInput("");
 
     try {
-      const res = await sendChatMessage(messages);
+      const res = await sendChatMessage(newMessages);
 
       setMessages([
         ...newMessages,
