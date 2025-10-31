@@ -2,7 +2,8 @@ export default function GlobalP5Wrapper() {
   return (
     <iframe
       
-      src = "/simulations/CollatzConjecture/index.html"
+      src = "https://zainkhan-afk.github.io/Simulations/CollatzConjecture"
+      // src = "/simulations/CollatzConjecture/index.html"
       // src = "/simulations/Boids/index.html"
       // src = "/simulations/Planets/index.html"
       // src = "/simulations/Walking/index.html"
