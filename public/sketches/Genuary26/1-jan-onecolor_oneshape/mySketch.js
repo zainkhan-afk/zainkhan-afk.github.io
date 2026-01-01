@@ -26,7 +26,8 @@ class Bubble{
 
 function setup()
 {
-    createCanvas(windowWidth, windowHeight);
+    let minDim = min(windowWidth, windowHeight);
+    createCanvas(minDim, minDim);
     dropletPos = createVector(width/2, height/2);
     dropletVel = createVector(random(3, 8), random(3, 8));
 }
@@ -71,7 +72,7 @@ function draw()
         if(bubbles[i].pos.y < minY){bubbles.splice(i,1);}
     }
 
-    dropletPos.add(dropletVel);
+    // dropletPos.add(dropletVel);
     z += 0.005;
     if (dropletPos.x + 300 > width || dropletPos.x - 300 < 0){
         dropletVel.x *= -1;
