@@ -9,6 +9,7 @@ function setup()
     append(principles, new Four());
     append(principles, new Six());
     append(principles, new Eight());
+    append(principles, new Eleven());
     append(principles, new Twelve());
     frameRate(60);
 }
