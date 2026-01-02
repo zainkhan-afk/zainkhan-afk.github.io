@@ -1,11 +1,12 @@
 let principles = [];
-let currentPrinciple = 4;
+let currentPrinciple = 1;
 
 function setup() 
 {	
     let minDim = min(windowWidth, windowHeight); 
     createCanvas(minDim, minDim);
     append(principles, new One());
+    append(principles, new Two());
     append(principles, new Four());
     append(principles, new Six());
     append(principles, new Eight());

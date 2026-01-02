@@ -4,10 +4,10 @@ class Nine{
     {
         this.anchor = createVector(0.5, 0.0);
         this.lengthString = 0.4;
-        let lightBallPos = p5.Vector.fromAngle(PI / 3);
+        let lightBallPos = p5.Vector.fromAngle(PI / 10);
         lightBallPos.setMag(this.lengthString+0.01);
         lightBallPos.add(this.anchor);
-        let heavyBallPos = p5.Vector.fromAngle(PI / 3);
+        let heavyBallPos = p5.Vector.fromAngle(PI / 10);
         heavyBallPos.setMag(2*this.lengthString);
         heavyBallPos.add(this.anchor);
 
@@ -15,11 +15,6 @@ class Nine{
         this.heavyBall = new Ball(heavyBallPos, 10, 1.0, createVector(0.0, 0.0));
 
 	}
-
-    Sigmoid(x){
-        return Math.tanh(x);
-        return 1 / (1 + exp(-x));
-    }
 
     Render(width, height)
     {
@@ -47,6 +42,7 @@ class Nine{
         translate(scaledPosLight.x, scaledPosLight.y);
         rotate(diffLight.heading());
         line(0, 0, 0, 100);
+        line(-this.lengthString*width, 0, -this.lengthString*width, 100);
         line(0, 100, -this.lengthString*width, 100);
         text("Length: " + str(this.lengthString) + " Mass: " + str(this.lightBall.mass), -this.lengthString*width/2, 120);
         pop();
@@ -55,6 +51,7 @@ class Nine{
         translate(scaledPosHeavy.x, scaledPosHeavy.y);
         rotate(PI+diffHeavy.heading());
         line(0, 0, 0, -100);
+        line(-2*this.lengthString*width, 0, -2*this.lengthString*width, -100);
         line(0, -100, -2*this.lengthString*width, -100);
         text("Length: " + str(2*this.lengthString) + " Mass: " + str(this.lightBall.mass), -this.lengthString*width/2, -120);
         pop();

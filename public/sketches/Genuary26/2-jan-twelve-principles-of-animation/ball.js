@@ -16,8 +16,13 @@ class Ball{
         this.acc.y += f.y / this.mass;
     }
 
+    FlipVelocity(axis){
+        if (axis == 0){this.vel.x *= -this.restitution; }
+        else if (axis == 1){this.vel.y *= -this.restitution; }
+    }
+
     Step(dt){
-        this.vel.mult(this.restitution);
+        // this.vel.mult(this.restitution);
         this.vel.add(p5.Vector.mult(this.acc, dt));
         this.vel.limit(this.maxVel);
         this.pos.add(p5.Vector.mult(this.vel, dt));
