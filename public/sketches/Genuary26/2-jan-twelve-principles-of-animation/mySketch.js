@@ -1,5 +1,5 @@
 let principles = [];
-let currentPrinciple = 4;
+let currentPrinciple = 6;
 
 function setup() 
 {	
@@ -11,6 +11,7 @@ function setup()
     append(principles, new Four());
     append(principles, new Five());
     append(principles, new Six());
+    append(principles, new Seven());
     append(principles, new Eight());
     append(principles, new Nine());
     append(principles, new Eleven());
