@@ -1,4 +1,5 @@
 let principles = [];
+let principleNames = [];
 let currentPrinciple = 9;
 
 function setup() 
@@ -6,6 +7,8 @@ function setup()
     let minDim = min(windowWidth, windowHeight); 
     createCanvas(minDim, minDim);
     append(principles, new One());
+    append(principleNames, "Squash and Stretch");
+
     append(principles, new Two());
     append(principles, new Three());
     append(principles, new Four());
@@ -14,6 +17,7 @@ function setup()
     append(principles, new Seven());
     append(principles, new Eight());
     append(principles, new Nine());
+    append(principles, new Ten());
     append(principles, new Eleven());
     append(principles, new Twelve());
     frameRate(60);

@@ -12,8 +12,8 @@ class Ball{
     }
 
     ApplyForce(f){
-        this.acc.x += f.x / this.mass;
-        this.acc.y += f.y / this.mass;
+        let accFromForce = p5.Vector.mult(f, 1 / this.mass);
+        this.acc.add(accFromForce);
     }
 
     FlipVelocity(axis){
