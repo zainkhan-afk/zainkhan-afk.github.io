@@ -1,7 +1,8 @@
 // Squash and Stretch
-class One{
-	constructor()
+class One extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.balls = [];
         this.numBalls = 5;
         for (let i = 0; i <this.numBalls; i++){
@@ -10,9 +11,21 @@ class One{
         this.groundLevel = 0.8;
 	}
 
+    Reset(){
+        this.balls = [];
+        this.numBalls = 5;
+        for (let i = 0; i <this.numBalls; i++){
+            append(this.balls, new Ball(createVector(0.1 + i / this.numBalls, 0.4), 10, 1.0 - 0.5*(i / this.numBalls)));
+        }
+        this.groundLevel = 0.8;
+    }
+
     Render(viewerW, viewerH)
     {
         let animationSize = createVector(viewerW, viewerH);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         
         stroke(0);
         

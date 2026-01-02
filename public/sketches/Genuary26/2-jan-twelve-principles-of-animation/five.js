@@ -1,7 +1,8 @@
 // Follow through and overlapping action
-class Five{
-	constructor()
+class Five extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.balls = [];
         append(this.balls, new Ball(createVector(0.3, 0.2), 10, 1.0, createVector(0, 0)));
         append(this.balls, new Ball(createVector(0.3, 0.7), 20, 1.0, createVector(0, 0)));
@@ -12,9 +13,21 @@ class Five{
 
 	}
 
+    Reset(){
+        this.balls = [];
+        append(this.balls, new Ball(createVector(0.3, 0.2), 10, 1.0, createVector(0, 0)));
+        append(this.balls, new Ball(createVector(0.3, 0.7), 20, 1.0, createVector(0, 0)));
+
+        this.goalPos = createVector(0.25+random()*0.5, 0.2);
+        this.prevVel = createVector(0, 0);   
+    }
+
     Render(viewerW, viewerH)
     {
         let animationSize = createVector(viewerW, viewerH);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let scaledGoalPos = p5.Vector.mult(this.goalPos, animationSize);
         
         stroke(0);

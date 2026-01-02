@@ -1,6 +1,19 @@
 // Solid drawing
-class Eleven{
-	constructor()
+class Eleven extends Principle{
+	constructor(name, duration)
+    {
+        super(name, duration);
+        this.pos = createVector(0.25, 0.5);
+        // this.lighPos = createVector(-0.15, 0.15, -1.0);
+        this.lighPos = createVector(0.9, -0.9, 0.9);
+        this.radius = 0.3;
+        this.renderedImage = createImage(400, 400);
+
+        this.Render3D();
+        this.frameNum = 0;
+	}
+
+    Reset()
     {
         this.pos = createVector(0.25, 0.5);
         // this.lighPos = createVector(-0.15, 0.15, -1.0);
@@ -56,6 +69,9 @@ class Eleven{
 
     Render(width, height)
     {
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let animationSize = createVector(width, height);
         let scaledPos = p5.Vector.mult(this.pos, animationSize);
         let scaledRadius = this.radius*width;
@@ -68,7 +84,6 @@ class Eleven{
         if (this.frameNum%3 == 0){
             this.Render3D();
         }
-        console.log(frameRate());
         image(this.renderedImage, 0, 0, width, height);
     }
 

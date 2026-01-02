@@ -1,7 +1,8 @@
 // Staging
-class Three{
-	constructor()
+class Three extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.ball = new Ball(createVector(0.3, 0.5), 10, 0.3);
         this.numGroundPts = 100;
         this.noiseOffset = 0;
@@ -12,6 +13,15 @@ class Three{
         }
 
 	}
+
+    Reset(){
+        this.ball.Reset(createVector(0.3, 0.5));
+        this.noiseOffset = 0;
+        this.groundPts = [];
+        for (let i = 0; i < this.numGroundPts; i++){
+            this.AddNewGroundPoint();
+        }
+    }
 
     AddNewGroundPoint(){
 
@@ -29,6 +39,9 @@ class Three{
         if (this.applyForce){
             translate(random()*this.currentForce*0.5, random()*this.currentForce*0.5);
         }
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let animationSize = createVector(viewerW, viewerH);
         let scaledPos = p5.Vector.mult(this.ball.pos, animationSize);
         let scaledRadius = this.ball.radius*viewerW;

@@ -1,16 +1,27 @@
 // Arc
-class Seven{
-	constructor()
+class Seven extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.ball = new Ball(createVector(0.3, 0.5), 10, 1.0, createVector(0.0, 0.02));
         this.ball.vel.x = 0.05;
         this.pastPositions = [];
         this.maxPastPositions = 300;
 	}
 
+    Reset(){
+        this.ball = new Ball(createVector(0.3, 0.5), 10, 1.0, createVector(0.0, 0.02));
+        this.ball.vel.x = 0.05;
+        this.pastPositions = [];
+        this.maxPastPositions = 300;
+    }
+
     Render(viewerW, viewerH)
     {
         let animationSize = createVector(viewerW, viewerH);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let scaledPos = p5.Vector.mult(this.ball.pos, animationSize);
         let scaledRadius = this.ball.radius*viewerW;
 

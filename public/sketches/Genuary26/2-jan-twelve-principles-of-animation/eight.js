@@ -1,8 +1,9 @@
 // Secondary Action
 
-class Eight{
-	constructor()
+class Eight extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.numBalls = 10;
         this.balls = [];
 
@@ -19,13 +20,35 @@ class Eight{
         this.shakeMagnitude = 0;
 	}
 
+    Reset(){
+        this.numBalls = 10;
+        this.balls = [];
+
+        for (let i = 0; i < this.numBalls; i++){
+            if (i == 0){
+                append(this.balls, new Ball(createVector(0.3, 0.5), 10, 0.8));
+            }
+            else{
+                append(this.balls, new Ball(createVector(random(), 1.0), random(1, 6), random(0.01, 0.01)));
+            }
+        }
+
+        this.groundBarHeight = 0.8;
+        this.shakeMagnitude = 0;
+    }
+
     Render(width, height)
     {
         let animationSize = createVector(width, height);
+        
         if (this.shakeMagnitude > 0){
             translate(this.shakeMagnitude*random(10), this.shakeMagnitude*random(10));
             this.shakeMagnitude *= 0.9;
         }
+
+        fill(0);strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
 
         stroke(0);
         strokeWeight(1);

@@ -1,7 +1,8 @@
 // Exaggeration
-class Ten{
-	constructor()
+class Ten extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.ball = new Ball(createVector(0.3, 0.9), 20, 0.2, createVector(0.01, 0.0));
         this.smallBalls = [];
         this.numSmallBalls = 50;
@@ -18,6 +19,24 @@ class Ten{
         this.noiseMaxStep = 10;
         this.kaboom = false;
 	}
+
+    Reset(){
+        this.ball = new Ball(createVector(0.3, 0.9), 20, 0.2, createVector(0.01, 0.0));
+        this.smallBalls = [];
+        this.numSmallBalls = 50;
+
+        for (let i = 0; i < this.numSmallBalls; i++)
+        {
+            append(this.smallBalls, new Ball(createVector(random(), random()), 2, 0.2));
+        }
+
+        this.frameNum = 0;
+        this.poked = false;
+        this.tension = 0.0;
+        this.numPts = 100;
+        this.noiseMaxStep = 10;
+        this.kaboom = false;
+    }
 
     RenderBigBall(viewerW, viewerH){
         if (this.poked){
@@ -63,6 +82,14 @@ class Ten{
 
     Render(viewerW, viewerH)
     {   
+        if (this.poked && !this.kaboom){
+            translate(random()*this.tension*0.1, random()*this.tension*0.1);
+        }
+        fill(0);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
+
         fill(100);
         beginShape();
         vertex(viewerW, 0.895*viewerH);

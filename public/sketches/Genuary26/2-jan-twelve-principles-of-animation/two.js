@@ -1,7 +1,8 @@
 // Anticipation
-class Two{
-	constructor()
+class Two extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.ball = new Ball(createVector(0.3, 0.5), 20, 0.2);
         this.applyForce = false;
         this.forceAngle = -PI / 6;
@@ -10,11 +11,22 @@ class Two{
         this.forceDelta = this.maxForceAmp / 100;
 	}
 
+    Reset(){
+        this.ball.Reset(createVector(0.3, 0.5));
+        this.applyForce = false;
+        this.forceAngle = -PI / 6;
+        this.currentForce = 0;
+    }
+
     Render(viewerW, viewerH)
     {
         if (this.applyForce){
             translate(random()*this.currentForce*0.5, random()*this.currentForce*0.5);
         }
+        fill(0);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let animationSize = createVector(viewerW, viewerH);
         let scaledPos = p5.Vector.mult(this.ball.pos, animationSize);
         let scaledRadius = this.ball.radius*viewerW;
@@ -45,7 +57,7 @@ class Two{
 
     Step()
     {
-        let dt = 0.1;
+        let dt = 0.3;
         
         this.ball.Step(dt);
         

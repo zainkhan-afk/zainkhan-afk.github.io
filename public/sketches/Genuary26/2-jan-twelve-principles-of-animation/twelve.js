@@ -1,6 +1,20 @@
 // Appeal
-class Twelve{
-	constructor()
+class Twelve extends Principle{
+	constructor(name, duration)
+    {
+        super(name, duration);
+        this.pos = createVector(0.5, 0.5);
+        this.size = createVector(0.2, 0.2);
+        this.eyeSize = createVector(0.05, 0.04);
+        
+        this.hand = loadImage('hand.png');
+
+        this.angle = 0;
+        this.blinkVal = PI / 2;
+        this.eyePosVal = 0;
+	}
+
+    Reset()
     {
         this.pos = createVector(0.5, 0.5);
         this.size = createVector(0.2, 0.2);
@@ -15,6 +29,10 @@ class Twelve{
 
     Render(width, height)
     {
+        fill(0);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let animationSize = createVector(width, height);
         let scaledPos = p5.Vector.mult(this.pos, animationSize);
         let scaledSize = p5.Vector.mult(this.size, animationSize);

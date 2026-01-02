@@ -1,6 +1,8 @@
 // Straight ahead action and pose to pose
-class Four{
-    constructor(){
+class Four extends Principle{
+	constructor(name, duration)
+    {
+        super(name, duration);
         this.pos = createVector(0.1, 0.25);
         this.vel = createVector(0, 0);
         
@@ -106,7 +108,6 @@ class Four{
             let deltaY = (goalY - this.refPts[i][1]) / numSteps;
             this.currentPts[i][0] += deltaX;
             this.currentPts[i][1] += deltaY;
-            console.log(deltaX, deltaY);
             vertex(posX + this.currentPts[i][0]*scaleW, posY + this.currentPts[i][1]*scaleH);
         }
         endShape(CLOSE);
@@ -152,6 +153,9 @@ class Four{
     Render(width, height)
     {
         let animationSize = createVector(width, height);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let scaledPos = p5.Vector.mult(this.pos, animationSize);
         let scaledGoalPos = p5.Vector.mult(this.goalPos, animationSize);
         let scaledSize = p5.Vector.mult(this.size, animationSize);
@@ -178,6 +182,7 @@ class Four{
 
         
         fill(225, 172, 150);
+        fill(255, 0, 0);
         this.DrawShapeAt(this.pos.x, this.pos.y, width, height, this.frameNum, this.totalFramesPerMorph);
     }
 

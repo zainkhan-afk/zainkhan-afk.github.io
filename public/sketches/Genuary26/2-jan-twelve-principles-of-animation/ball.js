@@ -16,6 +16,11 @@ class Ball{
         this.acc.add(accFromForce);
     }
 
+    Reset(pos){
+        this.pos = pos.copy();
+        this.vel.set(0);
+    }
+
     FlipVelocity(axis){
         if (axis == 0){this.vel.x *= -this.restitution; }
         else if (axis == 1){this.vel.y *= -this.restitution; }

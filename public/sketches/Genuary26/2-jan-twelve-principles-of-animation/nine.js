@@ -1,7 +1,8 @@
 // Timing
-class Nine{
-	constructor()
+class Nine extends Principle{
+	constructor(name, duration)
     {
+        super(name, duration);
         this.anchor = createVector(0.5, 0.0);
         this.lengthString = 0.4;
         let lightBallPos = p5.Vector.fromAngle(PI / 10);
@@ -16,9 +17,27 @@ class Nine{
 
 	}
 
+    Reset(){
+        this.anchor = createVector(0.5, 0.0);
+        this.lengthString = 0.4;
+        let lightBallPos = p5.Vector.fromAngle(PI / 10);
+        lightBallPos.setMag(this.lengthString+0.01);
+        lightBallPos.add(this.anchor);
+        let heavyBallPos = p5.Vector.fromAngle(PI / 10);
+        heavyBallPos.setMag(2*this.lengthString);
+        heavyBallPos.add(this.anchor);
+
+        this.lightBall = new Ball(lightBallPos, 10, 1.0, createVector(0.0, 0.0));
+        this.heavyBall = new Ball(heavyBallPos, 10, 1.0, createVector(0.0, 0.0));
+
+    }
+
     Render(width, height)
     {
         let animationSize = createVector(width, height);
+        strokeWeight(1);fill(0);textSize(22);
+        text(this.name, 20, 30);
+        textSize(12);
         let scaledPosLight = p5.Vector.mult(this.lightBall.pos, animationSize);
         let scaledPosHeavy = p5.Vector.mult(this.heavyBall.pos, animationSize);
         let scaledAnchorPos = p5.Vector.mult(this.anchor, animationSize);
@@ -61,7 +80,7 @@ class Nine{
     Step()
     {
         let fVal;
-        let dt = 0.1;
+        let dt = 0.25;
           
         
         let diffLight = p5.Vector.sub(this.anchor, this.lightBall.pos);
