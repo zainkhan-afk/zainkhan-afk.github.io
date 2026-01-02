@@ -1,5 +1,5 @@
 let principles = [];
-let currentPrinciple = 2;
+let currentPrinciple = 4;
 
 function setup() 
 {	
@@ -9,6 +9,7 @@ function setup()
     append(principles, new Four());
     append(principles, new Six());
     append(principles, new Eight());
+    append(principles, new Nine());
     append(principles, new Eleven());
     append(principles, new Twelve());
     frameRate(60);
@@ -23,5 +24,6 @@ function draw()
 
 
 function windowResized(){
-    resizeCanvas(windowWidth, windowHeight);
+    let minDim = min(windowWidth, windowHeight); 
+    resizeCanvas(minDim, minDim);
 }

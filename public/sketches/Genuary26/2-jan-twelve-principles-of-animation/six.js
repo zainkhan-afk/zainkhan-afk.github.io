@@ -25,7 +25,7 @@ class Six{
         let scaledSize = p5.Vector.mult(this.size, animationSize);
         
         stroke(0);
-        strokeWeight(1);
+        strokeWeight(0.4);
         noFill();
         
         for (let i = 0; i < this.tail.length; i++){
