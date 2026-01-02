@@ -8,11 +8,10 @@ class Eight{
 
         for (let i = 0; i < this.numBalls; i++){
             if (i == 0){
-                append(this.balls, new Ball(createVector(0.3, 0.5), 10, 1.0));
+                append(this.balls, new Ball(createVector(0.3, 0.5), 10, 0.8));
             }
             else{
-                let m = 
-                append(this.balls, new Ball(createVector(random(), 1.0), random(1, 6), 0.99));
+                append(this.balls, new Ball(createVector(random(), 1.0), random(1, 6), random(0.01, 0.01)));
             }
         }
 

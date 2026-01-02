@@ -1,5 +1,5 @@
 let principles = [];
-let currentPrinciple = 0;
+let currentPrinciple = 2;
 
 function setup() 
 {	
@@ -7,6 +7,7 @@ function setup()
     createCanvas(minDim, minDim);
     append(principles, new One());
     append(principles, new Two());
+    append(principles, new Three());
     append(principles, new Four());
     append(principles, new Six());
     append(principles, new Eight());
