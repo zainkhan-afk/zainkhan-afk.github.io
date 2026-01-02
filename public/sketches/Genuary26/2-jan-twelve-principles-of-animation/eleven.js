@@ -6,11 +6,16 @@ class Eleven{
         // this.lighPos = createVector(-0.15, 0.15, -1.0);
         this.lighPos = createVector(0.9, -0.9, 0.9);
         this.radius = 0.3;
-        this.renderedImage = createImage(800, 800);
+        this.renderedImage = createImage(400, 400);
 
-        this.lighPos.normalize();
+        this.Render3D();
+        this.frameNum = 0;
+	}
+
+    Render3D(){
 
         this.renderedImage.loadPixels();
+        let l = p5.Vector.normalize(this.lighPos);
 
         for (let x = 0; x < this.renderedImage.width; x += 1) {
             for (let y = 0; y < this.renderedImage.height; y += 1) {
@@ -19,7 +24,7 @@ class Eleven{
                 let c;
                 if (val < 0) {
                     let n = this.CalcNormal(p);
-                    let diff = max(p5.Vector.dot(n, this.lighPos), 0.0);
+                    let diff = max(p5.Vector.dot(n, l), 0.0);
                     let col = 200 * diff;
                     // let col = map(val, 0.0, -0.02, 0, 255);
                     c = color(col, 0, 0);
@@ -30,8 +35,8 @@ class Eleven{
             }
         }
 
-        this.renderedImage.updatePixels();
-	}
+        this.renderedImage.updatePixels();    
+    }
 
     SDFSphere(p, r){
         return p.mag() - r;
@@ -60,12 +65,17 @@ class Eleven{
         strokeWeight(1);
         ellipse(scaledPos.x, scaledPos.y, scaledRadius, scaledRadius);
 
-
+        if (this.frameNum%3 == 0){
+            this.Render3D();
+        }
+        console.log(frameRate());
         image(this.renderedImage, 0, 0, width, height);
     }
 
     Step()
     {
         let dt = 0.1;
+        this.lighPos = createVector(0.9*cos(this.frameNum/10), 0.9*sin(this.frameNum/10), 0.9);
+        this.frameNum += 1;
     }
 }

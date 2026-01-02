@@ -20,7 +20,6 @@ class Seven{
         for (let i = 0; i < this.pastPositions.length; i++){
             let p = p5.Vector.mult(this.pastPositions[i], animationSize);
             vertex(p.x, p.y);
-            console.log(p);
         }
         endShape();
         
