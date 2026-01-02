@@ -1,51 +1,60 @@
+// Squash and Stretch
 class One{
 	constructor()
     {
-        this.pos = createVector(0.1, 0.5);
-        this.vel = createVector(0, 0);
-        this.acc = createVector(0, 0.001);
-        
-        this.baseSize = createVector(0.1, 0.1);
-        this.size = this.baseSize.copy();
-
-        this.maxVel = 0.1;
-        
-        this.velDiff = createVector(0, 0);
+        this.balls = [];
+        this.numBalls = 5;
+        for (let i = 0; i <this.numBalls; i++){
+            append(this.balls, new Ball(createVector(0.1 + i / this.numBalls, 0.4), 10, 1.0 - 0.5*(i / this.numBalls)));
+        }
+        this.groundLevel = 0.8;
 	}
 
-    Render(width, height)
+    Render(viewerW, viewerH)
     {
-        let animationSize = createVector(width, height);
-        let scaledPos = p5.Vector.mult(this.pos, animationSize);
-        let scaledSize = p5.Vector.mult(this.size, animationSize);
+        let animationSize = createVector(viewerW, viewerH);
         
-        fill(200, 0, 0);
         stroke(0);
-        ellipse(scaledPos.x, scaledPos.y, scaledSize.x, scaledSize.y);
+        
+        line(0, this.groundLevel*viewerH, viewerW, this.groundLevel*viewerH);
+        
+        strokeWeight(1);
+        for (let i = 0; i < this.balls.length; i++){
+            let ball = this.balls[i];
+            push();
+            let scaledPos = p5.Vector.mult(ball.pos, animationSize);
+            let scaledRadius = ball.radius*viewerW;
+            translate(scaledPos.x, scaledPos.y);
+            let r1, r2;
+            r2 = scaledRadius;
+            r1 = scaledRadius;
+            fill(0);
+            text("Restitution (e): " + str(round(ball.restitution, 3)), -50, -100);
+            rotate(ball.vel.heading());
+            r1 += 500*(ball.vel.y+abs(ball.vel.x));
+            r2 -= 500*(ball.vel.y-abs(ball.vel.x));
+            fill(255, 0, 0);
+            ellipse(0, 0, r1, r2);
+            pop();
+        }
     }
 
     Step()
     {
-        // this.vel.mult(0.1);
-        let dt = 0.1;
-        this.vel.add(p5.Vector.mult(this.acc, dt));
-        this.vel.limit(this.maxVel);
-        this.pos.add(p5.Vector.mult(this.vel, dt));
-        if ((this.pos.x + this.baseSize.x / 10) > 1.0 || (this.pos.x - this.baseSize.x / 10) < 0) { 
-            this.vel.x *= -1; 
-            this.pos.x = min(max(0, this.pos.x), 1.0 - this.baseSize.x / 2); 
-        }
-        if ((this.pos.y + this.baseSize.y / 2) > 1.0 || (this.pos.y - this.baseSize.y / 2) < 0) { 
-            if ((this.pos.y + this.baseSize.y / 10) > 1.0 || (this.pos.y - this.baseSize.y / 10) < 0){
-                this.vel.y *= -1; 
-                console.log("Flip");
+        let dt = 0.5;
+        
+        for (let i = 0; i < this.balls.length; i++){
+            let ball  = this.balls[i];
+            ball.Step(dt);
+            
+            if ((ball.pos.x + ball.radius/2) > 1.0 || (ball.pos.x - ball.radius / 2) < 0) { 
+                ball.FlipVelocity(0); 
+                ball.pos.x = min(max(0, ball.pos.x), 1.0 - ball.radius / 2); 
             }
-            let minVal = min(min(this.pos.y - this.baseSize.y / 2, 0), 1.0 - (this.pos.y + this.baseSize.y / 2));
-            console.log(minVal);
-            // let maxVal = min(this.pos.y + this.baseSize.y / 2, 0)
-            this.pos.y = min(max(0, this.pos.y), 1.0 - this.size.y / 2); 
-            this.size.y = this.baseSize.y + minVal;
-            console.log(this.size);
+            if ((ball.pos.y + ball.radius/2) > this.groundLevel || (ball.pos.y - ball.radius / 2) < 0) { 
+                ball.FlipVelocity(1); 
+                ball.pos.y = min(max(0, ball.pos.y), this.groundLevel - ball.radius / 2);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 let principles = [];
-let currentPrinciple = 1;
+let currentPrinciple = 0;
 
 function setup() 
 {	

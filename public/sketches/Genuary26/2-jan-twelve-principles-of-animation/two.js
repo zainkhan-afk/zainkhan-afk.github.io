@@ -38,7 +38,7 @@ class Two{
         fill(0);
         if (this.applyForce){
             line(-abs(this.currentForce), -abs(this.currentForce), 5*this.currentForce, 0);
-            text("Force: " + str(round(this.currentForce, 2)), 5*this.currentForce, 0)
+            text("Force: " + str(round(this.currentForce, 3)), 5*this.currentForce + 30, 0)
         }
         pop();
     }
