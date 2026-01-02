@@ -20,7 +20,6 @@ class Two{
         let scaledRadius = this.ball.radius*viewerW;
 
         stroke(0);
-        strokeWeight(0.4);
         fill(255, 0, 0);
         translate(scaledPos.x, scaledPos.y);
         let r1, r2;
@@ -35,6 +34,12 @@ class Two{
             r1 = scaledRadius;
         }
         ellipse(-abs(this.currentForce), -abs(this.currentForce), r1, r2);
+        strokeWeight(1);
+        fill(0);
+        if (this.applyForce){
+            line(-abs(this.currentForce), -abs(this.currentForce), 5*this.currentForce, 0);
+            text("Force: " + str(round(this.currentForce, 2)), 5*this.currentForce, 0)
+        }
         pop();
     }
 
