@@ -1,5 +1,5 @@
 let mem = {};
-let numBranches = 10;
+let numBranches = 100;
 let n = [];
 let prevN = [];
 let segLen = 20;
@@ -98,8 +98,8 @@ function fibonacci(num)
 
 function draw()
 {
-    // if (bgColored && !captureStarted){captureStarted = true;}
-    if(!bgColored){bgColored=true;saveGif('jan3', 10, { delay: 0 });}
+    if (bgColored && !captureStarted){captureStarted = true;}
+    if(!bgColored){background(0); bgColored = true;}
     // background(200);
     // blendMode(SUBTRACT);
     noStroke();
