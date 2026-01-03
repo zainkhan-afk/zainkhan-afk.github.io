@@ -1,69 +1,96 @@
 let mem = {};
-let freq = {};
-let n = 1;
-let prevN = 0;
+let numBranches = 10;
+let n = [];
+let prevN = [];
 let segLen = 20;
-let vals = [];
-let frameNum = 0;
+let frameNum = [];
 
-let endPosX = 0;
-let endPosY = 0
+let endPosX = [];
+let endPosY = [];
 
-let startPosX = 0;
-let startPosY = 0;
+let startPosX = [];
+let startPosY = [];
 
-let ang = 0;
-let angleOffset;
-
-let lastTenValues = [];
+let ang = [];
+let angleOffset = [];
 
 let randomColorStep = 0;
 let bgColored = false;
+let captureStarted = false;
 
 function setup() 
 {
-    createCanvas(windowWidth, windowHeight);
-    resetLineParams();
-    angleOffset = PI / 3;
-    freq["even"] = 0;
-    freq["odd"] = 0;
+    createCanvas(600, 600);
+    initParams();
     frameRate(60);
-    background(0);
 }
 
-function resetLineParams(){
-    endPosX = 0;
-    endPosY = 0;
-    let xMargin = windowWidth*0.1;
-    // startPosX = random(xMargin,  windowWidth - xMargin);
-    startPosX = windowWidth / 2 + random(- windowWidth * 0.01, windowWidth * 0.01);
-    startPosY = windowHeight - 100;
-    ang = -PI / 2;
-    frameNum = 0;
-    angleOffset *= -1;
+function resetParamsAt(i){
+    endPosX[i] = 0;
+    endPosY[i] = 0;
+    startPosX[i] = width / 2 + random(- width * 0.01, width * 0.01);
+    startPosY[i] = height - 100;
+
+    ang[i] = -PI / 2;
+    frameNum[i] = 0;
+    angleOffset[i] *= -1;
+}
+
+function initParams(){
+    endPosX = [];
+    endPosY = [];
+    startPosX = [];
+    startPosY = [];
+
+    ang = [];
+    frameNum = [];
+
+
+    for (let i = 0; i<numBranches; i++){
+        append(endPosX, 0);
+        append(endPosY, 0);
+
+        append(startPosX, width / 2 + random(- width * 0.01, width * 0.01));
+        append(startPosY, height - 100);
+        
+        append(ang, -PI / 2);
+        append(frameNum, 0);
+        append(angleOffset, PI / 3);
+
+        append(n, 1);
+        append(prevN, 0);
+        if (random() < 0.5){
+            angleOffset[i] *= -1;
+        }
+    }
+
+    // let xMargin = width*0.1;
+    // startPosX = random(xMargin,  width - xMargin);
+    // startPosX = width / 2 + random(- width * 0.01, width * 0.01);
+    // startPosY = height - 100;
     randomColorStep = random(-1, 1);
 }
 
-function fibonacci(n)
+function fibonacci(num)
 {
-    if (n == 0) { return 0;}
-    else if (n == 1) {return 1;}
+    if (num == 0) { return 0;}
+    else if (num == 1) {return 1;}
 
     let a;
     let b;
-    if ((n - 1) in mem) {
-        a = mem[n-1];
+    if ((num - 1) in mem) {
+        a = mem[num-1];
     }
     else{
-        a = fibonacci(n - 1);
+        a = fibonacci(num - 1);
     }
 
-    if ((n - 2) in mem) {
-        b = mem[n - 2];
+    if ((num - 2) in mem) {
+        b = mem[num - 2];
     }
     else{
 
-        b = fibonacci(n - 2);
+        b = fibonacci(num - 2);
     }
 
     return  a + b;
@@ -71,96 +98,52 @@ function fibonacci(n)
 
 function draw()
 {
-    if(!bgColored){background(150);bgColored=true;}
+    // if (bgColored && !captureStarted){captureStarted = true;}
+    if(!bgColored){bgColored=true;saveGif('jan3', 10, { delay: 0 });}
+    // background(200);
     // blendMode(SUBTRACT);
     noStroke();
-    // if (frameNum == 0){
-    //     console.log("HERE");
-        // fill(200, 200, 200, 1);
-        // rect(0, 0, width, height);
-    // }
-    // text("Even: " + freq["even"], 100, 50);
-    // text("Odd: " + freq["odd"], 100, 75);
-    // translate(windowWidth/2, windowHeight);
     strokeCap(SQUARE);
-    // n = int(random(1, 50));
-    let res = fibonacci(n);
-    if (!(n in mem)){
-        mem[n] = res;
-    }
-
-    // if (!vals.includes(res)){
-    //     append(vals, res);
-    // }
-    // if (n != prevN){
-    //     if (res % 2 == 0) {
-    //         append(vals, [n, 0]);
-    //     }
-    //     else{
-    //         append(vals, [n, 1]);
-    //     }
-    // }
-    // console.log(vals.length);
-    let multiplier = 1;
-    if (frameNum > 2) {
-        multiplier = 1 / log(frameNum);
-    }
-
-    if (n != prevN)
-    {
-        let angle;
-        if (res % 2 == 0){
-            freq["even"] += 1;
-            angle = n/100*angleOffset;
+    for (let i = 0; i < numBranches; i++){
+        let res = fibonacci(n[i]);
+        if (!(n[i] in mem)){
+            mem[n[i]] = res;
         }
-        else{
-            freq["odd"] += 1;
-            angle = n/100*-angleOffset;
+        
+        let multiplier = 1;
+        if (frameNum[i] > 2) {
+            multiplier = 1 / log(frameNum[i]);
         }
 
-        ang += angle;
-        endPosX = startPosX + multiplier * segLen*cos(ang);
-        endPosY = startPosY + multiplier * segLen*sin(ang);
+        if (n[i] != prevN[i])
+        {
+            let angle;
+            if (res % 2 == 0){
+                angle = n[i]/100*angleOffset[i];
+            }
+            else{
+                angle = n[i]/100*-angleOffset[i];
+            }
+
+            ang[i] += angle;
+            endPosX[i] = startPosX[i] + multiplier * segLen*cos(ang[i]);
+            endPosY[i] = startPosY[i] + multiplier * segLen*sin(ang[i]);
+            
+            stroke((80 - n[i] + randomColorStep)/106 * 200, (n[i] + 60 + randomColorStep)/106*200, 0);
+            strokeWeight(multiplier * 20);
+            line(startPosX[i], startPosY[i], endPosX[i], endPosY[i]);
+            startPosX[i] = endPosX[i];
+            startPosY[i] = endPosY[i];
+            
+        }
         
-        
-        // stroke(0);
-        // strokeWeight(multiplier * 20 + 1);
-        // line(startPosX, startPosY, endPosX, endPosY);
-        stroke((80 - n + randomColorStep)/106 * 200, (n + 60 + randomColorStep)/106*200, 50);
-        strokeWeight(multiplier * 20);
-        line(startPosX, startPosY, endPosX, endPosY);
-        startPosX = endPosX;
-        startPosY = endPosY;
-        
+        frameNum[i] += 1;
+        if (frameNum[i] % 2 == 0){ prevN[i] = n[i]; n[i] += int(random(1, 5));} 
+        if (n[i] >= 106) { 
+            n[i] = 1;
+            resetParamsAt(i);
+        }
     }
 
-    // if ( startPosX > windowWidth){startPosX = -0;}
-    // else if ( startPosX < 0){startPosX = windowWidth;}
-    // if ( startPosY > windowHeight){startPosY = 0;}
-    // else if ( startPosY < 0){startPosY = windowHeight;}
 
-    frameNum += 1;
-    if (frameNum % 2 == 0){ prevN = n; n += int(random(1, 5));} 
-    if (n >= 106) { 
-        n = 1; 
-        // let numPetals = 5;
-        // fill(255, 0, 0);
-        // stroke(random(255), random(255), random(255));
-        // strokeWeight(2);
-        // for (let i = 0; i < numPetals; i++){
-        //     let flowerN = 1;
-        //     push();
-        //     translate(endPosX, endPosY);
-        //     rotate(ang + i / numPetals * TWO_PI);
-        //     while (flowerN < 12){
-        //         let val = fibonacci(flowerN)*0.2;
-        //         flowerN += 1;
-        //         translate(0, val*0.5);
-        //         rotate(PI/6);
-        //         line(0, 0, 0, val);
-        //     }
-        //     pop();
-        // }
-        resetLineParams();
-    }
 }
