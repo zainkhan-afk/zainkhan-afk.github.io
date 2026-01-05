@@ -26,9 +26,15 @@ class Simulation{
     Update(dt){
         // this.BoundaryRepulsion();
         for (let i = 0; i < this.people.length; i++){
-            let dx = mouseX - this.people[i].pos.x;
-            let dy = mouseY - this.people[i].pos.y;
-            let df = createVector(dx, dy);
+            if (this.people[i].reachedGoal){ continue; }
+            let df = p5.Vector.sub(this.people[i].goal, this.people[i].pos);
+            if (df.mag() <= 2){
+                this.people[i].reachedGoal = true;
+                // this.people[i].vel.setMag(0);
+            }
+            // let dx = this.people[i].goal.x - this.people[i].pos.x;
+            // let dy = this.people[i].goal.y - this.people[i].pos.y;
+            // let df = createVector(dx, dy);
             this.people[i].ApplyForce(df);
             this.people[i].Update(dt);
         }

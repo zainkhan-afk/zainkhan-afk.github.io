@@ -1,8 +1,9 @@
 class Person{
-	constructor(pos){
+	constructor(pos, goal, velAngle){
                 this.pos = pos;
+                this.goal = goal;
                 // this.vel = p5.Vector.fromAngle(random()*2*PI, random(1, 2));
-                this.vel = p5.Vector.fromAngle(PI/2, random(1, 2));
+                this.vel = p5.Vector.fromAngle(velAngle, random(1, 2));
                 this.acc = createVector(0, 0);
 
                 this.max_vel = this.vel.mag();
@@ -28,6 +29,9 @@ class Person{
                 this.movingFoot = 0;
                 this.footStepPlanned = true;
                 this.halt = false;
+
+                this.reachedGoal = false;
+                this.shirtColor = color(random(0, 255), random(0, 255), random(0, 255));
 	}
 
         UpdateFootPos(dt)
@@ -186,7 +190,7 @@ class Person{
 
         Update(dt)
         {
-                let maxTurn = PI / 500;
+                let maxTurn = PI / 100;
                 // if (this.pos.x < 0 || this.pos.x > windowWidth) { this.vel.x *= -1;}
                 // if (this.pos.y < 0 || this.pos.y > windowHeight) { this.vel.y *= -1;}
                 if (!this.halt){
@@ -199,7 +203,7 @@ class Person{
                         diff = constrain(diff, -maxTurn, maxTurn);
 
                         let newAngle = this.vel.heading() + diff;
-                        console.log("DIFF", diff*180/PI);
+                        // console.log("DIFF", diff*180/PI);
                         this.vel = p5.Vector.fromAngle(newAngle).setMag(newVal.mag());
                         
                         // this.vel = newVal.copy();
