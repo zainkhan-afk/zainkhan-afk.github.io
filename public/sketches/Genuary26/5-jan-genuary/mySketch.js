@@ -2,12 +2,14 @@ let people = [];
 let sim;
 let numPeople = 1;
 let renderer;
-let dt = 0.2;
+let dt = 0.4;
 let frameCtr = 0;
 let img;
 let areaDim = 10;
 let destPoints = [];
 let currentDestIndex = 0;
+let caputreStarted = false;
+
 
 function findDestPoints(){
     img.loadPixels();
@@ -52,11 +54,12 @@ function setup()
     //     sim.AddPerson(new Person(createVector(random(100, windowWidth - 100), random(100, windowHeight - 100)), destPoints[i]));
     // }
     noStroke();
-    frameRate(1000);
+    // frameRate(30);
 }
 
 function draw()
 {
+    // if (!caputreStarted){saveGif('mySketch', 70, { delay: 0 }); caputreStarted = true}
     clear();
     background(100);
     

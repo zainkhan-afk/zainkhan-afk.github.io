@@ -81,7 +81,7 @@ class Renderer {
             fill(255, 0, 0);
             ellipse(0, 0, 10, person.bodyHeight);
             fill(0, 0, 0);
-            circle(5, 0, 6);
+            circle(2, 0, 6);
             pop();
             
             // strokeWeight(2);

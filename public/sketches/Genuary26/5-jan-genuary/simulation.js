@@ -30,7 +30,7 @@ class Simulation{
             let df = p5.Vector.sub(this.people[i].goal, this.people[i].pos);
             if (df.mag() <= 2){
                 this.people[i].reachedGoal = true;
-                // this.people[i].vel.setMag(0);
+                this.people[i].vel.setMag(0);
             }
             // let dx = this.people[i].goal.x - this.people[i].pos.x;
             // let dy = this.people[i].goal.y - this.people[i].pos.y;
