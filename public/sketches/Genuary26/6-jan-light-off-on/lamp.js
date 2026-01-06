@@ -38,10 +38,10 @@ class Lamp{
         fill(200, 200, 0, 100);
         if (this.lightsOn){
             beginShape();
-            vertex(-150, height);
+            vertex(-250, height);
             vertex(-25, 0);
             vertex(25, 0);
-            vertex(150, height);
+            vertex(250, height);
             endShape();
 
             fill(255);
@@ -79,7 +79,10 @@ class Lamp{
             let f = createVector(mouseX - this.ghost.pos.x, mouseY - this.ghost.pos.y);
             this.ghost.ApplyForce(f);
             if (this.applyRectionForce){
-                this.ApplyForce(f.copy());
+                let rectionForce = f.copy();
+                rectionForce.x += abs(rectionForce.y);
+                rectionForce.y = 0;
+                this.ApplyForce(rectionForce);
                 this.applyRectionForce = false;
             }
         }

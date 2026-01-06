@@ -53,27 +53,27 @@ class Ghost{
         push();
         translate(-this.radius/3, 0);
         scale(1, 1*abs(sin(this.eyelidAng)));
-        fill(0);
-        circle(0, 10, 5);
-        fill(255, 200);
+        fill(255, 255);
         beginShape();
         for (let i = 0; i<this.eyePts.length; i++){
             vertex(this.eyePts[i].x, this.eyePts[i].y);
         }
         endShape();
+        fill(0);
+        circle(0, 10, 8);
         pop();
 
         push();
         translate(this.radius/3, 0);
         scale(-1, 1*abs(sin(this.eyelidAng)));
-        fill(0);
-        circle(0, 10, 5);
-        fill(255, 200);
+        fill(255, 255);
         beginShape();
         for (let i = 0; i<this.eyePts.length; i++){
             vertex(this.eyePts[i].x, this.eyePts[i].y);
         }
         endShape();
+        fill(0, 255);
+        circle(0, 10, 8);
         pop();
 
         pop();

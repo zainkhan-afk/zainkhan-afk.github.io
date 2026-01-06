@@ -1,6 +1,6 @@
 
 // let ghost;
-let dt = 1;
+let dt = 0.5;
 
 let lightAnchor;
 // let lightsOn = true;
@@ -36,7 +36,7 @@ function drawOverlays(){
         lightTriggerFrameCounter += 1;
     }
     else if (!lamp.lightsOn && !lightTriggered){
-        fill(0, 150);
+        fill(0, 100);
         // fill(0, 50, 0, 200);
         rect(0, 0, width, height);
         stroke(255);
@@ -51,7 +51,7 @@ function drawOverlays(){
         textSize(22);
         text("REC.", minX*1.2, minY*1.7);
         text("Night Vision: ON", width/2 - 10, minY*1.7);
-        text("00:" + nf(minute(), 2) + ":" + nf(second(), 2) + ":" + nf(millis(), 5), minX*1.2, maxY*0.98);
+        text("00:" + nf(minute(), 2) + ":" + nf(second(), 2), minX*1.2, maxY*0.98);
         
         strokeWeight(3);
         line(minX, minY, minX, minY + lineLength);
@@ -83,7 +83,7 @@ function setup()
     lamp = new Lamp(createVector(width/2, 0), 300);
     // lamp.Step(dt);
     console.log(lamp.lightsOn);
-    frameRate(30); 
+    frameRate(60); 
 }
 
 function draw()
@@ -113,6 +113,6 @@ function keyPressed() {
   }
 
   if (key === 'c') {
-    saveGif('jan6', 20, { delay: 0 });
+    saveGif('jan6', 20, { delay: 1 });
   }
 }
