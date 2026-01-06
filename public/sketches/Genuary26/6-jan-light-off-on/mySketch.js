@@ -1,6 +1,6 @@
 
 // let ghost;
-let dt = 0.5;
+let dt = 0.7;
 
 let lightAnchor;
 // let lightsOn = true;
