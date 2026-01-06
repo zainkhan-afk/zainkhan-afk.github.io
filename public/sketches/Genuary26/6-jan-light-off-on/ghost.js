@@ -7,8 +7,8 @@ class Ghost{
         this.preVel = this.vel.copy();
         
         this.maxVel = 10;
-        this.radius = 30;
-        this.len = 50;
+        this.radius = 50;
+        this.len = 100;
 
         this.pts = [];
 
