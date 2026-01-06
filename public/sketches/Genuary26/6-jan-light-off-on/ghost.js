@@ -30,7 +30,8 @@ class Ghost{
         push();
         translate(this.pos);
         rotate(this.vel.heading() + PI / 2);
-        fill(255);
+        fill(255, 200);
+        noStroke();
 
         beginShape();
         for (let i = 0; i<this.pts.length; i++){
