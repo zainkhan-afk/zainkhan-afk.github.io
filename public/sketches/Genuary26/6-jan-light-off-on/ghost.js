@@ -8,9 +8,11 @@ class Ghost{
         
         this.maxVel = 10;
         this.radius = 50;
+        this.eyeRadius = 15;
         this.len = 100;
 
         this.pts = [];
+        this.eyePts = []
 
         append(this.pts, createVector(-this.radius, this.len));
         
@@ -21,6 +23,15 @@ class Ghost{
             append(this.pts, createVector(x, y));
         }
         append(this.pts, createVector(this.radius, this.len));
+
+        for (let ang = PI/6; ang < PI; ang += PI / 10){
+            let x = this.eyeRadius*cos(ang);
+            let y = this.eyeRadius*sin(ang);
+            // console.log(x, y, ang);
+            append(this.eyePts, createVector(x, y));
+        }
+
+        this.eyelidAng = 0;
 
     }
     ApplyForce(f){
@@ -38,6 +49,32 @@ class Ghost{
             vertex(this.pts[i].x, this.pts[i].y);
         }
         endShape();
+
+        push();
+        translate(-this.radius/3, 0);
+        scale(1, 1*abs(sin(this.eyelidAng)));
+        fill(0);
+        circle(0, 10, 5);
+        fill(255, 200);
+        beginShape();
+        for (let i = 0; i<this.eyePts.length; i++){
+            vertex(this.eyePts[i].x, this.eyePts[i].y);
+        }
+        endShape();
+        pop();
+
+        push();
+        translate(this.radius/3, 0);
+        scale(-1, 1*abs(sin(this.eyelidAng)));
+        fill(0);
+        circle(0, 10, 5);
+        fill(255, 200);
+        beginShape();
+        for (let i = 0; i<this.eyePts.length; i++){
+            vertex(this.eyePts[i].x, this.eyePts[i].y);
+        }
+        endShape();
+        pop();
 
         pop();
     }
@@ -60,5 +97,20 @@ class Ghost{
 
 
         this.preVel = this.vel.copy();
+
+        if (abs(this.eyelidAng - PI) < 0.01 || abs(this.eyelidAng) < 0.01){
+            if (random() < 0.1){
+                this.eyelidAng += PI / 6;
+            }
+        }
+        else{
+            if (random() < 0.01){
+                this.eyelidAng += PI / 6;
+            }
+        }
+
+        if (this.eyelidAng > PI){
+            this.eyelidAng = 0;
+        }
     }
 }

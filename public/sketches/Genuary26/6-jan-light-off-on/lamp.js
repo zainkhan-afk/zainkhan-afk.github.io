@@ -8,7 +8,7 @@ class Lamp{
         this.acc = createVector();
 
         this.bulbMass = 100;
-        this.lightsOn = false;
+        this.lightsOn = true;
 
         this.ghost = new Ghost();
         this.applyRectionForce = false;
@@ -20,6 +20,7 @@ class Lamp{
     }
 
     Render(){
+        stroke(0, 0, 0, 255);
         strokeWeight(3);
         line(this.anchor.x, this.anchor.y, this.pos.x, this.pos.y);
         strokeWeight(1);
@@ -28,6 +29,7 @@ class Lamp{
         translate(this.pos.x, this.pos.y);
         rotate(diff.heading()+HALF_PI);
         fill(150);
+        stroke(0);
         rect(-10, -45, 20, 30);
         fill(25, 100);
         noStroke();
@@ -74,7 +76,12 @@ class Lamp{
     Step(dt){
         
         if (!this.lightsOn){
-            this.ghost.ApplyForce(createVector(mouseX - this.ghost.pos.x, mouseY - this.ghost.pos.y).mult(0.1));
+            let f = createVector(mouseX - this.ghost.pos.x, mouseY - this.ghost.pos.y);
+            this.ghost.ApplyForce(f);
+            if (this.applyRectionForce){
+                this.ApplyForce(f.copy());
+                this.applyRectionForce = false;
+            }
         }
         else{
             this.ghost.pos = this.pos.copy();

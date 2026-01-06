@@ -1,6 +1,6 @@
 
 // let ghost;
-let dt = 0.5;
+let dt = 1;
 
 let lightAnchor;
 // let lightsOn = true;
@@ -9,23 +9,35 @@ let lastGhostPos;
 let applyRectionForce = false;
 let lightTriggered = false;
 let lightTriggerFrameCounter = 1;
+let brickH = 50;
+let brickW = 100;
+let lamp;
 
+function drawBackground(){
+    stroke(0);
+    strokeWeight(1);
+    fill(139, 79, 57, 255);
+    let i = 0;
+    for (let y = 0; y < height; y += brickH){
+        for (let x = -brickW; x < width + brickW; x += brickW){
+            rect(x + i%2 * brickW / 2, y, brickW, brickH);
+        }
+        i += 1;
+    }
+}
 
 function drawOverlays(){
-    for (let i = 0; i<10; i++){
-        line(i*width/10, 0, i*width/10, height);
-    }
-
     if (lightTriggered){
         fill(0);
         rect(0, 0, width, height);
-        if (lightTriggerFrameCounter % 10 == 0){
+        if (lightTriggerFrameCounter % 20 == 0){
             lightTriggered = false;
         }
         lightTriggerFrameCounter += 1;
     }
     else if (!lamp.lightsOn && !lightTriggered){
-        fill(0, 100, 0, 50);
+        fill(0, 150);
+        // fill(0, 50, 0, 200);
         rect(0, 0, width, height);
         stroke(255);
         fill(255);
@@ -38,9 +50,8 @@ function drawOverlays(){
         
         textSize(22);
         text("REC.", minX*1.2, minY*1.7);
-
-        textSize(22);
-        text("00:" + nf(minute(), 2) + ":" + nf(second(), 2) + ":" + nf(millis(), 5), width/2, maxY);
+        text("Night Vision: ON", width/2 - 10, minY*1.7);
+        text("00:" + nf(minute(), 2) + ":" + nf(second(), 2) + ":" + nf(millis(), 5), minX*1.2, maxY*0.98);
         
         strokeWeight(3);
         line(minX, minY, minX, minY + lineLength);
@@ -56,37 +67,40 @@ function drawOverlays(){
         line(maxX, maxY, maxX - lineLength, maxY);
         strokeWeight(0);
         fill(255, 0, 0, 200);
-        circle(minX*2, minY*1.5, 20)
+        circle(minX*3, minY*1.5, 20)
     }else{
-        fill(200, 50);
+        fill(200, 10);
         rect(0, 0, width, height);
     }
 }
 
 function setup() 
 {
-    createCanvas(windowWidth, windowHeight);
+    let minDim = min(windowWidth, windowHeight);
+    createCanvas(minDim, minDim);
     lightAnchor = createVector(width/2, 0);
     // ghost = new Ghost();
     lamp = new Lamp(createVector(width/2, 0), 300);
-    lamp.Step(dt);
-    frameRate(60); 
+    // lamp.Step(dt);
+    console.log(lamp.lightsOn);
+    frameRate(30); 
 }
 
 function draw()
 {
     background(100, 100, 100, 255);
-
-    drawOverlays();
+    drawBackground();
     if (!lightTriggered){
         lamp.Render();
     }
+    drawOverlays();
     lamp.Step(dt);
 }
 
 
 function windowResized(){
-    resizeCanvas(windowWidth, windowHeight);
+    let minDim = min(windowWidth, windowHeight);
+    resizeCanvas(minDim, minDim);
 }
 
 
@@ -96,5 +110,9 @@ function keyPressed() {
     lamp.applyRectionForce = true;
     lightTriggerFrameCounter = 1;
     lightTriggered = true;
+  }
+
+  if (key === 'c') {
+    saveGif('jan6', 20, { delay: 0 });
   }
 }
