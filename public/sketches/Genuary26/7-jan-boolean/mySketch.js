@@ -1,4 +1,4 @@
-let dim = 15;
+let dim = 5;
 let numRows;
 let numCols;
 let ang = 0;
@@ -61,6 +61,7 @@ function setup()
     circ1Pos = createVector(width/2, height/2);
     rect1Vel = createVector(-5, 3);
     rect2Vel = p5.Vector.mult(rect1Vel, -0.5);
+    frameRate(30);
 }
 
 function draw()
@@ -77,12 +78,13 @@ function draw()
     rect(rect1Pos.x- rect1Dim /2, rect1Pos.y - rect1Dim /2, rect1Dim, rect1Dim);
     circle(circ1Pos.x, circ1Pos.y, circ1Dim);
     noStroke();
+    let perlinScale = 1/numRows;
     for (let r = 0; r<=numRows; r++){
         for (let c = 0; c<=numCols; c++){
             let a = Math.sqrt(pow(r - numRows/2, 2) + pow(c - numCols/2, 2));
             // let a = pow(r - numRows/2, 2) + pow(c - numCols/2, 2);
-            let w = map(cos(ang - a), -1, 1, dim/2, dim);
-            let h = map(cos(ang - a), -1, 1, dim/2, dim);
+            let w = map(cos(ang - a), -1, 1, 3*dim/4, dim);
+            let h = map(cos(ang - a), -1, 1, 3*dim/4, dim);
             // w = dim;
             // h = dim;
             
@@ -99,9 +101,9 @@ function draw()
                 //     255*noise(100+c/numCols, r/numRows, ang/10.2), 
                 //     255*noise(c/numCols, 100+r/numRows, ang/10.2));
                 // rect(c*dim - dim/2, r*dim - dim/2, dim, dim)
-                fill(255*noise(c/numCols, r/numRows, ang/10), 
-                    255*noise(100+c/numCols, r/numRows, ang/10), 
-                    255*noise(c/numCols, 100+r/numRows, ang/10));
+                fill(255*noise(c*perlinScale, r*perlinScale, ang/10), 
+                    255*noise(100+c*perlinScale, r*perlinScale, ang/10), 
+                    255*noise(c*perlinScale, 100+r*perlinScale, ang/10));
                     // stroke(0);
                 rect(x, y, w, h);
             }
@@ -135,5 +137,12 @@ function draw()
     if (rect2Pos.y + rect2Dim/2> height || rect2Pos.y - rect2Dim/2< 0){rect2Vel.y *= -1;}
 
     // ang = TWO_PI/2;
-    ang += 0.01;
+    ang += 0.1;
+}
+
+
+function keyPressed() {
+  if (key === 's') {
+    saveGif('mySketch', 20, { delay: 0 });
+  }
 }
