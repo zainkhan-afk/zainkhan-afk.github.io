@@ -8,7 +8,7 @@ let circ1Pos;
 let rect1Vel;
 let rect2Vel;
 let circ1Vel;
-let rect1Dim = 100;
+let rect1Dim = 200;
 let rect2Dim = 300;
 let circ1Dim = 800;
 
@@ -50,6 +50,9 @@ function IsBoxIntersectingCircle(x1, y1, r, x2, y2, w2, h2){
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
+    circ1Dim = minDim;
+    rect1Dim = minDim*0.4;
+    rect2Dim = minDim*0.6;
     createCanvas(minDim, minDim);
     numRows = int(height / dim);
     numCols = int(width / dim);
@@ -74,8 +77,8 @@ function draw()
     rect(rect1Pos.x- rect1Dim /2, rect1Pos.y - rect1Dim /2, rect1Dim, rect1Dim);
     circle(circ1Pos.x, circ1Pos.y, circ1Dim);
     noStroke();
-    for (let r = 0; r<numRows; r++){
-        for (let c = 0; c<numCols; c++){
+    for (let r = 0; r<=numRows; r++){
+        for (let c = 0; c<=numCols; c++){
             let a = Math.sqrt(pow(r - numRows/2, 2) + pow(c - numCols/2, 2));
             // let a = pow(r - numRows/2, 2) + pow(c - numCols/2, 2);
             let w = map(cos(ang - a), -1, 1, dim/2, dim);
@@ -132,5 +135,5 @@ function draw()
     if (rect2Pos.y + rect2Dim/2> height || rect2Pos.y - rect2Dim/2< 0){rect2Vel.y *= -1;}
 
     // ang = TWO_PI/2;
-    ang += 0.1;
+    ang += 0.01;
 }
