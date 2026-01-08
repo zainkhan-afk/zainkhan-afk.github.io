@@ -1,60 +1,44 @@
-let vertices1 = [
-    [-0.2, -0.1],
-    [0.2, -0.1],
-    [0.2, 0.1],
-    [-0.2, 0.1]
-];
+let renderer;
+let buildings = [];
+let numRows;
+let numCols;
+let blockSize = 10;
+let noiseOffset = 0.05;
+let grid;
 
-let edges1 = [
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 0]
-];
 
-let vertices2 = [
-    [-0.1, -0.1],
-    [0.1, -0.1],
-    [0.1, 0.1],
-    [-0.1, 0.1]
-];
-
-let edges2 = [
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 0]
-];
-
-let pos1;
-let pos2;
-
-function toScreen(pt){
-    // console.log([pt[0]*width, pt[1]*height]);
-    return [pt[0]*width, pt[1]*height];
-}
-
-function renderShape(pos, vertices, edges){
-    push();
-    translate(pos.x, pos.y);
-    beginShape();
-    for (let edge of edges){
-        let pt1 = toScreen(vertices[edge[0]]);
-        let pt2 = toScreen(vertices[edge[1]]);
-        vertex(pt1[0], pt1[1]);
-        vertex(pt2[0], pt2[1]);
+function createBuildingsOnGrid(){
+    for (let c = 0; c < grid.numCols; c++){
+        for (let r = 0; r < grid.numRows; r++){
+            let x = c*grid.size + blockSize/2;
+            let y = r*grid.size + blockSize/2;
+            let val = grid.grid[r][c];
+            
+            if (val > 0.5 && random() > val){
+                let angle = map(val, 0.5, 1.0, 0, TWO_PI)*0;
+                append(buildings, new Building(createVector(x/width, y/height), angle))
+            }
+        }
     }
-    endShape();
-    pop();
 }
 
 function setup()
 {
     let minDim = min(windowWidth, windowHeight);
     createCanvas(minDim, minDim);
+    
+    numRows = int(height/blockSize) + 1;
+    numCols = int(width/blockSize) + 1;
+    
+    
+    renderer = new Renderer();
+    ShapeGenerator.SetShapeMinMaxSize(blockSize/minDim*0.2, blockSize/minDim*0.3);
+    grid = new Grid(numRows, numCols, blockSize);
+    grid.MakeNoiseGrid();
 
-    pos1 = createVector(width/3, height/2);
-    pos2 = createVector(2*width/3, height/2);
+
+    // append(buildings, new Building(createVector(0.5, 0.5), 0))
+    createBuildingsOnGrid();
 
     frameRate(30);
 }
@@ -64,8 +48,8 @@ function draw()
     background(250, 213, 178);
 
     fill(200);
-    renderShape(pos1, vertices1, edges1);
-    renderShape(pos2, vertices2, edges2);
+    
+    renderer.Render(grid, buildings);
     noLoop();
 }
 
