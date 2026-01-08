@@ -2,6 +2,7 @@ class Shape{
     constructor(vertices, edges){
         this.vertices = vertices;
         this.edges = edges;
+        this.height = random(10, 20);
     }
 
     Translate(tx){
@@ -14,6 +15,21 @@ class Shape{
         for (let pt of this.vertices){
             pt.rotate(ang);
         }
+    }
+
+    GetSize(){
+        let minX = 100000;
+        let maxX = 0;
+        let minY = 100000;
+        let maxY = 0;
+        for (const v of this.vertices) {
+            if (v.x < minX) minX = v.x;
+            if (v.x > maxX) maxX = v.x;
+            if (v.y < minY) minY = v.y;
+            if (v.y > maxY) maxY = v.y;
+        }
+
+        return [maxX - minX, maxY - minY];
     }
 
     GetEdgeMidPoints(){

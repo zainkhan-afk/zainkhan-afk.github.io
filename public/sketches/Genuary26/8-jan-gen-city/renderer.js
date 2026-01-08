@@ -1,3 +1,4 @@
+
 class Renderer{
     constructor(){
 
@@ -17,6 +18,8 @@ class Renderer{
             // vertex(pt2.x, pt2.y);
         }
         endShape(CLOSE);
+
+        // box(70, 70, 70);
     }
 
     RenderGrid(grid){
@@ -26,61 +29,61 @@ class Renderer{
                 let x = c*grid.size;
                 let y = r*grid.size;
                 let val = grid.grid[r][c];
-
+                
 
                 push();
                 translate(x, y);
-                
-                // if (val > 0.5){
-                //     if (val > 0.7){
-                //         fill(250, 213, 178);
-                //     }
-                //     else{
-                //         // fill(250, 213, 200);
-                //         fill(238, 214, 175); 
-                //     }
-                // }
-                // else{
-                //     // fill(100, 213, 250);
-                //     fill(70, 130, 180);
-                // }
-                if (val > 0.7) {
-    fill(80, 180 - val * 40, 90);
-}
-else if (val > 0.5) {
-    fill(240, 220 - val * 20, 170);
-}
-else {
-    fill(50, 110 + val * 30, 200);
-}
+                const roadMap = new Map();
+                grid.roadPts.forEach(([r, c]) => roadMap.set(`${r},${c}`, true));
+                // if (grid.roadPts.includes([r, c])){
+                if(roadMap.has(`${r},${c}`)){
+                    fill(0);
+                }
+                else{    
+                    if (val > 0.8) {
+                        fill(80, 180 - val * 40, 90);
+                    }
+                    
+                    else if (val > 0.5) {
+                        fill(240, 220 - val * 20, 170);
+                    }
+                    
+                    else {
+                        fill(50, 110 + val * 30, 200);
+                    }
+                }
 
 
                 rect(0, 0, grid.size, grid.size);
-                // if (val > 0.5){
-                //     let angle = map(val, 0.5, 1, 0, TWO_PI);
-                //     translate(grid.size/2, grid.size/2);
-                //     rotate(angle);
-                //     line(0, 0, 0, grid.size/2);
-                // }
                 pop();
             }
         }
     }
 
-    Render(grid, buildings){
-        this.RenderGrid(grid);
-        fill(150, 50, 50);
-        stroke(0);
+    RenderBuildings(buildings){
+        stroke(0.1);
         for (let building of buildings){
             // noStroke();
             push();
             let pos = this.ToScreen(building.pos);
             translate(pos);
             rotate(building.rotation);
+            fill(building.color);
             for (let shape of building.shapes){
-                this.RenderShape(shape.vertices, shape.edges);
+                push();
+                translate(0, 0, shape.height);
+                // this.RenderShape(shape.vertices, shape.edges);
+                let size = shape.GetSize();
+                box(size[0]*width, size[1]*height, shape.height);
+                pop();
             }
             pop();
         }
+    }
+
+    Render(grid, buildings){
+        translate(-width/2, -height/2);
+        this.RenderGrid(grid);
+        this.RenderBuildings(buildings);
     }
 }

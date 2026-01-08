@@ -2,7 +2,7 @@ let renderer;
 let buildings = [];
 let numRows;
 let numCols;
-let blockSize = 10;
+let blockSize = 5;
 let noiseOffset = 0.05;
 let grid;
 
@@ -14,7 +14,7 @@ function createBuildingsOnGrid(){
             let y = r*grid.size + blockSize/2;
             let val = grid.grid[r][c];
             
-            if (val > 0.5 && random() > val){
+            if (val > 0.55 && val < 0.8 && random() > val){
                 let angle = map(val, 0.5, 1.0, 0, TWO_PI)*0;
                 append(buildings, new Building(createVector(x/width, y/height), angle))
             }
@@ -24,17 +24,18 @@ function createBuildingsOnGrid(){
 
 function setup()
 {
-    let minDim = min(windowWidth, windowHeight);
-    createCanvas(minDim, minDim);
+    let minDim = min(windowWidth, windowHeight)*2;
+    createCanvas(minDim, minDim, WEBGL);
     
     numRows = int(height/blockSize) + 1;
     numCols = int(width/blockSize) + 1;
     
     
     renderer = new Renderer();
-    ShapeGenerator.SetShapeMinMaxSize(blockSize/minDim*0.2, blockSize/minDim*0.3);
+    ShapeGenerator.SetShapeMinMaxSize(blockSize/minDim*0.5, blockSize/minDim*0.8);
     grid = new Grid(numRows, numCols, blockSize);
     grid.MakeNoiseGrid();
+    // grid.MakeRoads();
 
 
     // append(buildings, new Building(createVector(0.5, 0.5), 0))
