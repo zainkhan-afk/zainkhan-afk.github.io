@@ -5,14 +5,14 @@ class Grid{
         this.size = size;
         this.grid = [];
         this.roadPts = [];
-        this.noiseOffset = 0.05/2;
+        this.noiseOffset = 0.05/4;
         this.seaLevel = 0.5;
     }
     
     MakeNoiseGrid(){
         // noiseSeed(234);
         // noiseSeed(1100);
-        noiseSeed(99);
+        // noiseSeed(99);
         this.grid = [];
         let noiseX = 0;
         for (let c = 0; c < this.numCols; c++){

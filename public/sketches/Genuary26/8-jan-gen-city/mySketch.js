@@ -5,7 +5,7 @@ let numCols;
 let blockSize = 5;
 let noiseOffset = 0.05;
 let grid;
-
+let cnv;
 
 function createBuildingsOnGrid(){
     for (let c = 0; c < grid.numCols; c++){
@@ -25,7 +25,7 @@ function createBuildingsOnGrid(){
 function setup()
 {
     let minDim = min(windowWidth, windowHeight)*2;
-    createCanvas(minDim, minDim, WEBGL);
+    cnv = createCanvas(minDim, minDim, WEBGL);
     
     numRows = int(height/blockSize) + 1;
     numCols = int(width/blockSize) + 1;
@@ -57,6 +57,6 @@ function draw()
 
 function keyPressed() {
   if (key === 's') {
-    // saveGif('mySketch', 20, { delay: 0 });
+    saveCanvas(cnv, '8-jan-gen-city.jpg');
   }
 }
