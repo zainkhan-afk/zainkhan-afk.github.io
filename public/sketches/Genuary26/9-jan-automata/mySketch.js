@@ -1,8 +1,8 @@
 let divH;
 let divW;
 let grid = [];
-let numRows = 200;
-let numCols = 200;
+let numRows = 100;
+let numCols = 100;
 let numStates = 3;
 let frameNum = 0;
 let recordingStarted = false;
@@ -196,7 +196,7 @@ function draw()
 {
     if (!recordingStarted){
         recordingStarted = true;
-        saveGif('automata', 30, { delay: 0 });
+        // saveGif('automata', 30, { delay: 0 });
     }
     background(150, 150, 200);
     drawGrid();
@@ -208,6 +208,6 @@ function draw()
 
 function keyPressed() {
   if (key === 's') {
-    saveGif('mySketch', 5, { delay: 0 });
+    // saveGif('mySketch', 5, { delay: 0 });
   }
 }
