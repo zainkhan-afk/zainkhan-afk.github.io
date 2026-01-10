@@ -3,16 +3,17 @@ let divW;
 let grid = [];
 let numRows = 50;
 let numCols = 50;
-let numStates = 6;
+let numStates = 5;
+let frameNum = 0;
 
 function setup() 
 {
-    let minDim = min(windowWidth, windowHeight);
+    randomSeed(1);
+    let minDim = min(windowWidth, windowHeight)*2;
     createCanvas(minDim, minDim);
     divH = height / numRows;
     divW = width / numCols;
-    frameRate(30);
-
+    
     for (let r = 0; r < numRows; r++){
         let row = [];
         for (let c = 0; c < numCols; c++){
@@ -20,18 +21,33 @@ function setup()
         }
         append(grid, row);
     }
+    frameRate(2);
 }
 
 function drawGrid(){
+    noStroke();
     for (let r = 0; r < numRows; r++){
         for (let c = 0; c < numCols; c++){
             let x = c*divW;
             let y = r*divH;
             // console.log("drawing", c, r);
-            fill(0, 0, grid[r][c] / numStates * 200)
+            // fill(0, 0, grid[r][c] / numStates * 200)
+            fill(255, grid[r][c] / numStates * 200, 0);
             push();
             translate(x, y);
+
+            let vertices = VertexMaker.GetVertices(grid[r][c], divH/2);
+            
+            beginShape();
+            for (let v of vertices){
+                vertex(v[0], v[1]);
+            }
+            endShape();
+            // fill(200);
             rect(0, 0, divH, divW);
+            // fill(0);
+            // textSize(25);
+            // text(grid[r][c], divW/2, divH/2);
             pop();
         }
     }
@@ -62,15 +78,18 @@ function updateGrid(){
         let row = [];
         for (let c = 0; c < numCols; c++){
             let newVal;
-            if ((r + c) % 2 == 0){
+            if ((r + c) % (1 + frameNum%2) == 0){
                 let highestDiffNeighbor = getHighestDiffNeighbor(r, c);
                 if (highestDiffNeighbor.length > 0){
                     let diff = grid[r][c] - grid[highestDiffNeighbor[0]][highestDiffNeighbor[1]]
-                    newVal = grid[r][c] + (diff < 0 ? -1 : 1);
-                    console.log("Old Val: ", grid[r][c], " New Val: ", newVal)
+                    newVal = grid[r][c] + (diff < 0 ? 1 : -1);
+                    // if (r == 0 && c==4){
+                    //     console.log("diff", diff, "neighbor", highestDiffNeighbor);
+                    // }
+                    // console.log("Old Val: ", grid[r][c], " New Val: ", newVal);
                 }
                 else{
-                    console.log("Zero Diff", r, c);
+                    // console.log("Zero Diff", r, c);
                     newVal = (grid[r][c] + 1) % numStates;
                 }
             }
@@ -89,6 +108,24 @@ function draw()
     background(150, 150, 200);
     drawGrid();
     updateGrid();
+
+    // push();
+    // scale(0.5, 0.5);
+    // drawGrid();
+    // pop();
+    // updateGrid();
+    // push();
+    // translate(width/2, 0);
+    // scale(0.5, 0.5);
+    // stroke(255, 0, 0);
+    // strokeWeight(10);
+    // line(0, 0, 0, height);
+    // stroke(0);
+    // strokeWeight(1);
+    // drawGrid();
+    // pop();
+    // noLoop();
+    frameNum += 1;
 }
 
 
