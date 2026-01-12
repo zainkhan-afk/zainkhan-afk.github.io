@@ -1,17 +1,14 @@
-precision highp float;
-
 attribute vec3 aPosition;
+attribute vec3 aNormal;
 
-// The transform of the object being drawn
-uniform mat4 uModelViewMatrix;
+uniform mat4 uModelViewProjectionMatrix;
+uniform mat3 uNormalMatrix;
 
-// Transforms 3D coordinates to 2D screen coordinates
-uniform mat4 uProjectionMatrix;
+varying vec3 vNormal;
+varying vec3 vPos;
 
 void main() {
-  // Apply the camera transform
-  vec4 viewModelPosition = uModelViewMatrix * vec4(aPosition, 1.0);
-
-  // Tell WebGL where the vertex goes
-  gl_Position = uProjectionMatrix * viewModelPosition;  
+    vNormal = normalize(uNormalMatrix * aNormal);
+    vPos = aPosition;
+    gl_Position = uModelViewProjectionMatrix * vec4(aPosition, 1.0);
 }

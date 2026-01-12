@@ -3,6 +3,13 @@ precision highp float;
 // A custom uniform to control the color
 uniform vec4 myColor;
 
+precision highp float;
+
+varying vec3 vNormal;
+uniform vec2 uResolution;
+uniform float uTime;
+varying vec3 vPos;
+
 
 vec2 hash( vec2 p ) {
 	p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
@@ -42,12 +49,44 @@ float FBM(vec2 p, float frequency, float amplitude, float freq_inc, float amplit
     return val;
 }
 
+
+// ---- COLOR RAMP ----
+vec3 sunColor(float t) {
+    vec3 deepRed   = vec3(0.9, 0.2, 0.0);
+    vec3 orange    = vec3(1.0, 0.5, 0.0);
+    vec3 yellow    = vec3(1.0, 0.9, 0.3);
+    vec3 whiteHot  = vec3(1.0, 1.0, 1.0);
+
+    t = clamp(t, 0.0, 1.0);
+
+    if (t < 0.33)
+        return mix(deepRed, orange, t / 0.33);
+    else if (t < 0.66)
+        return mix(orange, yellow, (t - 0.33) / 0.33);
+    else
+        return mix(yellow, whiteHot, (t - 0.66) / 0.34);
+}
+
 void main() {
-    vec2 uv = gl_FragCoord.xy; // u_resolution.xx;
 
-    float val = FBM(uv, 0.01, 1.0, 1.0, 0.9);
+    vec3 n = normalize(vNormal);
 
+    // Use normal as UV
+    // vec2 uv = n.xy * 3.0 + uTime * 0.005;
+    vec2 uv = vPos.xy + vPos.z + uTime * 0.0001;
     
-    
-    gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+    // Turbulence
+    float f = FBM(uv, 1.5, 0.6, 1.2, 0.5);
+
+    // Radial falloff (hot center)
+    float heat = 1.0 - abs(n.z);
+    heat = pow(heat, 1.5);
+
+    // Combine
+    float intensity = clamp(heat + f * 0.5, 0.0, 1.0);
+
+    vec3 color = sunColor(intensity);
+
+    gl_FragColor = vec4(color, 1.0);
+    // gl_FragColor = vec4(0.0, uv.y, uv.x, 1.0);
 }
