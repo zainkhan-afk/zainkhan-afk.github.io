@@ -6,6 +6,9 @@ class Planet{
         this.dim = this.mass/200;
         this.vel = createVector(0, 0, 0);
         this.acc = createVector(0, 0, 0);
+
+        this.rotation = createVector(0, 0, 0);
+        this.omega = createVector(random(-0.1, 0.1), random(-0.1, 0.1), random(-0.1, 0.1));
     }
 
     ApplyForce(f){
@@ -15,6 +18,7 @@ class Planet{
     Step(dt){
         this.vel.add(p5.Vector.mult(this.acc, dt));
         this.pos.add(p5.Vector.mult(this.vel, dt));
+        this.rotation.add(p5.Vector.mult(this.omega, dt))
         this.acc.set(0);
     }
 }

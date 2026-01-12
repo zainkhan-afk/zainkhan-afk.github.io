@@ -1,9 +1,11 @@
 let dt = 0.1;
 let sim;
 let sunShader;
+let planetShader;
 
 function preload(){
   sunShader = loadShader('shaders/sun.vert', 'shaders/sun.frag');
+  planetShader = loadShader('shaders/planet.vert', 'shaders/planet.frag');
 }
 
 function setup() 
@@ -24,9 +26,9 @@ function setup()
 
     sim = new Simulation(dt);
 
-    sim.AddPlanet(new Planet(createVector(0, -300, 0), 10000));
+    sim.AddPlanet(new Planet(createVector(0, -300, 0), 10000, planetShader = planetShader));
     // sim.AddPlanet(new Planet(createVector(100, 0, 0), 100));
-    sim.AddPlanet(new Planet(createVector(0, 300, 0), 10000));
+    sim.AddPlanet(new Planet(createVector(0, 300, 0), 100000, planetShader = planetShader));
     sim.AddPlanet(new Planet(createVector(600, 0, 0), 100000, planetShader=sunShader));
     // sim.AddPlanet(new Planet(createVector(0, 0, 100), 100));
 

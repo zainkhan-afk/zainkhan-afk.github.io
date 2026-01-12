@@ -8,7 +8,9 @@ class Renderer{
         for (let planet of planets){
             push();
             translate(planet.pos.x, planet.pos.y, planet.pos.z);
-            // rotateY(this.ang);
+            rotateX(planet.rotation.x);
+            rotateY(planet.rotation.y);
+            rotateZ(planet.rotation.z);
             if (planet.planetShader){
                 planet.planetShader.setUniform("uResolution", [planet.dim, planet.dim]);
                 planet.planetShader.setUniform("uTime", millis());
