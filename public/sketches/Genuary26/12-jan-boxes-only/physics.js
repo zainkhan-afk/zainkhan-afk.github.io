@@ -26,6 +26,14 @@ class Physics{
                 
                 let p12 = p5.Vector.sub(p1.pos, p2.pos);
                 let p12Mag = p12.mag();
+
+                append(completedPairs, [p1Idx, p2Idx]);
+                append(completedPairs, [p2Idx, p1Idx]);
+
+                if (p12Mag < max(p1.dim, p2.dim)){
+                    continue;
+                }
+                
                 p12.normalize()
 
                 let f12Mag = (this.gravitationalConstant*(p1.mass*p2.mass)) / pow(p12Mag, 2);
@@ -33,8 +41,8 @@ class Physics{
                 p2.ApplyForce(f12);
                 f12.rotate(PI);
                 p1.ApplyForce(f12);
-                append(completedPairs, [p1Idx, p2Idx]);
-                append(completedPairs, [p2Idx, p1Idx]);
+                
+                
                 p2Idx += 1;
             }
             p1Idx += 1;

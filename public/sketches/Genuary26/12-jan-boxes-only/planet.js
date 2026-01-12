@@ -1,11 +1,11 @@
 class Planet{
-    constructor(pos, mass){
+    constructor(pos, mass, planetShader = null){
         this.pos = pos;
         this.mass = mass;
-        this.dim = mass / 100;
-        this.vel = createVector(random(-10, 10), 0, 0);
+        this.planetShader = planetShader;
+        this.dim = this.mass/200;
+        this.vel = createVector(0, 0, 0);
         this.acc = createVector(0, 0, 0);
-
     }
 
     ApplyForce(f){

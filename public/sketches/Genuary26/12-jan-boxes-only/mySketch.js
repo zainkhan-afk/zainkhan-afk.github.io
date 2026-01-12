@@ -1,10 +1,15 @@
 let dt = 0.1;
 let sim;
+let sunShader;
+
+function preload(){
+  sunShader = loadShader('shaders/sun.vert', 'shaders/sun.frag');
+}
 
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
-    createCanvas(minDim, minDim, WEBGL);
+    createCanvas(windowWidth, windowHeight, WEBGL);
     // Create a p5.Camera object.
     cam = createCamera();
 
@@ -22,6 +27,7 @@ function setup()
     sim.AddPlanet(new Planet(createVector(0, -300, 0), 10000));
     // sim.AddPlanet(new Planet(createVector(100, 0, 0), 100));
     sim.AddPlanet(new Planet(createVector(0, 300, 0), 10000));
+    sim.AddPlanet(new Planet(createVector(600, 0, 0), 100000, planetShader=sunShader));
     // sim.AddPlanet(new Planet(createVector(0, 0, 100), 100));
 
     frameRate(60);
