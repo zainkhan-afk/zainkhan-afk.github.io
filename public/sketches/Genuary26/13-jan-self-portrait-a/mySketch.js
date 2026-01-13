@@ -1,7 +1,7 @@
 let img;
 let KMeansimg;
 let k = 8;
-let blockSize = 5;
+let blockSize = 10;
 let quatLevels = 8;
 let numItersCompleted = 1;
 let totalNumIters = 6;

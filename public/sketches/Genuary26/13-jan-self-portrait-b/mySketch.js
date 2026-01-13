@@ -16,7 +16,7 @@ function setup()
 function draw()
 {
     background(200);
-    // image(img, 0, 0);
+    image(img, 0, 0);
     translate(width/2, 0);
     polygonPortrait.drawPortrait();
 }
