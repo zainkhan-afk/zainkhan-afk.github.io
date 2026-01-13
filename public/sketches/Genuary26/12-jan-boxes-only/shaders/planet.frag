@@ -2,7 +2,11 @@
 precision highp float;
 
 // A custom uniform to control the color
-uniform vec4 myColor;
+uniform vec3 landColor;
+uniform vec3 seaColor;
+uniform vec3 lightPos;
+uniform float landSeaThresh;
+
 
 precision highp float;
 
@@ -69,8 +73,8 @@ vec3 sunColor(float t) {
 }
 
 void main() {
-
     vec3 n = normalize(vNormal);
+    vec3 ambient = vec3(0.7, 0.7, 0.0);
 
     // Use normal as UV
     // vec2 uv = n.xy * 3.0 + uTime * 0.005;
@@ -80,13 +84,20 @@ void main() {
     float f = FBM(uv, 1.5, 0.6, 1.2, 0.5);
 
     vec3 color;
-    if (f < 0.1){
-        color = vec3(0.0, 0.3, 0.7);
+    if (f < landSeaThresh){
+        // color = vec3(0.0, 0.3, 0.7);
+        color = seaColor;
     }
     else{
-        color = vec3(0.6, 0.7, 0.1);
+        // color = vec3(0.6, 0.7, 0.1);
+        color = landColor;
     }
+    vec3 L = normalize(lightPos - vPos);
+    // vec3 N = normalize(n);
 
-    gl_FragColor = vec4(color, 1.0);
-    // gl_FragColor = vec4(0.0, uv.y, uv.x, 1.0);
+    float diffuse = max(dot(n, L), 0.0);
+
+    vec3 finalColor = color * (ambient + diffuse);
+
+    gl_FragColor = vec4(finalColor, 1.0);
 }

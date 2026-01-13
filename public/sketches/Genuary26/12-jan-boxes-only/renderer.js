@@ -4,6 +4,7 @@ class Renderer{
     }
 
     Render(planets){
+        let idx = 0;
         for (let planet of planets){
             noStroke();
             fill(0);
@@ -16,6 +17,15 @@ class Renderer{
                 // planet.planetShader.setUniform("uResolution", [planet.dim, planet.dim]);
                 shader(planet.planetShader);
                 planet.planetShader.setUniform("uTime", millis());
+                planet.planetShader.setUniform("seaColor", planet.seaColor);
+                planet.planetShader.setUniform("landColor", planet.landColor);
+                planet.planetShader.setUniform("landSeaThresh", planet.landSeaThresh);
+
+                if (idx > 0){
+                    let lightPos = p5.Vector.sub(planet.pos, planets[0].pos);
+                    planet.planetShader.setUniform("lightPos", [lightPos.x, lightPos.y, lightPos.z]);
+                    // planet.planetShader.setUniform("landSeaThresh", planet.landSeaThresh);
+                }
             }
             box(planet.dim, planet.dim, planet.dim);
             pop();
@@ -28,6 +38,7 @@ class Renderer{
                 vertex(tailP.x, tailP.y, tailP.z);
             }
             endShape();
+            idx += 1;
         }
     }
 }

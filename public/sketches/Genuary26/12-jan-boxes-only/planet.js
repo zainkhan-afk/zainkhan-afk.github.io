@@ -7,10 +7,15 @@ class Planet{
         this.vel = createVector(0, 0, 0);
         this.acc = createVector(0, 0, 0);
 
-        this.rotation = createVector(0, 0, 0);
+        this.landColor = [random(), random(), random()];
+        this.seaColor = [random(), random(), random()];
+        this.landSeaThresh = random();
+
+        this.rotation = createVector(random()*PI/3, random()*PI/3, random()*PI/3);
         this.rotationAxis = createVector(int(random(2)), int(random(2)), int(random(2)));
-        // this.omega = createVector(this.rotationAxis.x*random(-0.01, 0.01), this.rotationAxis.y*random(-0.01, 0.01), this.rotationAxis.z*random(-0.01, 0.01));
-        this.omega = createVector(0, 0, 0);
+
+        this.omega = createVector(this.rotationAxis.x*random(-0.1, 0.1), this.rotationAxis.y*random(-0.1, 0.1), this.rotationAxis.z*random(-0.1, 0.1));
+        // this.omega = createVector(0, 0, 0);
         this.tail = [];
         this.counter = 0;
     }

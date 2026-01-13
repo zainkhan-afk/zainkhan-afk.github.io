@@ -14,21 +14,27 @@ class Physics{
         for (let p1 of planets){
             let p2Idx = 0;
             for (let p2 of planets){
-                if (p1 == p2){continue;}
+                // if (p1 === p2){continue;}
+                if (p1Idx === p2Idx){continue;}
                 let currentPair = [p1Idx, p2Idx];
-
-                const alreadyCompleted = completedPairs.some(subArray => 
-                        subArray.length === currentPair.length && 
-                        subArray.every((value, index) => value === currentPair[index])
-                    );
                 
-                if (alreadyCompleted){continue;}
+                // if (completedPairs.includes(currentPair)){continue;}
+                
+                const alreadyCompleted = completedPairs.some(subArray => 
+                    subArray.length === currentPair.length && 
+                    subArray.every((value, index) => value === currentPair[index])
+                );
+                
+                if (alreadyCompleted){
+                    continue;
+                }
+                append(completedPairs, [p1Idx, p2Idx]);
+                append(completedPairs, [p2Idx, p1Idx]);
+                
                 
                 let p12 = p5.Vector.sub(p1.pos, p2.pos);
                 let p12Mag = p12.mag();
 
-                append(completedPairs, [p1Idx, p2Idx]);
-                append(completedPairs, [p2Idx, p1Idx]);
 
                 if (p12Mag < max(p1.dim, p2.dim)){
                     continue;
@@ -41,7 +47,7 @@ class Physics{
                 p2.ApplyForce(f12);
                 f12.rotate(PI);
                 p1.ApplyForce(f12);
-                
+            
                 
                 p2Idx += 1;
             }
