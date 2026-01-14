@@ -29,6 +29,7 @@ export default function Navbar() {
         <ul className="hidden md:flex space-x-6">
           <li><Link href="/about" className="hover:text-pink-400">About</Link></li>
           <li><Link href="/projects" className="hover:text-pink-400">Projects</Link></li>
+          <li><Link href="/craft" className="hover:text-pink-400">Craft</Link></li>
           <li><Link href="/contact" className="hover:text-pink-400">Contact</Link></li>
         </ul>
 
@@ -47,6 +48,7 @@ export default function Navbar() {
           <ul className="flex flex-col space-y-4">
             <li><Link href="/about" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>About</Link></li>
             <li><Link href="/projects" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Projects</Link></li>
+            <li><Link href="/craft" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Craft</Link></li>
             <li><Link href="/contact" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Contact</Link></li>
           </ul>
         </div>
