@@ -14,9 +14,11 @@ function setup()
 
 function draw()
 {
+      lights();
+
   background(200);
-  // ambientLight(200, 200, 100);
-  directionalLight(200, 200, 100, 0.5, 0.5, -1);
+  ambientLight(200, 200, 100);
+  directionalLight(200, 200, 100, -0.5, -0.5, -0.5);
 
   // Enable orbiting with the mouse.
   orbitControl();
@@ -35,7 +37,7 @@ function draw()
 
 function AdjustCamera(){
   cam = createCamera();
-  cam.camera(500, 500, 500, 
+  cam.camera(100, 100, 100, 
              0, 0, 0, 
              0, 0, -1);
   setCamera(cam);
