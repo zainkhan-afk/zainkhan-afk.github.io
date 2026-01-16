@@ -14,7 +14,9 @@ function setup()
 
 function draw()
 {
-      lights();
+  perspective(0.9, 1.0, 1, 12000);
+
+  lights();
 
   background(200);
   ambientLight(200, 200, 100);
@@ -29,7 +31,7 @@ function draw()
   plane(1000);
   translate(0, 0, 10);
   fill(100, 0, 0);
-  box(10, 10, 10);
+  box(10);
 }
 
 
@@ -40,5 +42,7 @@ function AdjustCamera(){
   cam.camera(100, 100, 100, 
              0, 0, 0, 
              0, 0, -1);
+
+  cam.ortho();
   setCamera(cam);
 }
