@@ -2,6 +2,8 @@ let hexagonPoints = [];
 let hexagonLength = 10;
 let numRows;
 let numCols;
+let cnv;
+let angle = 0;
 
 
 function preload(){
@@ -10,7 +12,7 @@ function preload(){
 function setup() 
 {
   let minDim = min(windowWidth, windowHeight);
-  createCanvas(minDim, minDim);
+  cnv = createCanvas(minDim, minDim);
 
   for (let i = 0; i<6; i++){
     let x = hexagonLength*cos(TWO_PI/6*i);
@@ -40,20 +42,19 @@ function draw()
 
       push();
       translate(x, y);
-      rotate(PI/6);
+      rotate(PI/6 + angle);
       beginShape();
       for (let hexPt of hexagonPoints){
         vertex(hexPt[0], hexPt[1]);
       }
       endShape(CLOSE);
       pop();
-    
     }
   }
 }
 
 function keyPressed() {
   if (key === 's') {
-    // saveGif("Gen17", 10);
+    saveCanvas(cnv, '17-jan.jpg');
   }
 }
