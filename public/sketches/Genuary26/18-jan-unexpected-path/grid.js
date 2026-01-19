@@ -15,6 +15,10 @@ class Grid{
         }
     }
 
+    CartToGridCoords(x, y){
+        return [int(y/this.div), int(x/this.div)];
+    }
+
 
     FindLowestValueCell(R, C){
         let lowestValue = 10000;
@@ -33,8 +37,20 @@ class Grid{
     }
 
     CalculateGrid(lightSources){
+        let newGrid = this.grid;
         for (let lightSource of lightSources){
-            
+            let gridCoords = this.CartToGridCoords(lightSource.pos.x, lightSource.pos.y);
+            let R = gridCoords[0];
+            let C = gridCoords[1];
+
+            for (let r = max(R - 1, 0); r < min(R+2, this.numRows); r++){
+                for (let c = max(C - 1, 0); c < min(C+2, this.numCols); c++){
+                    // if (r == R && c == C){ continue; }
+                    let d = (2 - Math.sqrt(pow(r - R, 2) + pow(c - C, 2)));
+                    newGrid[r][c] += d*lightSource.lightIntensity;
+                }
+            }
         }
+        this.grid = newGrid;
     }
 }

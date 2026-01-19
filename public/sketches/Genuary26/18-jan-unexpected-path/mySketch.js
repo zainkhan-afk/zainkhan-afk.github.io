@@ -1,6 +1,6 @@
 let div = 10;
 let grid;
-let lightSource;
+let lightSources = [];
 let ghost;
 let renderer;
 
@@ -11,6 +11,7 @@ function setup()
 {
   let minDim = min(windowWidth, windowHeight);
   createCanvas(minDim, minDim);
+  append(lightSources, new Light(createVector(500, 500)));
   grid = new Grid(int(width/div), int(height/div), div);
   renderer = new Renderer();
   frameRate(60);
@@ -19,7 +20,9 @@ function setup()
 function draw()
 {
   background(200);
+  grid.CalculateGrid(lightSources);
   renderer.Render(grid);
+  noLoop();
 }
 
 function keyPressed() {
