@@ -36,7 +36,7 @@ class Grid{
         return lowestCoords;
     }
 
-    CalculateGrid(lightSources){
+    OldCalculateGrid(lightSources){
         let newGrid = this.grid;
         for (let lightSource of lightSources){
             let gridCoords = this.CartToGridCoords(lightSource.pos.x, lightSource.pos.y);
@@ -52,5 +52,29 @@ class Grid{
             }
         }
         this.grid = newGrid;
+    }
+
+    CalculateGrid(lightSources){
+        this.grid = [];
+        for (let r = 0; r < this.numRows; r++){
+            let row = [];
+            for (let c = 0; c < this.numCols; c++){
+                let val = 0;
+                for (let lightSource of lightSources){
+                    let gridCoords = this.CartToGridCoords(lightSource.pos.x, lightSource.pos.y);
+                    let R = gridCoords[0];
+                    let C = gridCoords[1];
+                    if (r == R && c == C){
+                        val += lightSource.lightIntensity;
+                    }
+                    else{
+                        let d = Math.sqrt(pow(r - R, 2) + pow(c - C, 2));
+                        val += lightSource.lightIntensity/pow(d, 2);
+                    }
+                }
+                append(row, val);
+            }
+            append(this.grid, row);
+        }
     }
 }
