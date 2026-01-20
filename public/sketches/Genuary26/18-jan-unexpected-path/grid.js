@@ -19,8 +19,16 @@ class Grid{
         return [int(y/this.div), int(x/this.div)];
     }
 
+    GridCoordsToCart(r, c){
+        return [c*this.div, r*this.div];
+    }
 
-    FindLowestValueCell(R, C){
+
+    FindDarkestCell(ghost){
+        console.log(ghost);
+        let coords = this.CartToGridCoords(ghost.pos.x, ghost.pos.y);
+        let R = coords[0];
+        let C = coords[1];
         let lowestValue = 10000;
         let lowestCoords = [];
         for (let r = max(R - 1, 0); r < min(R+2, this.numRows); r++){

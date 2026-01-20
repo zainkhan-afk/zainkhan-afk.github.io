@@ -18,7 +18,13 @@ class Renderer{
         }
     }
 
-    Render(grid){
+    RenderGhost(ghost){
+        fill(0, 0, 200);
+        rect(ghost.pos.x, ghost.pos.y, 10, 10);
+    }
+
+    Render(grid, ghost){
         this.RenderGrid(grid);
+        this.RenderGhost(ghost);
     }
 }
