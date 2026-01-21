@@ -25,7 +25,7 @@ class Grid{
 
 
     FindDarkestCell(ghost){
-        console.log(ghost);
+        // console.log(ghost);
         let coords = this.CartToGridCoords(ghost.pos.x, ghost.pos.y);
         let R = coords[0];
         let C = coords[1];
@@ -42,6 +42,26 @@ class Grid{
         }
 
         return lowestCoords;
+    }
+
+    FindLightestCell(ghost){
+        // console.log(ghost);
+        let coords = this.CartToGridCoords(ghost.pos.x, ghost.pos.y);
+        let R = coords[0];
+        let C = coords[1];
+        let highestValue = 0;
+        let highestCoords = [R, C];
+        for (let r = max(R - 1, 0); r < min(R+2, this.numRows); r++){
+            for (let c = max(C - 1, 0); c < min(C+2, this.numCols); c++){
+                if (r == R && c == C){ continue; }
+                if (this.grid[r][c] > highestValue){
+                    highestValue = this.grid[r][c];
+                    highestCoords = [r, c];
+                }
+            }
+        }
+
+        return highestCoords;
     }
 
     OldCalculateGrid(lightSources){

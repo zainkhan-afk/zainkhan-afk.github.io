@@ -1,7 +1,7 @@
-let div = 10;
+let div = 5;
 let grid;
 let lightSources = [];
-let numLightSources = 8;
+let numLightSources = 10;
 let ghost;
 let renderer;
 
@@ -27,10 +27,12 @@ function draw()
 {
   background(200);
   for (let lightSource of lightSources){
-    lightSource.Step(deltaTime/1000);
+    lightSource.Step(deltaTime/1000, div);
   }
   grid.CalculateGrid(lightSources);
+  
   let darkest = grid.FindDarkestCell(ghost);
+  let lightest = grid.FindLightestCell(ghost);
   if (darkest.length > 0){
     let r = darkest[0];
     let c = darkest[1];
@@ -38,12 +40,19 @@ function draw()
     let x = cart[0];
     let y = cart[1];
 
+    let lightestVal = grid.grid[lightest[0]][lightest[1]];
+
+    console.log(lightestVal);
+
     let f = p5.Vector.sub(createVector(x, y), ghost.pos);
+    f.mult(lightestVal*50);
 
     ghost.ApplyForce(f);
   }
+  
   ghost.Step(deltaTime/1000);
   renderer.Render(grid, ghost);
+  // noLoop();
 }
 
 function keyPressed() {
