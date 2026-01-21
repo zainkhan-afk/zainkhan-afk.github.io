@@ -36,7 +36,11 @@ class Renderer{
 
     RenderGhost(ghost){
         fill(0, 0, 200);
-        rect(ghost.pos.x, ghost.pos.y, 10, 10);
+        push();
+        translate(ghost.pos.x, ghost.pos.y);
+        rotate(ghost.vel.heading());
+        rect(0, 0, 10, 10);
+        pop();
     }
 
     Render(grid, ghost){

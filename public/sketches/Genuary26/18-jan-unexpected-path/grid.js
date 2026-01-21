@@ -97,7 +97,7 @@ class Grid{
                     }
                     else{
                         let d = Math.sqrt(pow(r - R, 2) + pow(c - C, 2));
-                        val += lightSource.lightIntensity/pow(d, 2);
+                        val += lightSource.lightIntensity/pow(d, 1.8);
                     }
                 }
                 append(row, val);
