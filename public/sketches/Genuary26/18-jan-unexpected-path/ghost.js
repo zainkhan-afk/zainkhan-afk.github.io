@@ -36,7 +36,7 @@ class Ghost{
         else if (this.pos.y > height - this.boundaryMargin){
             f.y = (height - this.boundaryMargin) - this.pos.y;
         }
-        
+        f.mult(5);
         this.ApplyForce(f);
     }
 
@@ -44,7 +44,7 @@ class Ghost{
         this.ApplyBoundaryForce();
         this.vel.add(p5.Vector.mult(this.acc, dt));
 
-        this.vel.limit(50);
+        this.vel.limit(250);
         this.pos.add(p5.Vector.mult(this.vel, dt));
 
         if (this.counter%10 == 0){

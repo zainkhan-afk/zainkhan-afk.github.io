@@ -35,7 +35,6 @@ class Renderer{
     }
 
     RenderGhost(ghost){
-        stroke(100)
         for (let i = 0; i < ghost.tail.length - 1; i++){
             let p1 = ghost.tail[i];
             let p2 = ghost.tail[i+1];
@@ -63,8 +62,10 @@ class Renderer{
     Render(grid, philicGhost, phobicGhost){
         this.RenderGrid(grid);
         fill(0, 0, 200);
+        stroke(0, 0, 100);
         this.RenderGhost(philicGhost);
         fill(200, 0, 0);
+        stroke(100, 0, 0);
         this.RenderGhost(phobicGhost);
     }
 }

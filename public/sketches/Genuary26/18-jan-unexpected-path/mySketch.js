@@ -66,7 +66,7 @@ function updatePhilic(){
   let f = p5.Vector.sub(createVector(x, y), philicGhost.pos);
   // let centerF = p5.Vector.sub(philicGhost.pos, createVector(width/2, height/2));
   let centerF = p5.Vector.sub(createVector(width/2, height/2), philicGhost.pos);
-  f.mult(lightestVal*25);
+  f.mult(lightestVal*50);
   f.add(centerF);
 
   
