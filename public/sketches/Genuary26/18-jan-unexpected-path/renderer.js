@@ -62,10 +62,10 @@ class Renderer{
     Render(grid, philicGhost, phobicGhost){
         this.RenderGrid(grid);
         fill(0, 0, 200);
-        stroke(0, 0, 100);
+        stroke(0, 0, 100, 100);
         this.RenderGhost(philicGhost);
         fill(200, 0, 0);
-        stroke(100, 0, 0);
+        stroke(100, 0, 0, 100);
         this.RenderGhost(phobicGhost);
     }
 }

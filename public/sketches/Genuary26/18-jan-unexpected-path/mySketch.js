@@ -1,4 +1,4 @@
-let div = 15;
+let div = 10;
 let grid;
 let lightSources = [];
 let numLightSources = 10;
@@ -28,23 +28,24 @@ function setup()
 function draw()
 {
   background(200);
+  strokeCap(SQUARE);
   for (let lightSource of lightSources){
-    lightSource.Step(deltaTime/1000, div);
+    lightSource.Step(deltaTime/2000, div);
   }
   grid.CalculateGrid(lightSources);
   
   
   updatePhilic();
   updatePhobic();
-  philicGhost.Step(deltaTime/1000);
-  phobicGhost.Step(deltaTime/1000);
+  philicGhost.Step(deltaTime/2000);
+  phobicGhost.Step(deltaTime/2000);
   renderer.Render(grid, philicGhost, phobicGhost);
   // noLoop();
 }
 
 function keyPressed() {
   if (key === 's') {
-    saveGif("Gen17", 10);
+    saveGif("Gen18", 10);
 
   }
 }
@@ -66,7 +67,9 @@ function updatePhilic(){
   let f = p5.Vector.sub(createVector(x, y), philicGhost.pos);
   // let centerF = p5.Vector.sub(philicGhost.pos, createVector(width/2, height/2));
   let centerF = p5.Vector.sub(createVector(width/2, height/2), philicGhost.pos);
-  f.mult(lightestVal*50);
+  centerF.mult(0.1);
+  
+  f.mult(25);
   f.add(centerF);
 
   
@@ -91,7 +94,7 @@ function updatePhobic(){
     let f = p5.Vector.sub(createVector(x, y), phobicGhost.pos);
     // let centerF = p5.Vector.sub(phobicGhost.pos, createVector(width/2, height/2));
     let centerF = p5.Vector.sub(createVector(width/2, height/2), philicGhost.pos);
-
+    centerF.mult(0.1);
 
 
     f.mult(lightestVal*50);
