@@ -4,6 +4,16 @@ class Ghost{
         this.boundaryMargin = 200;
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
+        this.pts = [
+            [0, 30],
+            [10, -10],
+            [0, 0],
+            [-10, -10],
+        ];
+
+        this.tail = [];
+        this.counter = 0;
+        this.tailMaxLen = 100;
     }
 
     ApplyForce(f){
@@ -36,6 +46,16 @@ class Ghost{
 
         this.vel.limit(50);
         this.pos.add(p5.Vector.mult(this.vel, dt));
+
+        if (this.counter%10 == 0){
+            append(this.tail, [this.pos.x, this.pos.y]);
+        }
+
+        if (this.tail.length > this.tailMaxLen){
+            this.tail.splice(0, 1);
+        }
         this.acc.set(0);
+
+        this.counter += 1;
     }
 }

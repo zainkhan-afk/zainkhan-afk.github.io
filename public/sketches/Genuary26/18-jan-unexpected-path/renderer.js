@@ -15,8 +15,8 @@ class Renderer{
                 fill(val * 200, val * 200, val * 50);
                 rect(x, y, grid.div, grid.div);
                 // let n = noise((c*grid.div)/1000, (r*grid.div)/1000, this.zOff);
-                let n = noise((r)/10, (c)/10, this.zOff);
-                let a = map(n, 0, 1, -TWO_PI, TWO_PI);
+                // let n = noise((r)/10, (c)/10, this.zOff);
+                // let a = map(n, 0, 1, -TWO_PI, TWO_PI);
                 // push();
                 // translate(x + grid.div/2, y + grid.div/2);
                 // rotate(a - PI/2)
@@ -35,16 +35,36 @@ class Renderer{
     }
 
     RenderGhost(ghost){
-        fill(0, 0, 200);
+        stroke(100)
+        for (let i = 0; i < ghost.tail.length - 1; i++){
+            let p1 = ghost.tail[i];
+            let p2 = ghost.tail[i+1];
+            strokeWeight(i/ 10);
+            line(p1[0], p1[1], p2[0], p2[1])
+        }
+
+        line(ghost.tail[ghost.tail.length-1][0], ghost.tail[ghost.tail.length-1][1], 
+            ghost.pos.x, ghost.pos.y
+        )
+
+        
+        noStroke();
         push();
         translate(ghost.pos.x, ghost.pos.y);
-        rotate(ghost.vel.heading());
-        rect(0, 0, 10, 10);
+        rotate(ghost.vel.heading() - PI/2 );
+        beginShape();
+        for (let pt of ghost.pts){
+            vertex(pt[0], pt[1]);
+        }
+        endShape();
         pop();
     }
 
-    Render(grid, ghost){
+    Render(grid, philicGhost, phobicGhost){
         this.RenderGrid(grid);
-        this.RenderGhost(ghost);
+        fill(0, 0, 200);
+        this.RenderGhost(philicGhost);
+        fill(200, 0, 0);
+        this.RenderGhost(phobicGhost);
     }
 }

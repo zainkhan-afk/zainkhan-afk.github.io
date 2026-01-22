@@ -4,14 +4,15 @@ class Light{
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.goal = createVector(random(width), random(height));
-        this.lightIntensity = 10;
+        this.lightIntensity = random(1, 20);
         this.zOff = 0;
+        this.reverse = random() > 0.5 ? 1:-1;
         this.xOff = random(width);
         this.yOff = random(width);
     }
 
     Step(dt, div){
-        this.vel.add(p5.Vector.mult(this.acc, dt));
+        this.vel.add(p5.Vector.mult(p5.Vector.mult(this.acc, this.reverse), dt));
         this.vel.limit(100);
         this.pos.add(p5.Vector.mult(this.vel, dt));
         let r = int(this.pos.y/div);
