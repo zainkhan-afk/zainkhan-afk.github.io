@@ -14,5 +14,8 @@ class Unit{
             this.vel.limit(100);
             this.pos.add(p5.Vector.mult(this.vel, dt));
         }
+        else{
+            this.vel = createVector(0, 0);
+        }
     }
 }
