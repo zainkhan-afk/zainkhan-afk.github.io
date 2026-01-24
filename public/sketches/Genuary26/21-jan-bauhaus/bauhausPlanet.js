@@ -1,13 +1,15 @@
 class BauhausPlanet{
-    constructor(numRows, numCols, div){
-        this.numRows = numRows;
-        this.numCols = numCols;
+    constructor(red, blue, yellow, black, div){
         this.div = div;
+        this.numRows = int(height / div) + 1;
+        this.numCols = int(width / div) + 1;
 
-        this.red = color(200, 0, 0);
-        this.blue = color(0, 0, 200);
-        this.yellow = color(200, 170, 0);
-        this.black = color(0, 0, 0);
+        this.red = red;
+        this.blue = blue;
+        this.yellow = yellow;
+        this.black = black;
+
+        this.urduText = "سیارہ"
     }
 
     drawBG(){
@@ -90,10 +92,15 @@ class BauhausPlanet{
         textSize(40);
         textAlign(CENTER, CENTER);
         textStyle(BOLD);
+        // textFont(this.urduFont)
         for ( let i = 0; i < genuary.length; i ++){
-            text(genuary[i], 120, 50 + 40*i);
+            // text(genuary[i], 120, 50 + 40*i);
+            text(this.urduText, 80, 50 + 40*i);
+            // break;
+
         }
 
+        textFont(font);
         let h = 100;
         noFill();
         noStroke();
@@ -103,7 +110,7 @@ class BauhausPlanet{
         stroke(0);
         fill(this.black);
         textSize(30);
-        text("Genuary26", 100, height - h/2);
+        text("Genuary", 100, height - h/2);
         text("2026", width - 100, height - h/2);
     }
 
@@ -112,12 +119,13 @@ class BauhausPlanet{
         noStroke();
         for (let i = 0; i < 10; i ++){
             push();
-            translate(0, -i*50);
-            beginShape();
-            vertex(1.5*width, height/2);
-            vertex(-100, height);
-            vertex(-500, height);
-            endShape();
+            translate(width/2, height/2 + i*50);
+            // rect(0, 0, this.div, this.div);
+            // beginShape();
+            // vertex(1.5*width, height/2);
+            // vertex(-100, height);
+            // vertex(-500, height);
+            // endShape();
             pop();
         }
     }

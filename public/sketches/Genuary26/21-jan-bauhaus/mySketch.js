@@ -22,33 +22,36 @@ function preload() {
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
-    cnv = createCanvas(minDim, minDim);
+    cnv = createCanvas(minDim, minDim);    
 
-    numRows = int(height / div) + 1;
-    numCols = int(width / div) + 1;
-
-    
+    red = color(200, 0, 0);
+    blue = color(0, 0, 200);
+    yellow = color(200, 170, 0);
+    black = color(0, 0, 0);
 
     frameRate(60);
 
-    bauhaus1 = new BauhausPlanet(numRows, numCols, div);
+    bauhaus1 = new BauhausPlanet(red, blue, yellow, black, 10);
+    bauhaus2 = new BauhausCircles(red, blue, yellow, black);
 }
-
-
 
 
 
 function draw()
 {
     background(240, 240, 200);
-    textFont(font);
-    // background(40);
-    // drawBG();
-    // drawPlanet();
+    // textFont(font);
 
     bauhaus1.Render();
-
-    // drawFont();
+    // bauhaus2.Render();
     
     noLoop();
+}
+
+
+function keyPressed() {
+  if (key === 's') {
+    saveCanvas(cnv, '21-jan.jpg');
+    // saveGif("Gen18", 10);
+  }
 }
