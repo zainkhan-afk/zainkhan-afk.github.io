@@ -1,0 +1,8 @@
+class Light{
+    constructor(){
+    }
+
+    Step(){
+
+    }
+}
