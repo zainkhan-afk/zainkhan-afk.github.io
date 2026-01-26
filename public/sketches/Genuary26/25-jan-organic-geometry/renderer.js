@@ -21,6 +21,7 @@ class Renderer{
 
     RenderMoths(moths){
         fill(100);
+        stroke(0);
         for (let moth of moths){
             push();
             translate(moth.pos.x, moth.pos.y);
