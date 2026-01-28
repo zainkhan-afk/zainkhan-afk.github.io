@@ -12,6 +12,7 @@ let numCols;
 
 let bauhaus1;
 let bauhaus2;
+let bauhaus3;
 
 let genuary = ['G', 'E', 'N', 'U', 'A', 'R', 'Y', '', '2', '6'];
 
@@ -33,17 +34,20 @@ function setup()
 
     bauhaus1 = new BauhausPlanet(red, blue, yellow, black, 10);
     bauhaus2 = new BauhausCircles(red, blue, yellow, black);
+    bauhaus3 = new BauhausPoster(red, blue, yellow, black);
 }
 
 
 
 function draw()
 {
-    background(240, 240, 200);
+    // background(240, 240, 200);
+    background(200, 210, 200);
     // textFont(font);
 
-    bauhaus1.Render();
+    // bauhaus1.Render();
     // bauhaus2.Render();
+    bauhaus3.Render();
     
     noLoop();
 }
