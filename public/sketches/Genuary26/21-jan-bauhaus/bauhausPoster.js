@@ -20,7 +20,7 @@ class BauhausPoster{
     }
 
     RenderConcentricHexagons(){
-        // noStroke();
+        noStroke();
         push();
         translate(width/2, height/2);
         for(let i = 5; i > 0; i--){
@@ -37,6 +37,16 @@ class BauhausPoster{
             }
             endShape(CLOSE);
         }
+
+        // fill(180);
+        // beginShape();
+        // for (let j = 0; j < 6; j++){
+        //     let x = 25*cos(j*TWO_PI/6);
+        //     let y = 25*sin(j*TWO_PI/6);
+        //     vertex(x, y);
+        // }
+        // endShape(CLOSE);
+
         pop();
     }
 
@@ -68,9 +78,27 @@ class BauhausPoster{
         pop();
     }
 
+    RenderMan(){
+        let headDiameter = 30;
+        push();
+        translate(width/2, height/2);
+        fill(200);
+        ellipse(0, 0, headDiameter/1.2, headDiameter);
+
+        fill(0);
+        beginShape();
+        vertex(-headDiameter/3, -headDiameter/5);
+        vertex(headDiameter/3, -headDiameter/5);
+        vertex(headDiameter/3, headDiameter/5);
+        vertex(-headDiameter/3, headDiameter/5);
+        endShape();
+        pop();
+    }
+
     Render(){
         // this.RenderConcentricCirlces();
         this.RenderConcentricHexagons();
         this.RenderLines();
+        this.RenderMan();
     }
 }
