@@ -1,7 +1,7 @@
 class Simulation{
     constructor(){
         this.entities = [];
-        this.food = [];
+        this.obstacles = [];
         this.rockets = [];
         this.numEntities = 10;
         this.numRockets = 10;
@@ -13,7 +13,7 @@ class Simulation{
         }
 
         for (let i = 0; i < 50; i++){
-            append(this.food, new Food(createVector(random(width), random(height))));
+            append(this.obstacles, new Food(createVector(random(width), random(height))));
         }
 
         for (let i = 0; i < this.numRockets; i++){
@@ -52,10 +52,10 @@ class Simulation{
             pop();
         }
 
-        for (let food of this.food){
+        for (let obstacle of this.obstacles){
             push();
-            translate(food.pos.x, food.pos.y);
-            circle(0, 0, food.size);
+            translate(obstacle.pos.x, obstacle.pos.y);
+            circle(0, 0, obstacle.size);
             pop();
         }
 
@@ -71,6 +71,10 @@ class Simulation{
             endShape(CLOSE);
 
             pop();
+
+            for (let ray of rocket.rays){
+                ray.show();
+            }
         }
     }
 
@@ -79,6 +83,12 @@ class Simulation{
 
         for (let rocket of this.rockets){
             rocket.control([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+            for (let ray of rocket.rays){
+                for (let obstacle of this.obstacles){
+                    let res = ray.cast(obstacle);
+                    console.log(res);
+                }
+            }
             rocket.step(dt);
         }
 

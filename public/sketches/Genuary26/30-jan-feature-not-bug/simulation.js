@@ -1,10 +1,7 @@
 class Simulation{
     constructor(){
         this.entities = [];
-        this.food = [];
-        this.rockets = [];
-        this.numEntities = 10;
-        this.numRockets = 10;
+        this.numEntities = 50;
 
         for (let i = 0; i <this.numEntities; i++){
             let e = new Entity(createVector(random(width), random(height)));
@@ -12,27 +9,18 @@ class Simulation{
             append(this.entities, e);
         }
 
-        for (let i = 0; i < 50; i++){
-            append(this.food, new Food(createVector(random(width), random(height))));
-        }
-
-        for (let i = 0; i < this.numRockets; i++){
-            append(this.rockets, new Rocket(createVector(random(width), random(height))));
-        }
-
-
-
         this.t = 0;
     }
 
 
     render(){
         stroke(200, 0, 0);
-        noFill();
+        fill(0);
         let k = 0;
         for (let entity of this.entities){
             push();
             translate(entity.pos.x, entity.pos.y);
+            rotate(entity.vel.heading());
             let angleDiv = TWO_PI/entity.genome.numlimbs;
             circle(0, 0, 50);
             for(let i = 0; i < entity.genome.numlimbs; i++){
@@ -51,41 +39,27 @@ class Simulation{
             k++;
             pop();
         }
-
-        for (let food of this.food){
-            push();
-            translate(food.pos.x, food.pos.y);
-            circle(0, 0, food.size);
-            pop();
-        }
-
-        for (let rocket of this.rockets){
-            push();
-            translate(rocket.pos.x, rocket.pos.y);
-            rotate(rocket.heading);
-
-            beginShape();
-            vertex(0, 20);
-            vertex(5, 0);
-            vertex(-5, 0);
-            endShape(CLOSE);
-
-            pop();
-        }
     }
 
     step(dt){
+        let centroid = createVector(0, 0);
+        for (let entity of this.entities){
+            centroid.add(entity.pos);
+        }
+        centroid.mult(1/this.entities.length);
         
-
-        for (let rocket of this.rockets){
-            rocket.control([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
-            rocket.step(dt);
+        this.entities[0].pos.set(centroid);
+        
+        for (let entity of this.entities){
+            let diff = p5.Vector.sub(centroid, entity.pos);
+            // diff.mult(0.1)
+            entity.applyForce(diff);
         }
 
         for (let entity of this.entities){
             entity.step(dt);
         }
 
-        this.t += dt/10;
+        this.t += dt/4;
     }
 }

@@ -23,6 +23,6 @@ function draw()
 function keyPressed() {
   if (key === 's') {
     // saveCanvas(cnv, '21-jan.jpg');
-    saveGif("Gen29", 20);
+    saveGif("Gen30", 10);
   }
 }
