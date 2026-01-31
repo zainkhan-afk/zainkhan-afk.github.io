@@ -92,17 +92,17 @@ function setup() {
   terrainNoiseOffestSlider = res[0];
   terrainNoiseOffestSpan = res[1];
   
-  res = createSliderWithName("RidgeNoise M Freq.", 0, 10, random(0, 2.5), 0, [20, 200]);
-  ridgeNoiseMaskFreqSlider = res[0];
-  ridgeNoiseMaskFreqSpan = res[1];
+  // res = createSliderWithName("RidgeNoise M Freq.", 0, 10, random(0, 2.5), 0, [20, 200]);
+  // ridgeNoiseMaskFreqSlider = res[0];
+  // ridgeNoiseMaskFreqSpan = res[1];
 
-  res = createSliderWithName("RidgeNoise M Offset", 0, 2, random(0.5, 0.6), 0, [20, 230]);
-  ridgeNoiseMaskOffsetSlider = res[0];
-  ridgeNoiseMaskOffsetSpan = res[1];
+  // res = createSliderWithName("RidgeNoise M Offset", 0, 2, random(0.5, 0.6), 0, [20, 230]);
+  // ridgeNoiseMaskOffsetSlider = res[0];
+  // ridgeNoiseMaskOffsetSpan = res[1];
 
-  res = createSliderWithName("RidgeNoise M Thresh", -3, 3, random(0.9, 0.99), 0, [20, 260]);
-  ridgeNoiseMaskThreshSlider = res[0];
-  ridgeNoiseMaskThreshSpan = res[1];
+  // res = createSliderWithName("RidgeNoise M Thresh", -3, 3, random(0.9, 0.99), 0, [20, 260]);
+  // ridgeNoiseMaskThreshSlider = res[0];
+  // ridgeNoiseMaskThreshSpan = res[1];
 }
 
 function draw() {
@@ -129,14 +129,14 @@ function draw() {
   let terrainOffsett = terrainNoiseOffestSlider.value();
   terrainNoiseOffestSpan.html(round(terrainOffsett, 3));
   
-  let ridgeMaskFreq = ridgeNoiseMaskFreqSlider.value();
-  ridgeNoiseMaskFreqSpan.html(round(ridgeMaskFreq, 3));
+  // let ridgeMaskFreq = ridgeNoiseMaskFreqSlider.value();
+  // ridgeNoiseMaskFreqSpan.html(round(ridgeMaskFreq, 3));
   
-  let ridgeMaskOffset = ridgeNoiseMaskOffsetSlider.value();
-  ridgeNoiseMaskOffsetSpan.html(round(ridgeMaskOffset, 3));
+  // let ridgeMaskOffset = ridgeNoiseMaskOffsetSlider.value();
+  // ridgeNoiseMaskOffsetSpan.html(round(ridgeMaskOffset, 3));
   
-  let ridgeMaskThresh = ridgeNoiseMaskThreshSlider.value();
-  ridgeNoiseMaskThreshSpan.html(round(ridgeMaskThresh, 3));
+  // let ridgeMaskThresh = ridgeNoiseMaskThreshSlider.value();
+  // ridgeNoiseMaskThreshSpan.html(round(ridgeMaskThresh, 3));
 
   // rotateX(numFrames * 0.01);
   // rotateZ(numFrames * 0.005);
@@ -147,12 +147,15 @@ function draw() {
   planetShader.setUniform("uRidgeAmp", ridgeAmp);
   planetShader.setUniform("uRidgeF", ridgeF);
   planetShader.setUniform("uRidgeOffset", ridgeOffest);
+  
   planetShader.setUniform("uTerrainAmp", terrainAmp);
   planetShader.setUniform("uTerrainF", terrainF);
   planetShader.setUniform("uTerrainOffset", terrainOffsett);
-  planetShader.setUniform("uRidgeMaskFreq", ridgeMaskFreq);
-  planetShader.setUniform("uRidgeMaskOffset", ridgeMaskOffset);
-  planetShader.setUniform("uRidgeMaskThesh", ridgeMaskThresh);
+
+  // planetShader.setUniform("uRidgeMaskFreq", ridgeMaskFreq);
+  // planetShader.setUniform("uRidgeMaskOffset", ridgeMaskOffset);
+  // planetShader.setUniform("uRidgeMaskThesh", ridgeMaskThresh);
+  
   planetShader.setUniform("u_light_pos", lightPos);
   cloudShader.setUniform("u_time", millis() / 1000.0);
   
@@ -174,9 +177,9 @@ function draw() {
   // rect(0, 0, width, height);
 
   numFrames += 1;
-  frameSum += frameRate();
+  // frameSum += frameRate();
 
-  text("FrameRate: " + int(frameSum / numFrames),  0, -windowHeight/3);
+  // text("FrameRate: " + int(frameSum / numFrames),  0, -windowHeight/3);
 }
 
 function windowResized(){

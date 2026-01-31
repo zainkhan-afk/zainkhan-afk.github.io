@@ -27,12 +27,15 @@ uniform mat4 uModelViewMatrix;
 
 // Get the framecount uniform
 uniform float uFrameCount;
+
 uniform float uRidgeAmp;
 uniform float uRidgeF;
 uniform float uRidgeOffset;
+
 uniform float uTerrainAmp;
 uniform float uTerrainF;
 uniform float uTerrainOffset;
+
 uniform float uRidgeMaskOffset;
 uniform float uRidgeMaskFreq;
 uniform float uRidgeMaskThesh;
@@ -273,8 +276,11 @@ void main() {
   float r = ridgedNoise(positionVec4.xyz * uRidgeF + uRidgeOffset);
   float n = surfaceNoise(positionVec4.xyz * uTerrainF + uTerrainOffset);
   
-  float noiseMask = surfaceNoise(positionVec4.xyz * uRidgeMaskFreq + uRidgeMaskOffset);
-  float h = n * uTerrainAmp + r * uRidgeAmp ;
+//   float noiseMask = surfaceNoise(positionVec4.xyz * uRidgeMaskFreq + uRidgeMaskOffset);
+//   if (noiseMask>uRidgeMaskThesh){noiseMask = 1.0;}
+//   else{noiseMask = 0.0;}
+  float h = n * uTerrainAmp + r * uRidgeAmp;
+//   h *= noiseMask*2.0;
 
   // Apply displacement along normal
   positionVec4.xyz += aNormal * h;
