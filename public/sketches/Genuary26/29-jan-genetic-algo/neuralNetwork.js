@@ -1,3 +1,4 @@
+
 class NeuralNetwork {
   constructor(inputSize, outputSize, numHiddenLayers, hiddenSize) {
     this.inputSize = inputSize;
@@ -51,7 +52,6 @@ class NeuralNetwork {
   }
 
   feedforward(input) {
-    // console.log("------------------------");
     let a = input.slice();
 
     
@@ -64,5 +64,15 @@ class NeuralNetwork {
     
     let output = this.activate(this.matVecMul(this.weights["out"], a));
     return output;
+  }
+
+  copyNN(otherNN){
+    for (const key in this.weights) {
+      for (let r = 0; r < otherNN.weights[key].length; r++){
+        for (let c = 0; c < otherNN.weights[key][r].length; c++){
+          this.weights[key][r][c] = otherNN.weights[key][r][c];
+        }
+      }
+    }
   }
 }

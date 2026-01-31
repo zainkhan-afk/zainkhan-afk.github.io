@@ -4,14 +4,15 @@ class Ray {
     this.dir = p5.Vector.fromAngle(angle);
   }
 
-  cast(circle) {
+  cast(obs) {
     // Ray: P + tD
     // Circle: |X - C|² = r²
-    const oc = p5.Vector.sub(this.pos, circle.pos);
+    const oc = p5.Vector.sub(this.pos, obs.pos);
+    // console.log("oc", oc);
 
     const a = this.dir.dot(this.dir);
     const b = 2 * oc.dot(this.dir);
-    const c = oc.dot(oc) - circle.r * circle.r;
+    const c = oc.dot(oc) - obs.size * obs.size;
 
     const discriminant = b * b - 4 * a * c;
     if (discriminant < 0) return null;
