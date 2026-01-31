@@ -31,8 +31,8 @@ class Ray {
     };
   }
 
-  show(len = 1000) {
-    stroke(255, 100);
+  show(len = 300) {
+    stroke(255, 50);
     line(
       this.pos.x,
       this.pos.y,

@@ -75,4 +75,16 @@ class NeuralNetwork {
       }
     }
   }
+
+  mutate(mutationRate){
+    for (const key in this.weights) {
+      for (let r = 0; r < this.weights[key].length; r++){
+        for (let c = 0; c < this.weights[key][r].length; c++){
+          if (random() < mutationRate){
+            this.weights[key][r][c] = random(-1, 1);
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,13 +1,17 @@
 
 class Simulation{
-    constructor(){
+    constructor(populationSize, mutationRate){
         this.obstacles = [];
         this.rockets = [];
-        this.numRockets = 10;
-        this.numObs = 100;
+        this.numRockets = populationSize;
+        this.obsSize = 20;
+        this.numObs = 200;
+        this.mutationRate = mutationRate;
         this.cellSize = 100;
         this.numRows = int(height/this.cellSize) + 1;
         this.numCols = int(width/this.cellSize) + 1;
+        this.maxFrames = 3000;
+        this.goalPos = createVector(width - 200, 200);
         
         this.gridOcc = {};
 
@@ -16,17 +20,69 @@ class Simulation{
             this.gridOcc[i] = {"obstacles" : [], "rockets" : []};
         }
 
-        for (let i = 0; i < this.numObs; i++){
-            let obs = new Food(createVector(random(width), random(height)));
-            // let obs = new Food(createVector(width/2 + 100, height/2));
+        for (let i = 0; i<width/this.obsSize; i ++){
+            let obs = new Food(createVector(i*this.obsSize, 0), this.obsSize);
             let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
-            
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(i*this.obsSize, height), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
             append(this.gridOcc[obsIdx]["obstacles"], obs);
             append(this.obstacles, obs);
         }
 
+        for (let i = 0; i<height/this.obsSize; i ++){
+            let obs = new Food(createVector(0, i*this.obsSize), this.obsSize);
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+        }
+
+        let empty = 5;
+        for (let i = empty; i<height/this.obsSize; i++){
+            let obs = new Food(createVector(width*0.15, i*this.obsSize), this.obsSize);
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+            
+            obs = new Food(createVector(width*0.3, (i-empty)*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.45, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.6, (i-empty)*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.75, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+        }
+
+        // for (let i = 0; i < this.numObs; i++){
+        //     let obs = new Food(createVector(random(width), random(height)));
+        //     // let obs = new Food(createVector(width/2 + 100, height/2));
+        //     let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            
+        //     append(this.gridOcc[obsIdx]["obstacles"], obs);
+        //     append(this.obstacles, obs);
+        // }
+
         for (let i = 0; i < this.numRockets; i++){
-            let rocket = new Rocket(createVector(width/2, height/2));
+            let rocket = new Rocket(createVector(100, height-100), this.goalPos);
             let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
             
             append(this.gridOcc[rocketIdx]["rockets"], rocket);
@@ -34,17 +90,20 @@ class Simulation{
         }
 
         this.t = 0;
+        this.generation = 0;
+        this.fittestYet = 0;
+        this.fittestLastGen = 0;
     }
 
 
     render(){
-        for (let r = 0; r < this.numRows; r++){
-            line(0, r*this.cellSize, width, r*this.cellSize);
+        // for (let r = 0; r < this.numRows; r++){
+        //     line(0, r*this.cellSize, width, r*this.cellSize);
             
-        }
-        for (let c = 0; c < this.numCols; c++){
-            line(c*this.cellSize, 0, c*this.cellSize, height);
-        }
+        // }
+        // for (let c = 0; c < this.numCols; c++){
+        //     line(c*this.cellSize, 0, c*this.cellSize, height);
+        // }
 
 
         stroke(200, 0, 0);
@@ -57,24 +116,43 @@ class Simulation{
             pop();
         }
 
-        for (let rocket of this.rockets){
+        // let i = 0;
+        for (let i = this.rockets.length - 1; i>-1; i--){
+        // for (let rocket of this.rockets){
+            let rocket = this.rockets[i];
             if (rocket.daed) {continue;}
+            if (i == 0){
+                stroke(0, 200, 0);
+            }
+            else{
+                stroke(0, 0, 200);
+            }
+            // i+=1;
             push();
             translate(rocket.pos.x, rocket.pos.y);
             rotate(rocket.heading);
 
             beginShape();
-            vertex(0, rocket.rHeight);
-            vertex(rocket.rWidth/2, 0);
-            vertex(-rocket.rWidth/2, 0);
+            vertex(0, rocket.rHeight/2);
+            vertex(rocket.rWidth/2, -rocket.rHeight/2);
+            vertex(0, 0);
+            vertex(-rocket.rWidth/2, -rocket.rHeight/2);
             endShape(CLOSE);
 
             pop();
 
-            for (let ray of rocket.rays){
-                ray.show();
-            }
+            // for (let ray of rocket.rays){
+            //     ray.show();
+            // }
         }
+
+        stroke(200);
+        text("Generation: " + str(this.generation), 30, 25);
+        text("Fittest Yet: " + str(round(this.fittestYet, 4)), 30, 40);
+        text("Fittest Last Gen.: " + str(round(this.fittestLastGen, 4)), 30, 55);
+        fill(0, 200, 0);
+        circle(this.goalPos.x, this.goalPos.y, 100);
+
     }
 
     getNeighboringObs(rocket){
@@ -115,13 +193,18 @@ class Simulation{
                 for (let obs of currentCellObs){
                     let res = ray.cast(obs);
                     if (res){
-                        fill(200);
-                        circle(res.point.x, res.point.y, 2);
+                        // fill(200);
+                        // circle(res.point.x, res.point.y, 2);
                         rayVal = res.dist/(this.cellSize*2);
                     }
                 }
                 append(raysData, rayVal);
             }
+            append(raysData, rocket.pos.x/width);
+            append(raysData, rocket.pos.y/height);
+            append(raysData, this.goalPos.x/width);
+            append(raysData, this.goalPos.y/height);
+            
             rocket.control(raysData);
             rocket.step(dt);
 
@@ -132,6 +215,10 @@ class Simulation{
                 if (diff.mag() < (obs.size/2 + rocket.rHeight/2)){
                     rocket.dead = true;
                 }
+                if (rocket.pos.x < 0){rocket.dead = true;}
+                else if (rocket.pos.x > width){rocket.dead = true;}
+                if (rocket.pos.y < 0){rocket.dead = true;}
+                else if (rocket.pos.y > height){rocket.dead = true;}
             }
             numAlive += 1;
         }
@@ -149,10 +236,18 @@ class Simulation{
         let fittestRocket;
         let highestFitness = 0;
         for (let rocket of this.rockets){
-            if (rocket.timeAlive>highestFitness){
+            let fitness = rocket.getFitness();
+            if (fitness>highestFitness){
                 fittestRocket = rocket;
-                highestFitness = rocket.timeAlive;
+                highestFitness = fitness;
             }
+        }
+
+        if (highestFitness > this.fittestLastGen){
+            this.fittestLastGen = highestFitness;
+        }
+        if (highestFitness > this.fittestYet){
+            this.fittestYet = highestFitness;
         }
         return fittestRocket;
     }
@@ -163,15 +258,26 @@ class Simulation{
         }
     }
 
+    Mutate(){
+        for (let i = 1; i<this.rockets.length; i++){
+            let mr = this.mutationRate;
+            if (i > this.rockets.length-20){ mr += 0.3; }
+            this.rockets[i].mutate(mr);
+        }
+    }
+
     step(dt){
         let numAlive = this.stepSimulation(dt);
 
-        if (numAlive == 0){
+        if (numAlive == 0 || this.t>this.maxFrames){
             let fittestRocket = this.FindFittestRocket();
             this.CloneFittest(fittestRocket);
+            this.Mutate();
             this.ResetRockets();
+            this.generation += 1;
+            this.t = 0;
         }
         
-        // this.t += dt/10;
+        this.t += 1;
     }
 }
