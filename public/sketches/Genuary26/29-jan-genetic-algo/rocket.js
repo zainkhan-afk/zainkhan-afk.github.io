@@ -20,10 +20,11 @@ class Rocket{
         append(this.rays, new Ray(pos, 0));
         append(this.rays, new Ray(pos, 0));
         append(this.rays, new Ray(pos, 0));
-        this.brain = new NeuralNetwork(13, 2, 1, 15);
+        this.brain = new NeuralNetwork(10, 2, 1, 16);
         this.timeAlive = 0;
         this.deltaRotationSum = 1;
         this.dead = false;
+        this.totalForceApplied = 0;
     }
 
     reset(){
@@ -31,6 +32,7 @@ class Rocket{
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.timeAlive = 0;
+        this.totalForceApplied = 0;
         this.dead = false;
         this.heading = -PI;
         this.prevHeading = -PI;
@@ -38,22 +40,28 @@ class Rocket{
     }
 
     applyForce(f){
+        this.totalForceApplied += abs(f.mag());
         this.acc.add(f);
     }
 
     control(sense){
         sense.push(this.heading);
+        sense.push(1);
         let out = this.brain.feedforward(sense);
-        let angleRotate = map(out[0], 0, 1, -PI/62, PI/62);
-        this.prevHeading = this.heading;
-        this.heading += angleRotate;
-        this.deltaRotationSum += abs(this.heading - this.prevHeading);
+        // let angleRotate = map(out[0], 0, 1, -PI/32, PI/32);
+        // this.prevHeading = this.heading;
+        // this.heading += angleRotate;
+        // this.deltaRotationSum += abs(this.heading - this.prevHeading);
         // this.deltaRotationSum += abs(angleRotate);
-        if (this.heading > TWO_PI){this.heading = 0;}
-        if (this.heading < -TWO_PI){this.heading = 0;}
-        this.propulsion = map(out[1], 0, 1, 2, 10);
-        let fControl = p5.Vector.fromAngle(this.heading + PI/2 , this.propulsion); 
-        this.acc.add(fControl);
+        // if (this.heading > TWO_PI){this.heading = 0;}
+        // if (this.heading < -TWO_PI){this.heading = 0;}
+        let propulsionY = map(out[1], 0, 1, -50, 50);
+        let propulsionX = map(out[0], 0, 1, -50, 50);
+
+        // let fControl = p5.Vector.fromAngle(this.heading + PI/2 , this.propulsion); 
+        let fControl = createVector(propulsionX, -propulsionY); 
+        
+        this.applyForce(fControl);
     }
 
     copyBrain(fittset){
@@ -66,7 +74,9 @@ class Rocket{
 
     getFitness(){
         let goalDist = p5.Vector.sub(this.pos, this.goal).mag();
-        return 10/goalDist;
+        let mult =1;
+        if (this.dead) {mult = 0.2;}
+        return mult*(0.2*this.timeAlive + 0.8*goalDist);
     }
 
     step(dt){
@@ -86,13 +96,24 @@ class Rocket{
         let angle = this.heading+PI/2 - this.fovDiv*3;
         for (let ray of this.rays){
             ray.pos.set(this.pos);
-            ray.dir = p5.Vector.fromAngle(angle);
-            angle += this.fovDiv;
-            if (i == (this.rays.length-1)){
-                ray.dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
-            }
-            i += 1;
+            // ray.dir = p5.Vector.fromAngle(angle);
+            // angle += this.fovDiv;
+            // if (i == (this.rays.length-1)){
+            //     ray.dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
+            // }
+            // i += 1;
         }
+        this.rays[0].dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
+        
+        this.rays[1].dir = p5.Vector.fromAngle(this.heading+this.fovDiv);
+        this.rays[2].dir = p5.Vector.fromAngle(this.heading-this.fovDiv);
+        
+        this.rays[3].dir = p5.Vector.fromAngle(this.heading+PI+this.fovDiv);
+        this.rays[4].dir = p5.Vector.fromAngle(this.heading+PI-this.fovDiv);
+
+        this.rays[5].dir = p5.Vector.fromAngle(this.heading+PI/2-this.fovDiv/2);
+        this.rays[6].dir = p5.Vector.fromAngle(this.heading+PI/2);
+        this.rays[7].dir = p5.Vector.fromAngle(this.heading+PI/2+this.fovDiv/2);
 
         this.timeAlive += 1;
     }
