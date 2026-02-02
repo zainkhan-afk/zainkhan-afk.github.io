@@ -6,8 +6,8 @@ function setup()
 {
   let minDim = min(windowWidth, windowHeight);
   cnv = createCanvas(windowWidth, windowHeight);
-  sim = new Simulation(300, 0.01);
-  frameRate(6000);
+  sim = new Simulation(500, 0.01);
+  // frameRate(6000);
 }
 
 

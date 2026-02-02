@@ -6,6 +6,7 @@ class Rocket{
         this.acc = createVector(0, 0);
         this.rHeight = 20;
         this.rWidth = 10;
+        this.rotationDelta = PI / 32;
         this.heading = -PI;
         this.prevHeading = -PI;
         this.fov = HALF_PI
@@ -20,12 +21,18 @@ class Rocket{
         append(this.rays, new Ray(pos, 0));
         append(this.rays, new Ray(pos, 0));
         append(this.rays, new Ray(pos, 0));
-        this.brain = new NeuralNetwork(10, 2, 1, 16);
+        this.brain = new NeuralNetwork(14, 2, 1, 16);
+        this.genotype = new Genotype();
+
         this.timeAlive = 0;
         this.deltaRotationSum = 1;
         this.velSum = 0;
         this.dead = false;
         this.totalForceApplied = 0;
+    }
+
+    randomize(size){
+        this.genotype.randomize(size);
     }
 
     reset(){
@@ -50,16 +57,32 @@ class Rocket{
         sense.push(this.heading);
         sense.push(1);
         let out = this.brain.feedforward(sense);
-        let angleRotate = map(out[0], 0, 1, -PI/32, PI/32);
-        this.prevHeading = this.heading;
+        let angleRotate = map(out[0], 0, 1, -this.rotationDelta, this.rotationDelta);
+        // this.prevHeading = this.heading;
         this.heading += angleRotate;
-        this.deltaRotationSum += abs(this.heading - this.prevHeading);
-        this.deltaRotationSum += abs(angleRotate);
+        // this.deltaRotationSum += abs(this.heading - this.prevHeading);
+        this.deltaRotationSum += angleRotate;
         if (this.heading > TWO_PI){this.heading = 0;}
         if (this.heading < -TWO_PI){this.heading = 0;}
         // let propulsionY = map(out[1], 0, 1, -50, 50);
         // let propulsionX = map(out[0], 0, 1, -50, 50);
         let propulsion = map(out[1], 0, 1, -50, 50);
+
+        let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
+        // let fControl = createVector(propulsionX, -propulsionY); 
+        
+        this.applyForce(fControl);
+    }
+
+    controleGenotype(){
+        let angleRotate = this.genotype.values[this.timeAlive][0];
+        this.heading += angleRotate;
+        this.deltaRotationSum += angleRotate;
+        
+        if (this.heading > TWO_PI){this.heading = 0;}
+        if (this.heading < -TWO_PI){this.heading = 0;}
+        
+        let propulsion = this.genotype.values[this.timeAlive][1];
 
         let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
         // let fControl = createVector(propulsionX, -propulsionY); 
@@ -75,8 +98,14 @@ class Rocket{
         let goalDist = p5.Vector.sub(this.pos, this.goal).mag();
         goalDist /= Math.sqrt(pow(width, 2) + pow(height, 2));
         let mult = 1;
-        if (this.dead) {mult = 0.8;}
-        return mult*(0.1*this.timeAlive/maxFrames + 0.8*(1 - goalDist) + 0.1*this.timeAlive/maxFrames*this.velSum/(50*maxFrames));
+        if (this.dead) {mult = 0.9;}
+
+        let timeAliveReward = this.timeAlive/maxFrames;
+        let goalDistReward = (1 - goalDist);
+        let velocityReward = this.velSum/(50*maxFrames);
+        let rotationSuppressionReward = (1 - abs(this.deltaRotationSum)/(this.rotationDelta*maxFrames));
+
+        return mult*(0.1*timeAliveReward + 0.7*goalDistReward + 0.15*velocityReward + 0.05*rotationSuppressionReward);
     }
 
     step(dt){

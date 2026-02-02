@@ -48,7 +48,7 @@ class Simulation{
             this.numFixed += 2;
         }
 
-        let empty = 22;
+        let empty = 23;
         for (let i = empty; i<height/this.obsSize; i++){
             let obs = new Food(createVector(width*0.15, i*this.obsSize), this.obsSize);
             let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
@@ -194,25 +194,30 @@ class Simulation{
             // let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
             let currentCellObs = this.getNeighboringObs(rocket);
             
-            let raysData = [];
-            for (let ray of rocket.rays){
-                let rayVal = 2.0;
-                for (let obs of currentCellObs){
-                    let res = ray.cast(obs);
-                    if (res){
-                        // fill(200);
-                        // circle(res.point.x, res.point.y, 2);
-                        rayVal = res.dist/(this.cellSize*2);
-                    }
-                }
-                append(raysData, rayVal);
-            }
-            // append(raysData, rocket.pos.x/width);
-            // append(raysData, rocket.pos.y/height);
-            // append(raysData, this.goalPos.x/width);
-            // append(raysData, this.goalPos.y/height);
+            // if (this.t%2 == 0){
+            //     let raysData = [];
+            //     for (let ray of rocket.rays){
+            //         let rayVal = 2.0;
+            //         for (let obs of currentCellObs){
+            //             let res = ray.cast(obs);
+            //             if (res){
+            //                 // fill(200);
+            //                 // circle(res.point.x, res.point.y, 2);
+            //                 rayVal = res.dist/(this.cellSize*2);
+            //             }
+            //         }
+            //         append(raysData, rayVal);
+            //     }
+            //     append(raysData, rocket.pos.x/width);
+            //     append(raysData, rocket.pos.y/height);
+
+            //     append(raysData, rocket.goal.x/width);
+            //     append(raysData, rocket.goal.y/height);
+
+            //     rocket.control(raysData);
+            // }
+            rocket.controleGenotype();
             
-            rocket.control(raysData);
             rocket.step(dt);
 
             let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
@@ -232,7 +237,7 @@ class Simulation{
 
         return numAlive;
     }
-
+    // Neural Network GA
     ResetRockets(){
         for (let rocket of this.rockets){
             rocket.reset();
@@ -291,14 +296,82 @@ class Simulation{
         }
     }
 
+
+    // Genotype GA
+
+    createChild(p1, p2, splicePt){
+        let newValues = [];
+        for (let i = 0; i < this.maxFrames; i++){
+            if (i<splicePt){append(newValues, p1.genotype.values[i]);}
+            else{append(newValues, p2.genotype.values[i]);}
+        }
+
+        let c = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+        c.setGenotype(newValues);
+        return c;
+    }
+
+    sortByFitness(){
+        let fitnessSortedPop = [];
+        for (let rocket of this.rockets){
+            let fitness = rocket.getFitness(this.maxFrames);
+            append(fitnessSortedPop, [rocket, fitness]);
+        }
+        fitnessSortedPop.sort((a, b) => b[1] - a[1]);
+
+        return fitnessSortedPop;
+    }
+
+    createNewPopulation(fitnessSortedPop){
+        let topTenPercentCount = (fitnessSortedPop.length*0.1);
+        let newPop = [];
+
+        while (newPop.length < this.populationSize){
+            let p1Index = 0;
+            let p2Index = 0;
+
+            while(p1Index == p2Index){
+                p1Index = int(random(topTenPercentCount));
+                p2Index = int(random(topTenPercentCount));
+            }
+
+            let p1 = fitnessSortedPop[p1Index][0];
+            let p2 = fitnessSortedPop[p2Index][0];
+
+            let spliceIndex = int(random(this.populationSize-1));
+
+            let c1 = this.createChild(p1, p2, spliceIndex);
+            let c2 = this.createChild(p2, p1, spliceIndex);
+
+            c1.genotype.mutate(this.mutationRate);
+            c2.genotype.mutate(this.mutationRate);
+
+            append(newPop, c1);
+            append(newPop, c2);
+        }
+
+        return newPop;
+    }
+
+
     step(dt){
         let numAlive = this.stepSimulation(dt);
 
         if (numAlive == 0 || this.t>this.maxFrames){
-            let fittestRocket = this.FindFittestRocket();
-            this.CloneFittest(fittestRocket);
-            this.Mutate();
-            this.ResetRockets();
+            // NN Rockets
+            // let fittestRocket = this.FindFittestRocket();
+            // this.CloneFittest(fittestRocket);
+            // this.Mutate();
+            // this.ResetRockets();
+
+            // Genotype Rockets
+            let fitnessSortedPopulation = this.sortByFitness();
+            let newPopulation = this.createNewPopulation(fitnessSortedPopulation);
+            this.rockets = [];
+            for (let i = 0; i < newPopulation.length; i++){
+                this.rockets[i] = newPopulation[i];
+            }
+            
             // this.RandomiseObstacles();
             this.generation += 1;
             this.t = 0;
