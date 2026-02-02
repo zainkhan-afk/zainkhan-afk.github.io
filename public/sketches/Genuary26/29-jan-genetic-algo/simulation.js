@@ -15,6 +15,8 @@ class Simulation{
         
         this.gridOcc = {};
 
+        this.numFixed = 0;
+
         
         for (let i = 0; i < this.numCols*this.numRows; i++){
             this.gridOcc[i] = {"obstacles" : [], "rockets" : []};
@@ -30,6 +32,7 @@ class Simulation{
             obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
             append(this.gridOcc[obsIdx]["obstacles"], obs);
             append(this.obstacles, obs);
+            this.numFixed += 2;
         }
 
         for (let i = 0; i<height/this.obsSize; i ++){
@@ -42,6 +45,7 @@ class Simulation{
             obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
             append(this.gridOcc[obsIdx]["obstacles"], obs);
             append(this.obstacles, obs);
+            this.numFixed += 2;
         }
 
         let empty = 22;
@@ -70,19 +74,20 @@ class Simulation{
             obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
             append(this.gridOcc[obsIdx]["obstacles"], obs);
             append(this.obstacles, obs);
+            this.numFixed += 5;
         }
 
-        for (let i = 0; i < this.numObs; i++){
-            let obs = new Food(createVector(random(width), random(height)), this.obsSize);
-            while (obs.pos.x < this.cellSize*2 && obs.pos.y > this.height - this.cellSize*2){
-                obs.pos = createVector(random(width), random(height));
-            }
-            // let obs = new Food(createVector(width/2 + 100, height/2));
-            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+        // for (let i = 0; i < this.numObs; i++){
+        //     let obs = new Food(createVector(random(width), random(height)), this.obsSize);
+        //     while (obs.pos.x < this.cellSize*2 && obs.pos.y > this.height - this.cellSize*2){
+        //         obs.pos = createVector(random(width), random(height));
+        //     }
+        //     // let obs = new Food(createVector(width/2 + 100, height/2));
+        //     let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
             
-            append(this.gridOcc[obsIdx]["obstacles"], obs);
-            append(this.obstacles, obs);
-        }
+        //     append(this.gridOcc[obsIdx]["obstacles"], obs);
+        //     append(this.obstacles, obs);
+        // }
 
         for (let i = 0; i < this.numRockets; i++){
             let rocket = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
@@ -238,9 +243,9 @@ class Simulation{
         let fittestRocket;
         let highestFitness = 0;
         for (let rocket of this.rockets){
-            let fitness = rocket.getFitness();
-            let f = int(rocket.pos.x/this.cellSize)*this.numRows+int(rocket.pos.y/this.cellSize)
-            fitness *= f;
+            let fitness = rocket.getFitness(this.maxFrames);
+            // let f = int(rocket.pos.x/this.cellSize)*this.numRows+int(rocket.pos.y/this.cellSize)
+            // fitness *= f;
             if (fitness>highestFitness){
                 fittestRocket = rocket;
                 highestFitness = fitness;

@@ -48,18 +48,19 @@ class Rocket{
         sense.push(this.heading);
         sense.push(1);
         let out = this.brain.feedforward(sense);
-        // let angleRotate = map(out[0], 0, 1, -PI/32, PI/32);
-        // this.prevHeading = this.heading;
-        // this.heading += angleRotate;
-        // this.deltaRotationSum += abs(this.heading - this.prevHeading);
-        // this.deltaRotationSum += abs(angleRotate);
-        // if (this.heading > TWO_PI){this.heading = 0;}
-        // if (this.heading < -TWO_PI){this.heading = 0;}
-        let propulsionY = map(out[1], 0, 1, -50, 50);
-        let propulsionX = map(out[0], 0, 1, -50, 50);
+        let angleRotate = map(out[0], 0, 1, -PI/32, PI/32);
+        this.prevHeading = this.heading;
+        this.heading += angleRotate;
+        this.deltaRotationSum += abs(this.heading - this.prevHeading);
+        this.deltaRotationSum += abs(angleRotate);
+        if (this.heading > TWO_PI){this.heading = 0;}
+        if (this.heading < -TWO_PI){this.heading = 0;}
+        // let propulsionY = map(out[1], 0, 1, -50, 50);
+        // let propulsionX = map(out[0], 0, 1, -50, 50);
+        let propulsion = map(out[1], 0, 1, -50, 50);
 
-        // let fControl = p5.Vector.fromAngle(this.heading + PI/2 , this.propulsion); 
-        let fControl = createVector(propulsionX, -propulsionY); 
+        let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
+        // let fControl = createVector(propulsionX, -propulsionY); 
         
         this.applyForce(fControl);
     }
@@ -72,11 +73,12 @@ class Rocket{
         this.brain.mutate(mutationRate);   
     }
 
-    getFitness(){
+    getFitness(maxFrames){
         let goalDist = p5.Vector.sub(this.pos, this.goal).mag();
-        let mult =1;
-        if (this.dead) {mult = 0.2;}
-        return mult*(0.2*this.timeAlive + 0.8*goalDist);
+        goalDist /= Math.sqrt(pow(width, 2) + pow(height, 2));
+        let mult = 1;
+        if (this.dead) {mult = 0.8;}
+        return mult*(0.2*this.timeAlive/maxFrames + 0.8*(1 - goalDist));
     }
 
     step(dt){
