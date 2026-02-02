@@ -10,7 +10,7 @@ class Simulation{
         this.cellSize = 100;
         this.numRows = int(height/this.cellSize) + 1;
         this.numCols = int(width/this.cellSize) + 1;
-        this.maxFrames = 3000;
+        this.maxFrames = 1500;
         this.goalPos = createVector(width - 200, 200);
         
         this.gridOcc = {};
@@ -270,8 +270,14 @@ class Simulation{
     Mutate(){
         for (let i = 1; i<this.rockets.length; i++){
             let mr = this.mutationRate;
-            if (i > this.rockets.length-20){ mr += 0.8; }
-            this.rockets[i].mutate(mr);
+            if (i > this.rockets.length*0.6 && i < this.rockets.length*0.8){ mr += 0.3; }
+            else if (i >= this.rockets.length*0.8){ mr += 0.9; }
+
+            if (i <= this.rockets.length*0.8){
+                this.rockets[i].brain.mutateDelta(mr);
+            }else{
+                this.rockets[i].brain.mutateComplete(mr);
+            }
         }
     }
 

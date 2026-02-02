@@ -23,6 +23,7 @@ class Rocket{
         this.brain = new NeuralNetwork(10, 2, 1, 16);
         this.timeAlive = 0;
         this.deltaRotationSum = 1;
+        this.velSum = 0;
         this.dead = false;
         this.totalForceApplied = 0;
     }
@@ -31,6 +32,7 @@ class Rocket{
         this.pos = this.initPos.copy();
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
+        this.velSum = 0;
         this.timeAlive = 0;
         this.totalForceApplied = 0;
         this.dead = false;
@@ -69,21 +71,18 @@ class Rocket{
         this.brain.copyNN(fittset.brain);
     }
 
-    mutate(mutationRate){
-        this.brain.mutate(mutationRate);   
-    }
-
     getFitness(maxFrames){
         let goalDist = p5.Vector.sub(this.pos, this.goal).mag();
         goalDist /= Math.sqrt(pow(width, 2) + pow(height, 2));
         let mult = 1;
         if (this.dead) {mult = 0.8;}
-        return mult*(0.2*this.timeAlive/maxFrames + 0.8*(1 - goalDist));
+        return mult*(0.1*this.timeAlive/maxFrames + 0.8*(1 - goalDist) + 0.1*this.timeAlive/maxFrames*this.velSum/(50*maxFrames));
     }
 
     step(dt){
         this.vel.add(p5.Vector.mult(this.acc, dt));
         this.vel.limit(50);
+        this.velSum += this.vel.mag();
         this.pos.add(p5.Vector.mult(this.vel, dt));
         // this.heading = this.vel.heading() - PI/2 ;
         this.acc.set(0);
