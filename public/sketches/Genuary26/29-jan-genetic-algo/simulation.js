@@ -10,7 +10,7 @@ class Simulation{
         this.cellSize = 100;
         this.numRows = int(height/this.cellSize) + 1;
         this.numCols = int(width/this.cellSize) + 1;
-        this.maxFrames = 1500;
+        this.maxFrames = 3000;
         this.goalPos = createVector(width - 200, 200);
         
         this.gridOcc = {};
@@ -48,7 +48,7 @@ class Simulation{
             this.numFixed += 2;
         }
 
-        let empty = 23;
+        let empty = 18;
         for (let i = empty; i<height/this.obsSize; i++){
             let obs = new Food(createVector(width*0.15, i*this.obsSize), this.obsSize);
             let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
@@ -91,6 +91,7 @@ class Simulation{
 
         for (let i = 0; i < this.numRockets; i++){
             let rocket = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+            rocket.randomize(this.maxFrames);
             let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
             
             append(this.gridOcc[rocketIdx]["rockets"], rocket);
@@ -105,13 +106,13 @@ class Simulation{
 
 
     render(){
-        for (let r = 0; r < this.numRows; r++){
-            line(0, r*this.cellSize, width, r*this.cellSize);
+        // for (let r = 0; r < this.numRows; r++){
+        //     line(0, r*this.cellSize, width, r*this.cellSize);
             
-        }
-        for (let c = 0; c < this.numCols; c++){
-            line(c*this.cellSize, 0, c*this.cellSize, height);
-        }
+        // }
+        // for (let c = 0; c < this.numCols; c++){
+        //     line(c*this.cellSize, 0, c*this.cellSize, height);
+        // }
         
         stroke(200, 0, 0);
         noFill();
@@ -158,7 +159,8 @@ class Simulation{
         text("Fittest Yet: " + str(round(this.fittestYet, 4)), 30, 40);
         text("Fittest Last Gen.: " + str(round(this.fittestLastGen, 4)), 30, 55);
         fill(0, 200, 0);
-        circle(this.goalPos.x, this.goalPos.y, 100);
+        noStroke();
+        circle(this.goalPos.x, this.goalPos.y, 50);
 
     }
 
@@ -189,10 +191,10 @@ class Simulation{
 
 
         for (let rocket of this.rockets){
-            if (rocket.dead) {continue;}
+            if (rocket.dead || rocket.reachedGoal) {continue;}
             // rocket.control([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]);
             // let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
-            let currentCellObs = this.getNeighboringObs(rocket);
+            // let currentCellObs = this.getNeighboringObs(rocket);
             
             // if (this.t%2 == 0){
             //     let raysData = [];
@@ -222,16 +224,21 @@ class Simulation{
 
             let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
             append(this.gridOcc[rocketIdx]["rockets"], rocket);
-            for (let obs of currentCellObs){
+            for (let obs of this.gridOcc[rocketIdx]["obstacles"]){
                 let diff = p5.Vector.sub(rocket.pos, obs.pos);
                 if (diff.mag() < (obs.size/2 + rocket.rHeight/2)){
                     rocket.dead = true;
                 }
-                if (rocket.pos.x < 0){rocket.dead = true;}
-                else if (rocket.pos.x > width){rocket.dead = true;}
-                if (rocket.pos.y < 0){rocket.dead = true;}
-                else if (rocket.pos.y > height){rocket.dead = true;}
+                // if (rocket.pos.x < 0){rocket.dead = true;}
+                // else if (rocket.pos.x > width){rocket.dead = true;}
+                // if (rocket.pos.y < 0){rocket.dead = true;}
+                // else if (rocket.pos.y > height){rocket.dead = true;}
             }
+
+            if (p5.Vector.sub(rocket.pos, rocket.goal).mag() < 25){
+                rocket.reachedGoal = true;
+            }
+
             numAlive += 1;
         }
 
@@ -307,30 +314,48 @@ class Simulation{
         }
 
         let c = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
-        c.setGenotype(newValues);
+        c.genotype.assignValues(newValues);
         return c;
     }
 
-    sortByFitness(){
+    sortByFitness(){        
+        let highestFitness = 0;
+
         let fitnessSortedPop = [];
         for (let rocket of this.rockets){
             let fitness = rocket.getFitness(this.maxFrames);
+            if (fitness>highestFitness){
+                highestFitness = fitness;
+            }
             append(fitnessSortedPop, [rocket, fitness]);
         }
         fitnessSortedPop.sort((a, b) => b[1] - a[1]);
+
+        if (highestFitness > this.fittestLastGen){
+            this.fittestLastGen = highestFitness;
+        }
+        if (highestFitness > this.fittestYet){
+            this.fittestYet = highestFitness;
+        }
 
         return fitnessSortedPop;
     }
 
     createNewPopulation(fitnessSortedPop){
+        // console.log("Creating new population now");
         let topTenPercentCount = (fitnessSortedPop.length*0.1);
         let newPop = [];
-
-        while (newPop.length < this.populationSize){
+        
+        let mrInc = 0;
+        let idx = 0;
+        while (newPop.length < this.numRockets){
             let p1Index = 0;
             let p2Index = 0;
 
-            while(p1Index == p2Index){
+            p1Index = int(random(topTenPercentCount));
+            p2Index = int(random(topTenPercentCount));
+
+            if (p1Index == p2Index){
                 p1Index = int(random(topTenPercentCount));
                 p2Index = int(random(topTenPercentCount));
             }
@@ -338,16 +363,20 @@ class Simulation{
             let p1 = fitnessSortedPop[p1Index][0];
             let p2 = fitnessSortedPop[p2Index][0];
 
-            let spliceIndex = int(random(this.populationSize-1));
+            let spliceIndex = int(random(this.numRockets-1));
 
             let c1 = this.createChild(p1, p2, spliceIndex);
             let c2 = this.createChild(p2, p1, spliceIndex);
-
-            c1.genotype.mutate(this.mutationRate);
-            c2.genotype.mutate(this.mutationRate);
+            
+            if (idx > this.numRockets*0.6){
+                mrInc = 0.4;
+            }
+            c1.genotype.mutate(this.mutationRate + mrInc);
+            c2.genotype.mutate(this.mutationRate + mrInc);
 
             append(newPop, c1);
             append(newPop, c2);
+            idx += 2;
         }
 
         return newPop;
@@ -356,8 +385,9 @@ class Simulation{
 
     step(dt){
         let numAlive = this.stepSimulation(dt);
+        this.t += 1;
 
-        if (numAlive == 0 || this.t>this.maxFrames){
+        if (numAlive == 0 || this.t>=this.maxFrames){
             // NN Rockets
             // let fittestRocket = this.FindFittestRocket();
             // this.CloneFittest(fittestRocket);
@@ -376,7 +406,5 @@ class Simulation{
             this.generation += 1;
             this.t = 0;
         }
-        
-        this.t += 1;
     }
 }

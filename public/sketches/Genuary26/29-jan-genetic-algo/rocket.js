@@ -13,21 +13,24 @@ class Rocket{
         this.fovDiv = this.fov/7;
         this.rays = [];
         this.goal = goal;
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        append(this.rays, new Ray(pos, 0));
-        this.brain = new NeuralNetwork(14, 2, 1, 16);
-        this.genotype = new Genotype();
+
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        // append(this.rays, new Ray(pos, 0));
+        
+        // this.brain = new NeuralNetwork(14, 1, 0, 16);
+        this.genotype = new Genotype(50, PI/32);
 
         this.timeAlive = 0;
         this.deltaRotationSum = 1;
         this.velSum = 0;
         this.dead = false;
+        this.reachedGoal = false;
         this.totalForceApplied = 0;
     }
 
@@ -43,6 +46,7 @@ class Rocket{
         this.timeAlive = 0;
         this.totalForceApplied = 0;
         this.dead = false;
+        this.reachedGoal = false;
         this.heading = -PI;
         this.prevHeading = -PI;
         this.deltaRotationSum = 1;
@@ -66,7 +70,7 @@ class Rocket{
         if (this.heading < -TWO_PI){this.heading = 0;}
         // let propulsionY = map(out[1], 0, 1, -50, 50);
         // let propulsionX = map(out[0], 0, 1, -50, 50);
-        let propulsion = map(out[1], 0, 1, -50, 50);
+        let propulsion = 50;//map(out[1], 0, 1, -50, 50);
 
         let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
         // let fControl = createVector(propulsionX, -propulsionY); 
@@ -75,17 +79,18 @@ class Rocket{
     }
 
     controleGenotype(){
-        let angleRotate = this.genotype.values[this.timeAlive][0];
+        let angleRotate = this.genotype.values[this.timeAlive][1];
         this.heading += angleRotate;
         this.deltaRotationSum += angleRotate;
         
         if (this.heading > TWO_PI){this.heading = 0;}
         if (this.heading < -TWO_PI){this.heading = 0;}
         
-        let propulsion = this.genotype.values[this.timeAlive][1];
-
+        let propulsion = this.genotype.values[this.timeAlive][0];
+        
         let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
         // let fControl = createVector(propulsionX, -propulsionY); 
+        console.log("fControl", fControl);
         
         this.applyForce(fControl);
     }
@@ -99,13 +104,15 @@ class Rocket{
         goalDist /= Math.sqrt(pow(width, 2) + pow(height, 2));
         let mult = 1;
         if (this.dead) {mult = 0.9;}
+        let goalBonus = 0;
+        if (this.reachedGoal) { goalBonus = 10; }
 
         let timeAliveReward = this.timeAlive/maxFrames;
         let goalDistReward = (1 - goalDist);
         let velocityReward = this.velSum/(50*maxFrames);
         let rotationSuppressionReward = (1 - abs(this.deltaRotationSum)/(this.rotationDelta*maxFrames));
 
-        return mult*(0.1*timeAliveReward + 0.7*goalDistReward + 0.15*velocityReward + 0.05*rotationSuppressionReward);
+        return mult*(0.1*timeAliveReward + 0.7*goalDistReward + 0.15*velocityReward + 0.05*rotationSuppressionReward) + goalBonus;
     }
 
     step(dt){
@@ -113,7 +120,6 @@ class Rocket{
         this.vel.limit(50);
         this.velSum += this.vel.mag();
         this.pos.add(p5.Vector.mult(this.vel, dt));
-        // this.heading = this.vel.heading() - PI/2 ;
         this.acc.set(0);
 
         // if (this.pos.x < 0){this.pos.x = width - 1;}
@@ -122,28 +128,22 @@ class Rocket{
         // else if (this.pos.y > height){this.pos.y = 1;}
 
         
-        let i = 0;
-        let angle = this.heading+PI/2 - this.fovDiv*3;
-        for (let ray of this.rays){
-            ray.pos.set(this.pos);
-            // ray.dir = p5.Vector.fromAngle(angle);
-            // angle += this.fovDiv;
-            // if (i == (this.rays.length-1)){
-            //     ray.dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
-            // }
-            // i += 1;
-        }
-        this.rays[0].dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
+        // let i = 0;
+        // let angle = this.heading+PI/2 - this.fovDiv*3;
+        // for (let ray of this.rays){
+        //     ray.pos.set(this.pos);
+        // }
+        // this.rays[0].dir = p5.Vector.fromAngle(this.heading+PI/2+PI);
         
-        this.rays[1].dir = p5.Vector.fromAngle(this.heading+this.fovDiv);
-        this.rays[2].dir = p5.Vector.fromAngle(this.heading-this.fovDiv);
+        // this.rays[1].dir = p5.Vector.fromAngle(this.heading+this.fovDiv);
+        // this.rays[2].dir = p5.Vector.fromAngle(this.heading-this.fovDiv);
         
-        this.rays[3].dir = p5.Vector.fromAngle(this.heading+PI+this.fovDiv);
-        this.rays[4].dir = p5.Vector.fromAngle(this.heading+PI-this.fovDiv);
+        // this.rays[3].dir = p5.Vector.fromAngle(this.heading+PI+this.fovDiv);
+        // this.rays[4].dir = p5.Vector.fromAngle(this.heading+PI-this.fovDiv);
 
-        this.rays[5].dir = p5.Vector.fromAngle(this.heading+PI/2-this.fovDiv/2);
-        this.rays[6].dir = p5.Vector.fromAngle(this.heading+PI/2);
-        this.rays[7].dir = p5.Vector.fromAngle(this.heading+PI/2+this.fovDiv/2);
+        // this.rays[5].dir = p5.Vector.fromAngle(this.heading+PI/2-this.fovDiv/2);
+        // this.rays[6].dir = p5.Vector.fromAngle(this.heading+PI/2);
+        // this.rays[7].dir = p5.Vector.fromAngle(this.heading+PI/2+this.fovDiv/2);
 
         this.timeAlive += 1;
     }
