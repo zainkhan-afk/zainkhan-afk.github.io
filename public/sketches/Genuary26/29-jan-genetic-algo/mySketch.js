@@ -1,13 +1,13 @@
 let cnv;
 let sim;
-let dt = 0.05;
+let dt = 0.1;
 
 function setup() 
 {
   let minDim = min(windowWidth, windowHeight);
   cnv = createCanvas(windowWidth, windowHeight);
-  sim = new Simulation(300, 0.1);
-  // frameRate(6000);
+  sim = new Simulation(700, 0.01);
+  frameRate(30);
 }
 
 
@@ -23,6 +23,6 @@ function draw()
 function keyPressed() {
   if (key === 's') {
     // saveCanvas(cnv, '21-jan.jpg');
-    saveGif("Gen29", 20);
+    saveGif("GenGA", 20);
   }
 }

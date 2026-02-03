@@ -20,15 +20,15 @@ class Genotype{
     }
 
     mutate(rate){
-        // if (random() < rate){
-        //     let mutateIdx = int(random(this.values.length-1));
-        //     this.values[mutateIdx] = [this.maxVel, random(-this.maxTurn, this.maxTurn)];
-        // }
-        for (let i = 0; i < this.values.length; i++){
-            if (random() < rate){
-                // this.values[i] = [random(-this.maxVel, this.maxVel), random(-this.maxTurn, this.maxTurn)];
-                this.values[i] = [this.maxVel, random(-this.maxTurn, this.maxTurn)];
-            }
+        for (let i = 0; i<rate*this.values.length; i++){
+            let mutateIdx = int(random(this.values.length-1));
+            this.values[mutateIdx] = [this.maxVel, random(-this.maxTurn, this.maxTurn)];
         }
+        // for (let i = 0; i < this.values.length; i++){
+        //     if (random() < rate){
+        //         // this.values[i] = [random(-this.maxVel, this.maxVel), random(-this.maxTurn, this.maxTurn)];
+        //         this.values[i] = [this.maxVel, random(-this.maxTurn, this.maxTurn)];
+        //     }
+        // }
     }
 }

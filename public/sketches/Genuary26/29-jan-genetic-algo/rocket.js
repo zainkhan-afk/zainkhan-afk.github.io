@@ -90,7 +90,7 @@ class Rocket{
         
         let fControl = p5.Vector.fromAngle(this.heading + PI/2 , propulsion); 
         // let fControl = createVector(propulsionX, -propulsionY); 
-        console.log("fControl", fControl);
+        // console.log("fControl", fControl);
         
         this.applyForce(fControl);
     }

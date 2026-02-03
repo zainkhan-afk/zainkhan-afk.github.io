@@ -48,7 +48,7 @@ class Simulation{
             this.numFixed += 2;
         }
 
-        let empty = 18;
+        let empty = 21;
         for (let i = empty; i<height/this.obsSize; i++){
             let obs = new Food(createVector(width*0.15, i*this.obsSize), this.obsSize);
             let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
@@ -101,6 +101,8 @@ class Simulation{
         this.t = 0;
         this.generation = 0;
         this.fittestYet = 0;
+        this.lastFittestYet = 0;
+        this.fitnessPlateuCount = 0;
         this.fittestLastGen = 0;
     }
 
@@ -267,9 +269,12 @@ class Simulation{
         if (highestFitness > this.fittestLastGen){
             this.fittestLastGen = highestFitness;
         }
+        
         if (highestFitness > this.fittestYet){
             this.fittestYet = highestFitness;
         }
+
+
         return fittestRocket;
     }
 
@@ -320,6 +325,7 @@ class Simulation{
 
     sortByFitness(){        
         let highestFitness = 0;
+        this.fittestLastGen = 0;
 
         let fitnessSortedPop = [];
         for (let rocket of this.rockets){
@@ -331,34 +337,62 @@ class Simulation{
         }
         fitnessSortedPop.sort((a, b) => b[1] - a[1]);
 
-        if (highestFitness > this.fittestLastGen){
-            this.fittestLastGen = highestFitness;
-        }
+        this.fittestLastGen = highestFitness;
+        this.lastFittestYet = this.fittestYet;
+
         if (highestFitness > this.fittestYet){
             this.fittestYet = highestFitness;
+            this.fitnessPlateuCount = 0;
+        }
+        if ((this.fittestYet - this.lastFittestYet) < 0.0001){
+            this.fitnessPlateuCount += 1;
         }
 
         return fitnessSortedPop;
     }
 
+
+    sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum){
+        let r = random();
+
+        let cumFit = 0;
+        for (let i = 0; i < topTenPercentCount; i++){
+            cumFit += fitnessSortedPop[i][1];
+            // console.log(i, " cumFit ->", cumFit/topTenFitnessSum, "| r ->", r);
+            if (r < cumFit/topTenFitnessSum){
+                if (i == 0) { return i; }
+                return i - 1;
+            }
+        }
+    }
+
     createNewPopulation(fitnessSortedPop){
         // console.log("Creating new population now");
         let topTenPercentCount = (fitnessSortedPop.length*0.1);
-        let newPop = [];
+
+        let topTenFitnessSum = 0;
+        for (let i = 0; i< topTenPercentCount; i++){
+            topTenFitnessSum += fitnessSortedPop[i][1];
+        }
+        
+        let c = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+        c.genotype.assignValues(fitnessSortedPop[0][0].genotype.values);
+        
+        let newPop = [c];
         
         let mrInc = 0;
-        let idx = 0;
+        let idx = 1;
         while (newPop.length < this.numRockets){
-            let p1Index = 0;
-            let p2Index = 0;
 
-            p1Index = int(random(topTenPercentCount));
-            p2Index = int(random(topTenPercentCount));
+            let p1Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+            let p2Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
 
             if (p1Index == p2Index){
-                p1Index = int(random(topTenPercentCount));
-                p2Index = int(random(topTenPercentCount));
+                p1Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+                p2Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
             }
+
+            // console.log(p1Index, p2Index);
 
             let p1 = fitnessSortedPop[p1Index][0];
             let p2 = fitnessSortedPop[p2Index][0];
@@ -368,8 +402,10 @@ class Simulation{
             let c1 = this.createChild(p1, p2, spliceIndex);
             let c2 = this.createChild(p2, p1, spliceIndex);
             
-            if (idx > this.numRockets*0.6){
-                mrInc = 0.4;
+            
+            if (idx > this.numRockets*0.6 && this.fitnessPlateuCount > 3){
+                mrInc = this.fitnessPlateuCount/10;
+                console.log("MR INC", mrInc);
             }
             c1.genotype.mutate(this.mutationRate + mrInc);
             c2.genotype.mutate(this.mutationRate + mrInc);
