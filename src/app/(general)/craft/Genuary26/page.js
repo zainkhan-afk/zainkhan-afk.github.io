@@ -12,10 +12,14 @@ export default function Genuary26() {
     <>
       <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">Genuary 26</h1>
 
-      <div className="w-full max-w-2xl">
-        {/* Contact Form */}
+      <div className="flex flex-1 w-full h-full max-w-6xl bg-blue-700">
+        <div className="flex flex-1 flex-col h-full bg-red-700">
+          <h3>ToC</h3>
+        </div>
+        <div className="flex flex-2 flex-row h-full bg-green-700">
+          <h3>Content</h3>
+        </div>
       </div>
-    {/* </div> */}
     </>
   );
 }
