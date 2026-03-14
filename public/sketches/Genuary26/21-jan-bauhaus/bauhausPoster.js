@@ -20,15 +20,15 @@ class BauhausPoster{
     }
 
     RenderConcentricHexagons(){
-        noStroke();
-        push();
-        translate(width/2, height/2);
         for(let i = 5; i > 0; i--){
+            push();
+            translate(width/2, height/2 - i*20);
             let r = this.orange.levels[0];
             let g = this.orange.levels[1];
             let b = this.orange.levels[2];
             let a = this.orange.levels[3];
             fill(r, g, b, a - i*30);
+            stroke(0, i*30);
             beginShape();
             for (let j = 0; j < 6; j++){
                 let x = 50*i*cos(j*TWO_PI/6);
@@ -36,7 +36,10 @@ class BauhausPoster{
                 vertex(x, y);
             }
             endShape(CLOSE);
+            pop();
         }
+
+
 
         // fill(180);
         // beginShape();
@@ -47,7 +50,6 @@ class BauhausPoster{
         // }
         // endShape(CLOSE);
 
-        pop();
     }
 
     RenderLines(){
@@ -98,7 +100,7 @@ class BauhausPoster{
     Render(){
         // this.RenderConcentricCirlces();
         this.RenderConcentricHexagons();
-        this.RenderLines();
+        // this.RenderLines();
         this.RenderMan();
     }
 }
