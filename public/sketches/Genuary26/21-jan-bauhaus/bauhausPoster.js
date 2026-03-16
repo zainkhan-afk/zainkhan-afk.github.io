@@ -16,7 +16,7 @@ class BauhausPoster{
         push();
         // rotate(PI/60);
         noFill();
-        strokeWeight(2);
+        strokeWeight(0.5);
         // for (let y = -100; y < height+100; y+=5){
         // console.log(height, int(height/2), height%5);
         // for (let y = int((height-height%10)/2); y < height+100; y+=5){
