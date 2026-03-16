@@ -25,11 +25,11 @@ class BauhausPoster{
                 stroke(this.blue);
             }
             else if (y%5 == 0){
-                stroke(this.orange);
+                stroke(this.black);
             }
             beginShape();
             for (let x = 0; x < width*1.5; x+=1){
-                let n = map(noise(x/width*30, y/height*5), 0, 1, -1, 1)*20;
+                let n = map(noise(x/width*10, y/height*12), 0, 1, -1, 1)*20;
                 // let n = noise(x+y);
                 vertex(x, y+n);
             }
@@ -45,7 +45,7 @@ class BauhausPoster{
         translate(width/2, height/2);
         rotate(PI/this.polygonSides);
 
-        fill(200, 210, 200);
+        fill(200, 210, 200, 220);
         beginShape();
         for (let j = 0; j < this.polygonSides; j++){
             let x = (this.ringConstantSize + this.ringSizeDiff*(this.numRings))*cos(j*TWO_PI/this.polygonSides);
@@ -65,7 +65,7 @@ class BauhausPoster{
             let b = this.orange.levels[2];
             let a = this.orange.levels[3];
             fill(r, g, b, a-(i+1)*40);
-            stroke(0, i*30);
+            // stroke(0, i*30);
             // circle(0, 0, i*2*50);
             beginShape();
             for (let j = 0; j < this.polygonSides; j++){
@@ -91,7 +91,7 @@ class BauhausPoster{
                 let y1 = (this.ringConstantSize + this.ringSizeDiff*i)*sin(j*TWO_PI/this.polygonSides);
                 let x2 = (this.ringConstantSize + this.ringSizeDiff*(i-1))*cos(j*TWO_PI/this.polygonSides);
                 let y2 = (this.ringConstantSize + this.ringSizeDiff*(i-1))*sin(j*TWO_PI/this.polygonSides) + this.ringYOffset;
-                line(x1, y1, x2, y2);
+                // line(x1, y1, x2, y2);
             }
             pop();
         }
@@ -118,6 +118,9 @@ class BauhausPoster{
         noStroke();
         fill(240, 240, 200)
         rect(0, height - h, width, h);
+        rect(0, 0, h/2, height);
+        rect(width-h/2, 0, width, height);
+        rect(0, 0, width, h/2);
 
         stroke(0);
         fill(this.black);
@@ -131,6 +134,5 @@ class BauhausPoster{
         this.RenderConcentricHexagons();
         this.RenderSquiglyLines(int((height-height%10)/2));
         this.RenderFont();
-
     }
 }
