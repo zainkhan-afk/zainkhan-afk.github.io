@@ -1,81 +1,80 @@
-import React from "react";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+import { Github, Mail, Linkedin, Twitter } from "lucide-react";
 
 export const metadata = {
   title: "Contact | Zain Khan",
-  description: "Reach out if you want to collaborate.",
+  description: "Get in touch.",
 };
+
+const LINKS = [
+  {
+    icon: Github,
+    label: "GitHub",
+    href: "https://github.com/zainkhan-afk",
+    sub: "@zainkhan-afk",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    href: "mailto:zain.9496@gmail.com",
+    sub: "zain.9496@gmail.com",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/zainullah-k",
+    sub: "linkedin.com/in/zainullah-k",
+  },
+  {
+    icon: Twitter,
+    label: "Twitter / X",
+    href: "https://twitter.com",
+    sub: "@zainkhan",
+  },
+];
 
 export default function Contact() {
   return (
-    // <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
-    <>
-      <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">Contact Me</h1>
-
-      <div className="w-full max-w-2xl">
-        {/* Contact Form */}
-        <form
-          action="mailto:zain.9496@gmail.com"
-          method="POST"
-          className="flex flex-col gap-4"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            className="px-4 py-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-pink-400"
-            required
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            className="px-4 py-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-pink-400"
-            required
-          />
-
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="6"
-            className="px-4 py-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-pink-400"
-            required
-          ></textarea>
-
-          <button
-            type="submit"
-            className="bg-pink-400 text-gray-900 font-semibold px-6 py-3 rounded-xl hover:bg-pink-500 transition-colors duration-300"
+    <div className="max-w-2xl w-full mx-auto px-4 sm:px-6 py-16 text-center">
+      <h1
+        className="font-serif text-4xl sm:text-5xl font-bold mb-4"
+        style={{ color: "var(--text-primary)" }}
+      >
+        Get in touch
+      </h1>
+      <p
+        className="font-serif italic mb-14"
+        style={{ color: "var(--text-secondary)" }}
+      >
+        I'm always open to new projects, collaborations, or just a good conversation.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+        {LINKS.map(({ icon: Icon, label, href, sub }) => (
+          <Link
+            key={label}
+            href={href}
+            target={href.startsWith("mailto") ? "_self" : "_blank"}
+            className="flex items-center gap-4 p-5 rounded-xl transition-colors"
+            style={{
+              background: "var(--bg-secondary)",
+              border: "1px solid var(--border)",
+            }}
           >
-            Send Message
-          </button>
-        </form>
-
-        {/* Alternative Contact */}
-        <div className="mt-12 text-center text-gray-400">
-          <p>Or reach me directly at:</p>
-          <a
-            href="mailto:zain.9496@gmail.com"
-            className="text-pink-400 hover:underline"
-          >
-            zain.9496@example.com
-          </a>
-
-          <div className="mt-4 flex justify-center gap-6">
-             <Link href="https://github.com/zainkhan-afk" target="_blank" className="hover:text-blue-400">
-              <FaGithub size={24} />
-            </Link>
-            <Link href="https://www.linkedin.com/in/zainullah-k" target="_blank" className="hover:text-blue-400">
-              <FaLinkedin size={24} />
-            </Link>
-            <Link href="https://twitter.com" target="_blank" className="hover:text-blue-400">
-              <FaTwitter size={24} />
-            </Link>
-          </div>
-        </div>
+            <Icon size={22} style={{ color: "var(--accent)", flexShrink: 0 }} />
+            <div>
+              <p
+                className="font-serif font-semibold"
+                style={{ color: "var(--text-primary)" }}
+              >
+                {label}
+              </p>
+              <p className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
+                {sub}
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
-    {/* </div> */}
-    </>
+    </div>
   );
 }
