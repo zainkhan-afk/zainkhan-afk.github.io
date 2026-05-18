@@ -24,15 +24,15 @@ function createBuildingsOnGrid(){
 
 function setup()
 {
-    let minDim = min(windowWidth, windowHeight)*2;
-    cnv = createCanvas(minDim, minDim, WEBGL);
+    // let minDim = min(windowWidth, windowHeight)*2;
+    cnv = createCanvas(windowWidth, windowHeight, WEBGL);
     
-    numRows = int(height/blockSize) + 1;
     numCols = int(width/blockSize) + 1;
+    numRows = int(height/blockSize) + 1;
     
     
     renderer = new Renderer();
-    ShapeGenerator.SetShapeMinMaxSize(blockSize/minDim*0.5, blockSize/minDim*0.8);
+    ShapeGenerator.SetShapeMinMaxSize(blockSize/windowWidth*0.5, blockSize/windowHeight*0.8);
     grid = new Grid(numRows, numCols, blockSize);
     grid.MakeNoiseGrid();
     // grid.MakeRoads();
@@ -56,7 +56,7 @@ function draw()
 
 
 function keyPressed() {
-  if (key === 's') {
-    saveCanvas(cnv, '8-jan-gen-city.jpg');
-  }
+//   if (key === 's') {
+//     saveCanvas(cnv, '8-jan-gen-city.jpg');
+//   }
 }

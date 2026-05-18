@@ -21,7 +21,7 @@ function preload(){
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
-    createCanvas(minDim, minDim, WEBGL);
+    createCanvas(windowWidth, windowHeight, WEBGL);
     cameraPhi = -PI/3;
     cameraTheta = -PI/2;
     

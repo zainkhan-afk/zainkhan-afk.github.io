@@ -50,6 +50,7 @@ class Renderer{
                     
                     else {
                         fill(50, 110 + val * 30, 200);
+                        // fill(80, 0,0 );
                     }
                 }
 

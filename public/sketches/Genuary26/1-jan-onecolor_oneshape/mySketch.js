@@ -27,7 +27,7 @@ class Bubble{
 function setup()
 {
     let minDim = min(windowWidth, windowHeight);
-    createCanvas(minDim, minDim);
+    createCanvas(windowWidth, windowHeight);
     dropletPos = createVector(width/2, height/2);
     dropletVel = createVector(random(3, 8), random(3, 8));
 }
@@ -88,7 +88,7 @@ function windowResized(){
 }
 
 function keyPressed() {
-  if (key === 's') {
-    saveGif('mySketch', 5, { delay: 1 });
-  }
+//   if (key === 's') {
+//     saveGif('mySketch', 5, { delay: 1 });
+//   }
 }

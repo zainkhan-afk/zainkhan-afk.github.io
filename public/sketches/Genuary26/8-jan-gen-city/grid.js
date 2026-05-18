@@ -15,10 +15,10 @@ class Grid{
         // noiseSeed(99);
         this.grid = [];
         let noiseX = 0;
-        for (let c = 0; c < this.numCols; c++){
+        for (let r = 0; r < this.numRows; r++){
             let noiseY = 0;
             let row = [];
-            for (let r = 0; r < this.numRows; r++){
+            for (let c = 0; c < this.numCols; c++){
                 let val = noise(noiseX, noiseY);
                 append(row, val);
                 

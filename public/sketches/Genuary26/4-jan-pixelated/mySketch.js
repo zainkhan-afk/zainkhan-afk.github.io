@@ -200,7 +200,7 @@ function rgbToHsv(rgb) {
 
 
 function preload(){
-    img = loadImage('rice.jpg');
+    img = loadImage('/sketches/Genuary26/4-jan-pixelated/rice.jpg');
     // img = loadImage('sample_resized.jpg');
 }
 
@@ -237,7 +237,7 @@ function draw()
     }
     if (numItersCompleted == totalNumIters){
         noLoop();
-        saveCanvas(cnv, '4-jan-pixelated.jpg');
+        // saveCanvas(cnv, '4-jan-pixelated.jpg');
     }
     frameNum += 1;
 }
