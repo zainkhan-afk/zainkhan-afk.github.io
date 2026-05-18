@@ -45,5 +45,7 @@ next-env.d.ts
 # brainstorming / superpowers
 .superpowers/
 
+.claude
+
 # local docs (specs, plans)
 docs/
