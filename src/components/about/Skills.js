@@ -1,37 +1,59 @@
 import { CodeIcon } from "lucide-react";
 
+const SKILL_GROUPS = [
+  {
+    title: "Machine Learning",
+    skills: ["TensorFlow", "PyTorch", "scikit-learn", "Pandas", "LangChain", "LangGraph"],
+  },
+  {
+    title: "Creative Coding",
+    skills: ["p5.js", "Processing", "Three.js", "ShaderToy", "WebGL"],
+  },
+  {
+    title: "Languages & Tools",
+    skills: ["Python", "JavaScript", "C++", "ROS", "Docker", "FastAPI"],
+  },
+];
+
 export default function AboutSkills() {
   return (
-    <div className="pt-6">
-      <div className="flex items-center gap-2 mb-3">
-        <CodeIcon className="w-7 h-7 text-blue-400" />
-        <h2 className="text-2xl sm:text-3xl font-semibold">Skills</h2>
+    <section className="py-8 border-b" style={{ borderColor: "var(--border)" }}>
+      <div className="flex items-center gap-2 mb-6">
+        <CodeIcon className="w-5 h-5" style={{ color: "var(--accent)" }} />
+        <h2
+          className="font-serif text-2xl font-bold"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Skills
+        </h2>
       </div>
-      <section className="w-full bg-gray-800 border border-gray-600 rounded-3xl bg-opacity-10 text-white shadow-md p-6">
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Machine Learning */}
-          <div className="border border-gray-600 rounded-3xl flex-1 p-4">
-            <h3 className="text-lg sm:text-xl font-semibold mb-3">Machine Learning</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {SKILL_GROUPS.map((group) => (
+          <div key={group.title}>
+            <h3
+              className="font-mono text-xs uppercase tracking-widest mb-3"
+              style={{ color: "var(--accent)" }}
+            >
+              {group.title}
+            </h3>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">TensorFlow</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">PyTorch</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">scikit-learn</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">Pandas</span>
+              {group.skills.map((s) => (
+                <span
+                  key={s}
+                  className="font-mono text-xs px-2 py-1 rounded"
+                  style={{
+                    background: "var(--bg-surface)",
+                    color: "var(--text-secondary)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  {s}
+                </span>
+              ))}
             </div>
           </div>
-
-          {/* Creative Coding */}
-          <div className="border border-gray-600 rounded-3xl flex-1 p-4">
-            <h3 className="text-lg sm:text-xl font-semibold mb-3">Creative Coding</h3>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">Three.js</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">Processing</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">p5.js</span>
-              <span className="px-3 py-1 rounded-full bg-gray-700 text-sm">ShaderToy</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+        ))}
+      </div>
+    </section>
   );
 }
