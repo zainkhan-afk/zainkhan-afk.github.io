@@ -1,32 +1,49 @@
 "use client";
 import GlobalP5Wrapper from "./GlobalP5Wrapper";
 
-// Import HeroSketch with SSR disabled
-// const HeroSketch = dynamic(() => import("./HeroSketch"), {
-//   ssr: false,
-// });
-
 export default function Hero() {
   return (
-    // <section className="relative flex items-center justify-center min-h-screen text-white">
-    <section className="relative w-full h-screen flex items-center justify-center text-white" >
-      
-      {/* p5.js background */}
-      {/* <HeroSketch /> */}
-      <div className="absolute top-0 left-0 w-full h-[calc(100%-3rem)] z-0 pointer-events-none">
-        {/* <HeroSketch /> */} 
-        <GlobalP5Wrapper />
+    <section className="relative w-full h-screen overflow-hidden">
+      <GlobalP5Wrapper />
+
+      {/* Bottom-left gradient anchor */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(17,16,16,0.88) 0%, transparent 65%)",
+        }}
+      >
+        <div className="px-8 pb-12 pt-20">
+          <h1
+            className="font-serif text-5xl md:text-6xl font-bold mb-2"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Zain Khan
+          </h1>
+          <p
+            className="font-mono text-xs uppercase tracking-widest mb-3"
+            style={{ color: "var(--accent)" }}
+          >
+            AI Developer · Creative Coder
+          </p>
+          <p
+            className="font-serif italic text-lg md:text-xl"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Making machines that think, and art that computes.
+          </p>
+        </div>
       </div>
 
-      {/* Text overlay */}
-      <div className="relative z-10 text-center">
-        <h1 className="text-5xl font-bold mb-4">Hi, I’m Zain</h1>
-        <p className="text-lg max-w-xl mx-auto">
-          Hi, I’m Zain Khan, an AI Developer specializing in computer vision, generative AI, and building intelligent agentic systems. I create AI solutions that combine research and production-ready engineering.
-        </p>
-        {/* <p className="text-lg max-w-xl mx-auto pt-6">
-          I enjoy building interactive experiences.
-        </p> */}
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 animate-bounce"
+        style={{ color: "var(--text-secondary)" }}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
       </div>
     </section>
   );
