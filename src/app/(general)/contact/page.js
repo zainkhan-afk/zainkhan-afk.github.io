@@ -46,7 +46,7 @@ export default function Contact() {
         className="font-serif italic mb-14"
         style={{ color: "var(--text-secondary)" }}
       >
-        I'm always open to new projects, collaborations, or just a good conversation.
+        I&apos;m always open to new projects, collaborations, or just a good conversation.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
         {LINKS.map(({ icon: Icon, label, href, sub }) => (
