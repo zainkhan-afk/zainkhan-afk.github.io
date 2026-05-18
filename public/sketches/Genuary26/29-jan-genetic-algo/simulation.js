@@ -1,24 +1,121 @@
+
 class Simulation{
-    constructor(){
+    constructor(populationSize, mutationRate){
         this.obstacles = [];
         this.rockets = [];
-        this.numRockets = 10;
+        this.numRockets = populationSize;
+        this.obsSize = 20;
+        this.numObs = 100;
+        this.mutationRate = mutationRate;
+        this.cellSize = 100;
+        this.numRows = int(height/this.cellSize) + 1;
+        this.numCols = int(width/this.cellSize) + 1;
+        this.maxFrames = 3000;
+        this.goalPos = createVector(width - 200, 200);
+        
+        this.gridOcc = {};
 
-        for (let i = 0; i < 50; i++){
-            append(this.obstacles, new Food(createVector(random(width), random(height))));
+        this.numFixed = 0;
+
+        
+        for (let i = 0; i < this.numCols*this.numRows; i++){
+            this.gridOcc[i] = {"obstacles" : [], "rockets" : []};
         }
+
+        for (let i = 0; i<width/this.obsSize; i ++){
+            let obs = new Food(createVector(i*this.obsSize, 0), this.obsSize);
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(i*this.obsSize, height), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+            this.numFixed += 2;
+        }
+
+        for (let i = 0; i<height/this.obsSize; i ++){
+            let obs = new Food(createVector(0, i*this.obsSize), this.obsSize);
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+            this.numFixed += 2;
+        }
+
+        let empty = 21;
+        for (let i = empty; i<height/this.obsSize; i++){
+            let obs = new Food(createVector(width*0.15, i*this.obsSize), this.obsSize);
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+            
+            obs = new Food(createVector(width*0.3, (i-empty)*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.45, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.6, (i-empty)*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+
+            obs = new Food(createVector(width*0.75, i*this.obsSize), this.obsSize);
+            obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+            append(this.obstacles, obs);
+            this.numFixed += 5;
+        }
+
+        // for (let i = 0; i < this.numObs; i++){
+        //     let obs = new Food(createVector(random(width), random(height)), this.obsSize);
+        //     while (obs.pos.x < this.cellSize*2 && obs.pos.y > this.height - this.cellSize*2){
+        //         obs.pos = createVector(random(width), random(height));
+        //     }
+        //     // let obs = new Food(createVector(width/2 + 100, height/2));
+        //     let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            
+        //     append(this.gridOcc[obsIdx]["obstacles"], obs);
+        //     append(this.obstacles, obs);
+        // }
 
         for (let i = 0; i < this.numRockets; i++){
-            append(this.rockets, new Rocket(createVector(random(width), random(height))));
+            let rocket = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+            rocket.randomize(this.maxFrames);
+            let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
+            
+            append(this.gridOcc[rocketIdx]["rockets"], rocket);
+            append(this.rockets, rocket);
         }
 
-
-
         this.t = 0;
+        this.generation = 0;
+        this.fittestYet = 0;
+        this.lastFittestYet = 0;
+        this.fitnessPlateuCount = 0;
+        this.fittestLastGen = 0;
     }
 
 
     render(){
+        // for (let r = 0; r < this.numRows; r++){
+        //     line(0, r*this.cellSize, width, r*this.cellSize);
+            
+        // }
+        // for (let c = 0; c < this.numCols; c++){
+        //     line(c*this.cellSize, 0, c*this.cellSize, height);
+        // }
+        
         stroke(200, 0, 0);
         noFill();
 
@@ -29,39 +126,321 @@ class Simulation{
             pop();
         }
 
-        for (let rocket of this.rockets){
+        // let i = 0;
+        for (let i = this.rockets.length - 1; i>-1; i--){
+        // for (let rocket of this.rockets){
+            let rocket = this.rockets[i];
+            if (rocket.daed) {continue;}
+            if (i == 0){
+                stroke(0, 200, 0);
+            }
+            else{
+                stroke(0, 0, 200);
+            }
+            // i+=1;
             push();
             translate(rocket.pos.x, rocket.pos.y);
             rotate(rocket.heading);
 
             beginShape();
-            vertex(0, 20);
-            vertex(5, 0);
-            vertex(-5, 0);
+            vertex(0, rocket.rHeight/2);
+            vertex(rocket.rWidth/2, -rocket.rHeight/2);
+            vertex(0, 0);
+            vertex(-rocket.rWidth/2, -rocket.rHeight/2);
             endShape(CLOSE);
 
             pop();
 
-            for (let ray of rocket.rays){
-                ray.show();
+            // for (let ray of rocket.rays){
+            //     ray.show();
+            // }
+        }
+
+        stroke(200);
+        text("Generation: " + str(this.generation), 30, 25);
+        text("Fittest Yet: " + str(round(this.fittestYet, 4)), 30, 40);
+        text("Fittest Last Gen.: " + str(round(this.fittestLastGen, 4)), 30, 55);
+        fill(0, 200, 0);
+        noStroke();
+        circle(this.goalPos.x, this.goalPos.y, 50);
+
+    }
+
+    getNeighboringObs(rocket){
+        let allObs = [];
+        let rocketR = int(rocket.pos.y/this.cellSize);
+        let rocketC = int(rocket.pos.x/this.cellSize);
+        for (let r = max(rocketR-1, 0); r<min(this.numRows, rocketR+2); r++){
+            for (let c = max(rocketC-1, 0); c<min(this.numCols, rocketC+2); c++){
+                let idx = r*this.numCols + c;
+                allObs.push(...this.gridOcc[idx]["obstacles"]);
+            }
+        }
+
+        return allObs;
+    }
+
+    stepSimulation(dt){
+        let numAlive = 0;
+        for (let i = 0; i < this.numCols*this.numRows; i++){
+            this.gridOcc[i] = {"obstacles" : [], "rockets" : []};
+        }
+
+        for (let obs of this.obstacles){
+            let obsIdx = int(obs.pos.y/this.cellSize)*this.numCols + int(obs.pos.x/this.cellSize);
+            append(this.gridOcc[obsIdx]["obstacles"], obs);
+        }
+
+
+        for (let rocket of this.rockets){
+            if (rocket.dead || rocket.reachedGoal) {continue;}
+            // rocket.control([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]);
+            // let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
+            // let currentCellObs = this.getNeighboringObs(rocket);
+            
+            // if (this.t%2 == 0){
+            //     let raysData = [];
+            //     for (let ray of rocket.rays){
+            //         let rayVal = 2.0;
+            //         for (let obs of currentCellObs){
+            //             let res = ray.cast(obs);
+            //             if (res){
+            //                 // fill(200);
+            //                 // circle(res.point.x, res.point.y, 2);
+            //                 rayVal = res.dist/(this.cellSize*2);
+            //             }
+            //         }
+            //         append(raysData, rayVal);
+            //     }
+            //     append(raysData, rocket.pos.x/width);
+            //     append(raysData, rocket.pos.y/height);
+
+            //     append(raysData, rocket.goal.x/width);
+            //     append(raysData, rocket.goal.y/height);
+
+            //     rocket.control(raysData);
+            // }
+            rocket.controleGenotype();
+            
+            rocket.step(dt);
+
+            let rocketIdx = int(rocket.pos.y/this.cellSize)*this.numCols + int(rocket.pos.x/this.cellSize);
+            append(this.gridOcc[rocketIdx]["rockets"], rocket);
+            for (let obs of this.gridOcc[rocketIdx]["obstacles"]){
+                let diff = p5.Vector.sub(rocket.pos, obs.pos);
+                if (diff.mag() < (obs.size/2 + rocket.rHeight/2)){
+                    rocket.dead = true;
+                }
+                // if (rocket.pos.x < 0){rocket.dead = true;}
+                // else if (rocket.pos.x > width){rocket.dead = true;}
+                // if (rocket.pos.y < 0){rocket.dead = true;}
+                // else if (rocket.pos.y > height){rocket.dead = true;}
+            }
+
+            if (p5.Vector.sub(rocket.pos, rocket.goal).mag() < 25){
+                rocket.reachedGoal = true;
+            }
+
+            numAlive += 1;
+        }
+
+        return numAlive;
+    }
+    // Neural Network GA
+    ResetRockets(){
+        for (let rocket of this.rockets){
+            rocket.reset();
+        }
+    }
+
+    FindFittestRocket(){
+        let fittestRocket;
+        let highestFitness = 0;
+        for (let rocket of this.rockets){
+            let fitness = rocket.getFitness(this.maxFrames);
+            // let f = int(rocket.pos.x/this.cellSize)*this.numRows+int(rocket.pos.y/this.cellSize)
+            // fitness *= f;
+            if (fitness>highestFitness){
+                fittestRocket = rocket;
+                highestFitness = fitness;
+            }
+        }
+
+        if (highestFitness > this.fittestLastGen){
+            this.fittestLastGen = highestFitness;
+        }
+        
+        if (highestFitness > this.fittestYet){
+            this.fittestYet = highestFitness;
+        }
+
+
+        return fittestRocket;
+    }
+
+    CloneFittest(fittestRocket){
+        for (let rocket of this.rockets){
+            rocket.copyBrain(fittestRocket);
+        }
+    }
+
+    Mutate(){
+        for (let i = 1; i<this.rockets.length; i++){
+            let mr = this.mutationRate;
+            if (i > this.rockets.length*0.6 && i < this.rockets.length*0.8){ mr += 0.3; }
+            else if (i >= this.rockets.length*0.8){ mr += 0.9; }
+
+            if (i <= this.rockets.length*0.8){
+                this.rockets[i].brain.mutateDelta(mr);
+            }else{
+                this.rockets[i].brain.mutateComplete(mr);
             }
         }
     }
 
-    step(dt){
-        
-
-        for (let rocket of this.rockets){
-            rocket.control([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
-            for (let ray of rocket.rays){
-                for (let obstacle of this.obstacles){
-                    let res = ray.cast(obstacle);
-                    console.log(res);
-                }
+    RandomiseObstacles(){
+        for (let i = 2*int(width/this.obsSize) + 2*int(height/this.obsSize); i < this.obstacles.length; i++){
+            let obs = this.obstacles[i];
+            obs.pos = createVector(random(width), random(height));
+            while (obs.pos.x < this.cellSize*2 && obs.pos.y > this.height - this.cellSize*2){
+                obs.pos = createVector(random(width), random(height));
             }
-            rocket.step(dt);
+        }
+    }
+
+
+    // Genotype GA
+
+    createChild(p1, p2, splicePt){
+        let newValues = [];
+        for (let i = 0; i < this.maxFrames; i++){
+            if (i<splicePt){append(newValues, p1.genotype.values[i]);}
+            else{append(newValues, p2.genotype.values[i]);}
         }
 
-        this.t += dt/10;
+        let c = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+        c.genotype.assignValues(newValues);
+        return c;
+    }
+
+    sortByFitness(){        
+        let highestFitness = 0;
+        this.fittestLastGen = 0;
+
+        let fitnessSortedPop = [];
+        for (let rocket of this.rockets){
+            let fitness = rocket.getFitness(this.maxFrames);
+            if (fitness>highestFitness){
+                highestFitness = fitness;
+            }
+            append(fitnessSortedPop, [rocket, fitness]);
+        }
+        fitnessSortedPop.sort((a, b) => b[1] - a[1]);
+
+        this.fittestLastGen = highestFitness;
+        this.lastFittestYet = this.fittestYet;
+
+        if (highestFitness > this.fittestYet){
+            this.fittestYet = highestFitness;
+            this.fitnessPlateuCount = 0;
+        }
+        if ((this.fittestYet - this.lastFittestYet) < 0.0001){
+            this.fitnessPlateuCount += 1;
+        }
+
+        return fitnessSortedPop;
+    }
+
+
+    sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum){
+        let r = random();
+
+        let cumFit = 0;
+        for (let i = 0; i < topTenPercentCount; i++){
+            cumFit += fitnessSortedPop[i][1];
+            // console.log(i, " cumFit ->", cumFit/topTenFitnessSum, "| r ->", r);
+            if (r < cumFit/topTenFitnessSum){
+                if (i == 0) { return i; }
+                return i - 1;
+            }
+        }
+    }
+
+    createNewPopulation(fitnessSortedPop){
+        // console.log("Creating new population now");
+        let topTenPercentCount = (fitnessSortedPop.length*0.1);
+
+        let topTenFitnessSum = 0;
+        for (let i = 0; i< topTenPercentCount; i++){
+            topTenFitnessSum += fitnessSortedPop[i][1];
+        }
+        
+        let c = new Rocket(createVector(this.cellSize/2, height-this.cellSize/2), this.goalPos);
+        c.genotype.assignValues(fitnessSortedPop[0][0].genotype.values);
+        
+        let newPop = [c];
+        
+        let mrInc = 0;
+        let idx = 1;
+        while (newPop.length < this.numRockets){
+
+            let p1Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+            let p2Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+
+            if (p1Index == p2Index){
+                p1Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+                p2Index = this.sampleParent(fitnessSortedPop, topTenPercentCount, topTenFitnessSum);
+            }
+
+            // console.log(p1Index, p2Index);
+
+            let p1 = fitnessSortedPop[p1Index][0];
+            let p2 = fitnessSortedPop[p2Index][0];
+
+            let spliceIndex = int(random(this.numRockets-1));
+
+            let c1 = this.createChild(p1, p2, spliceIndex);
+            let c2 = this.createChild(p2, p1, spliceIndex);
+            
+            
+            if (idx > this.numRockets*0.6 && this.fitnessPlateuCount > 3){
+                mrInc = this.fitnessPlateuCount/10;
+                console.log("MR INC", mrInc);
+            }
+            c1.genotype.mutate(this.mutationRate + mrInc);
+            c2.genotype.mutate(this.mutationRate + mrInc);
+
+            append(newPop, c1);
+            append(newPop, c2);
+            idx += 2;
+        }
+
+        return newPop;
+    }
+
+
+    step(dt){
+        let numAlive = this.stepSimulation(dt);
+        this.t += 1;
+
+        if (numAlive == 0 || this.t>=this.maxFrames){
+            // NN Rockets
+            // let fittestRocket = this.FindFittestRocket();
+            // this.CloneFittest(fittestRocket);
+            // this.Mutate();
+            // this.ResetRockets();
+
+            // Genotype Rockets
+            let fitnessSortedPopulation = this.sortByFitness();
+            let newPopulation = this.createNewPopulation(fitnessSortedPopulation);
+            this.rockets = [];
+            for (let i = 0; i < newPopulation.length; i++){
+                this.rockets[i] = newPopulation[i];
+            }
+            
+            // this.RandomiseObstacles();
+            this.generation += 1;
+            this.t = 0;
+        }
     }
 }

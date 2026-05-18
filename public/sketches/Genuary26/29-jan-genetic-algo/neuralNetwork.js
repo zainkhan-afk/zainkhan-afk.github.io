@@ -1,3 +1,4 @@
+
 class NeuralNetwork {
   constructor(inputSize, outputSize, numHiddenLayers, hiddenSize) {
     this.inputSize = inputSize;
@@ -9,10 +10,10 @@ class NeuralNetwork {
     this.weights["in"] = this.randomMatrix(hiddenSize, inputSize);
 
     for (let i = 0; i < numHiddenLayers - 1; i++) {
-      this.weights[`h${i}`] = this.randomMatrix(hiddenSize, hiddenSize);
+      this.weights[`h${i}`] = this.randomMatrix(hiddenSize, hiddenSize+1);
     }
 
-    this.weights["out"] = this.randomMatrix(outputSize, hiddenSize);
+    this.weights["out"] = this.randomMatrix(outputSize, hiddenSize+1);
   }
 
   randomMatrix(rows, cols) {
@@ -51,18 +52,52 @@ class NeuralNetwork {
   }
 
   feedforward(input) {
-    // console.log("------------------------");
     let a = input.slice();
 
     
     a = this.activate(this.matVecMul(this.weights["in"], a));
-
+    a.push(1);
     // hidden layers
     for (let i = 0; i < this.numHiddenLayers - 1; i++) {
         a = this.activate(this.matVecMul(this.weights[`h${i}`], a));
+        a.push(1);
     }
     
     let output = this.activate(this.matVecMul(this.weights["out"], a));
     return output;
+  }
+
+  copyNN(otherNN){
+    for (const key in this.weights) {
+      for (let r = 0; r < otherNN.weights[key].length; r++){
+        for (let c = 0; c < otherNN.weights[key][r].length; c++){
+          this.weights[key][r][c] = otherNN.weights[key][r][c];
+        }
+      }
+    }
+  }
+
+  mutateDelta(mutationRate){
+    for (const key in this.weights) {
+      for (let r = 0; r < this.weights[key].length; r++){
+        for (let c = 0; c < this.weights[key][r].length; c++){
+          if (random() < mutationRate){
+            this.weights[key][r][c] += random(-0.1, 0.1);
+          }
+        }
+      }
+    }
+  }
+
+  mutateComplete(mutationRate){
+    for (const key in this.weights) {
+      for (let r = 0; r < this.weights[key].length; r++){
+        for (let c = 0; c < this.weights[key][r].length; c++){
+          if (random() < mutationRate){
+            this.weights[key][r][c] = random(-1, 1);
+          }
+        }
+      }
+    }
   }
 }

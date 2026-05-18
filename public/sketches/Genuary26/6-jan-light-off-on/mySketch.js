@@ -77,7 +77,7 @@ function drawOverlays(){
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
-    createCanvas(minDim, minDim);
+    createCanvas(windowWidth, windowHeight);
     lightAnchor = createVector(width/2, 0);
     // ghost = new Ghost();
     lamp = new Lamp(createVector(width/2, 0), 300);

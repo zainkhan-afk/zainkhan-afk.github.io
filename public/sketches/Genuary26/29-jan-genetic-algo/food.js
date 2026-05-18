@@ -1,6 +1,6 @@
 class Food{
-    constructor(pos){
+    constructor(pos, size){
         this.pos = pos;
-        this.size = 10;
+        this.size = size;
     }
 }

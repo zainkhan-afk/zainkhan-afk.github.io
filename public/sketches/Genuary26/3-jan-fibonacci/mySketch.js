@@ -20,7 +20,7 @@ let captureStarted = false;
 
 function setup() 
 {
-    createCanvas(600, 600);
+    createCanvas(windowWidth, windowHeight);
     initParams();
     frameRate(60);
 }

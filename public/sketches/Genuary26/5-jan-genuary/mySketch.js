@@ -31,7 +31,7 @@ function findDestPoints(){
 }
 
 function preload(){
-    img = loadImage("image.jpg");
+    img = loadImage("/sketches/Genuary26/5-jan-genuary/image.jpg");
 }
 
 function setup() 

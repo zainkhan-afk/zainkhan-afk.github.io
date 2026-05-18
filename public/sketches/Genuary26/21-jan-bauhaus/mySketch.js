@@ -23,7 +23,7 @@ function preload() {
 function setup() 
 {
     let minDim = min(windowWidth, windowHeight);
-    cnv = createCanvas(minDim, minDim);    
+    cnv = createCanvas(windowWidth, windowHeight);    
 
     red = color(200, 0, 0);
     blue = color(0, 0, 200);
