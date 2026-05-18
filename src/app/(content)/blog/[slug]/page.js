@@ -1,35 +1,48 @@
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeHighlight from "rehype-highlight";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Image from "next/image";
+import P5Sketch from "@/components/blog/P5Sketch";
+
+const components = { P5Sketch };
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export default async function PostPage({ params }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  
-  // const processedContent = await remark().use(html).process(post.content);
-  // const contentHtml = processedContent.toString();
-  
-  return (
-    <div className="max-w-5xl w-full mx-auto py-12">
-      <h1 className="text-4xl font-bold mb-4">{post.metadata.title}</h1>
-      <p className="text-sm text-gray-400 mb-8">{post.metadata.date}</p>
+  const readingTime = Math.ceil(post.content.split(/\s+/).length / 200);
 
-      <article className="max-w-full prose prose-invert">
-        <ReactMarkdown
-         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeHighlight]}
-        >
-          {post.content}
-        </ReactMarkdown>
+  return (
+    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 py-12">
+      {post.metadata.thumbnail && (
+        <div className="relative w-full h-64 mb-8 rounded-xl overflow-hidden">
+          <Image
+            src={post.metadata.thumbnail}
+            alt={post.metadata.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )}
+      <h1
+        className="font-serif text-4xl font-bold mb-3"
+        style={{ color: "var(--text-primary)" }}
+      >
+        {post.metadata.title}
+      </h1>
+      <div className="flex gap-4 mb-10">
+        <span className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
+          {post.metadata.date}
+        </span>
+        <span className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
+          {readingTime} min read
+        </span>
+      </div>
+      <article className="prose prose-stone dark:prose-invert max-w-none">
+        <MDXRemote source={post.content} components={components} />
       </article>
-      
     </div>
   );
 }
