@@ -60,7 +60,8 @@ export default function GenauryBrowser({ sketches }) {
             key={selected.slug}
             src={`/sketches/Genuary26/${selected.slug}/index.html`}
             className="absolute inset-0 w-full h-full border-0"
-            sandbox="allow-scripts"
+            scrolling="no"
+            sandbox="allow-scripts allow-same-origin"
             title={selected.title}
           />
         </div>
