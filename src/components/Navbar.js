@@ -1,55 +1,98 @@
-"use client"
-
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+"use client";
+import { useState, useEffect } from "react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+
+const NAV_LINKS = ["About", "Projects", "Craft", "Blog", "Contact"];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  function toggleTheme() {
+    const next = !isDark;
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+    setIsDark(next);
+  }
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gray-700 bg-opacity-80 text-white shadow-md z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo / Name */}
-        <h1 className="text-2xl font-bold">
-          <Link href="/"><strong>Home</strong></Link>
-        </h1>
-        {/* <Link href="/" className="flex items-center">
-          <Image
-            src="/portfolio-favicon.png" // path from public/
-            alt="Home"
-            width={32} // adjust size
-            height={32}
-            className="rounded"
-          />
-        </Link> */}
-
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6">
-          <li><Link href="/about" className="hover:text-pink-400">About</Link></li>
-          <li><Link href="/projects" className="hover:text-pink-400">Projects</Link></li>
-          <li><Link href="/craft" className="hover:text-pink-400">Craft</Link></li>
-          <li><Link href="/contact" className="hover:text-pink-400">Contact</Link></li>
-        </ul>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
+    <nav
+      className="fixed top-0 left-0 w-full z-50"
+      style={{ background: "var(--bg-primary)", borderBottom: "1px solid var(--border)" }}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <Link
+          href="/"
+          className="font-serif italic text-lg font-semibold"
+          style={{ color: "var(--text-primary)" }}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+          Zain Khan
+        </Link>
+
+        {/* Desktop */}
+        <div className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map((label) => (
+            <Link
+              key={label}
+              href={`/${label.toLowerCase()}`}
+              className="font-mono text-xs uppercase tracking-widest transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              {label}
+            </Link>
+          ))}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="transition-colors hover:text-accent"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+        </div>
+
+        {/* Mobile controls */}
+        <div className="md:hidden flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-gray-900 bg-opacity-95 px-4 pb-4">
-          <ul className="flex flex-col space-y-4">
-            <li><Link href="/about" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>About</Link></li>
-            <li><Link href="/projects" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Projects</Link></li>
-            <li><Link href="/craft" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Craft</Link></li>
-            <li><Link href="/contact" className="hover:text-pink-400" onClick={() => setIsOpen(false)}>Contact</Link></li>
+        <div
+          className="md:hidden"
+          style={{ background: "var(--bg-secondary)", borderTop: "1px solid var(--border)" }}
+        >
+          <ul className="flex flex-col px-6 py-4 gap-4">
+            {NAV_LINKS.map((label) => (
+              <li key={label}>
+                <Link
+                  href={`/${label.toLowerCase()}`}
+                  className="font-mono text-xs uppercase tracking-widest"
+                  style={{ color: "var(--text-secondary)" }}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       )}
