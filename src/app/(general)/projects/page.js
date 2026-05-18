@@ -1,84 +1,93 @@
-import React from "react";
 import { getAllProjects } from "@/lib/projects";
 import Image from "next/image";
-import { FaGithub, FaLink } from "react-icons/fa";
+import { Github } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
   title: "Projects | Zain Khan",
-  description: "Learn more about projects.",
+  description: "AI, robotics, and creative coding projects by Zain Khan.",
 };
 
 export default function Projects() {
   const projects = getAllProjects();
   return (
-    <>
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+      <h1
+        className="font-serif text-4xl sm:text-5xl font-bold mb-10 text-center"
+        style={{ color: "var(--text-primary)" }}
+      >
         Projects
       </h1>
-
-      <div className="grid gap-6 sm:gap-8 md:grid-cols-2 w-full max-w-6xl">
-        {projects.map((project, idx) => (
+      <div className="grid gap-6 md:grid-cols-2">
+        {projects.map((project) => (
           <div
-            key={idx}
-            className="bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-pink-400 transition-shadow duration-300 flex flex-col"
+            key={project.slug}
+            className="rounded-xl overflow-hidden flex flex-col"
+            style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
           >
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2">
-              {project.metadata.title}
-            </h2>
-
             {project.metadata.display_graphic && (
-              <div className="relative w-full h-48 sm:h-60 mb-4 mt-4">
+              <div className="relative w-full h-52">
                 <Image
                   src={project.metadata.display_graphic}
-                  alt="Project graphic"
+                  alt={project.metadata.title}
                   fill
-                  className="object-contain rounded-2xl border-gray-600"
+                  className="object-cover"
                 />
               </div>
             )}
-
-            <p className="text-gray-300 mb-4 flex-grow leading-relaxed">
-              {project.metadata.description}
-            </p>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.metadata.tech?.map((tech, i) => (
-                <span
-                  key={i}
-                  className="bg-pink-400 text-gray-900 px-2 py-1 rounded-full text-sm font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <div className="flex flex-wrap gap-4">
+            <div className="p-5 flex flex-col flex-grow">
+              <h2
+                className="font-serif text-xl font-bold mb-2"
+                style={{ color: "var(--text-primary)" }}
+              >
+                {project.metadata.title}
+              </h2>
+              <p
+                className="text-sm leading-relaxed mb-4 flex-grow"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {project.metadata.description}
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.metadata.tech?.map((tech) => (
+                  <span
+                    key={tech}
+                    className="font-mono text-xs px-2 py-0.5 rounded"
+                    style={{
+                      background: "var(--bg-surface)",
+                      color: "var(--accent)",
+                      border: "1px solid var(--border)",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center gap-4">
                 {project.metadata.github && (
-                  <Link href={project.metadata.github} target="_blank">
-                    <FaGithub size={24} />
+                  <Link
+                    href={project.metadata.github}
+                    target="_blank"
+                    aria-label="GitHub"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    <Github size={18} />
                   </Link>
                 )}
-                {project.metadata.link && (
-                  <Link href={project.metadata.link} target="_blank">
-                    <FaLink size={24} />
+                {project.metadata.further_reading && (
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="font-mono text-xs uppercase tracking-wider"
+                    style={{ color: "var(--accent)" }}
+                  >
+                    Read more →
                   </Link>
                 )}
               </div>
-
-              {project.metadata.further_reading && (
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="text-pink-400 font-semibold hover:underline"
-                >
-                  Read More
-                </Link>
-              )}
             </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
