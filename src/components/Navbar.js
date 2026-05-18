@@ -2,12 +2,15 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = ["About", "Projects", "Craft", "Blog", "Contact"];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -23,14 +26,19 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-50"
-      style={{ background: "var(--bg-primary)", borderBottom: "1px solid var(--border)" }}
+      className="fixed top-0 left-0 w-full z-50 transition-all"
+      style={{
+        background: isHome ? "rgba(17,16,16,0.6)" : "var(--bg-primary)",
+        backdropFilter: isHome ? "blur(14px)" : "none",
+        WebkitBackdropFilter: isHome ? "blur(14px)" : "none",
+        borderBottom: isHome ? "1px solid rgba(255,255,255,0.1)" : "1px solid var(--border)",
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link
           href="/"
           className="font-serif italic text-lg font-semibold"
-          style={{ color: "var(--text-primary)" }}
+          style={{ color: isHome ? "#e8e0d5" : "var(--text-primary)" }}
         >
           Zain Khan
         </Link>
@@ -42,7 +50,7 @@ export default function Navbar() {
               key={label}
               href={`/${label.toLowerCase()}`}
               className="font-mono text-xs uppercase tracking-widest transition-colors hover:text-accent"
-              style={{ color: "var(--text-secondary)" }}
+              style={{ color: isHome ? "rgba(232,224,213,0.75)" : "var(--text-secondary)" }}
             >
               {label}
             </Link>
@@ -51,7 +59,7 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label="Toggle theme"
             className="transition-colors hover:text-accent"
-            style={{ color: "var(--text-secondary)" }}
+            style={{ color: isHome ? "rgba(232,224,213,0.75)" : "var(--text-secondary)" }}
           >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
@@ -62,13 +70,13 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            style={{ color: "var(--text-secondary)" }}
+            style={{ color: isHome ? "rgba(232,224,213,0.75)" : "var(--text-secondary)" }}
           >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            style={{ color: "var(--text-secondary)" }}
+            style={{ color: isHome ? "rgba(232,224,213,0.75)" : "var(--text-secondary)" }}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
