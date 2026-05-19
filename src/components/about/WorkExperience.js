@@ -11,7 +11,7 @@ const JOBS = [
       "Automated medical document digitization & redaction tools, reducing manual effort by ~80%.",
       "Developed computer vision solutions like autofocus and 3D interpolation for microscope imaging.",
     ],
-    skills: ["Langchain", "LangGraph", "Milvus", "RAG", "PyTorch", "TensorFlow", "scikit-learn", "Pandas"],
+    skills: ["MCP", "Agentic AI", "Langchain", "LangGraph", "Milvus", "RAG", "PyTorch", "TensorFlow", "scikit-learn", "Pandas"],
   },
   {
     company: "Fiverr",
