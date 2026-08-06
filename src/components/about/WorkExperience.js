@@ -11,13 +11,13 @@ const JOBS = [
       "Automated medical document digitization & redaction tools, reducing manual effort by ~80%.",
       "Developed computer vision solutions like autofocus and 3D interpolation for microscope imaging.",
     ],
-    skills: ["Langchain", "LangGraph", "Milvus", "RAG", "PyTorch", "TensorFlow", "scikit-learn", "Pandas"],
+    skills: ["MCP", "Agentic AI", "Langchain", "LangGraph", "Milvus", "RAG", "PyTorch", "TensorFlow", "scikit-learn", "Pandas"],
   },
   {
     company: "Fiverr",
     location: "Remote",
     role: "Freelancer",
-    dates: "Aug 2019 — Present",
+    dates: "Aug 2019 — Dec 2024",
     bullets: [
       "Delivered 400+ projects worldwide in AI, robotics, and automation.",
       "Built SaaS platforms & creative AI tools, including bots and Twitch-integrated AI agents.",

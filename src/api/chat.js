@@ -16,7 +16,8 @@ export async function sendChatMessage(messages) {
 
     const data = await res.json();
     return data.reply;
-  } catch (err) {
+  } 
+  catch (err) {
     console.error("Chat service error:", err);
     return "⚠️ Sorry, something went wrong.";
   }
