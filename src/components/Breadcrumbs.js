@@ -19,10 +19,17 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav className="max-w-5xl w-full text-md text-gray-400 py-4">
+    <nav
+      className="max-w-5xl w-full mx-auto px-4 sm:px-6 font-mono text-xs uppercase tracking-wider py-4"
+      style={{ color: "var(--text-secondary)" }}
+    >
       <ol className="flex items-center space-x-2">
         <li>
-          <Link href="/" className="hover:underline text-gray-200">
+          <Link
+            href="/"
+            className="hover:underline"
+            style={{ color: "var(--text-primary)" }}
+          >
             Home
           </Link>
         </li>
@@ -30,11 +37,15 @@ export default function Breadcrumbs() {
           <li key={idx} className="flex items-center">
             <span className="mx-1">/</span>
             {crumb.href ? (
-              <Link href={crumb.href} className="hover:underline text-gray-200">
+              <Link
+                href={crumb.href}
+                className="hover:underline"
+                style={{ color: "var(--text-primary)" }}
+              >
                 {crumb.name}
               </Link>
             ) : (
-              <span className="text-gray-400">{crumb.name}</span>
+              <span style={{ color: "var(--text-secondary)" }}>{crumb.name}</span>
             )}
           </li>
         ))}

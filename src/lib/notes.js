@@ -16,6 +16,13 @@ export function getTopicDetails(topicSlug) {
         return null;
     }
 
+    // Skip topics with no chapters yet (empty notes/ dir) — an empty topic
+    // can't be statically exported and would break `next build`.
+    const hasChapters = fs.readdirSync(topicNotesDirectory).some((f) => f.endsWith(".md"));
+    if (!hasChapters) {
+        return null;
+    }
+
     const topicFileContents = fs.readFileSync(topicIndexPath, "utf8");
     const { data, content } = matter(topicFileContents);
     
