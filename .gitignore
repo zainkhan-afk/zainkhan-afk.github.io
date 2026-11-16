@@ -49,3 +49,6 @@ next-env.d.ts
 
 # local docs (specs, plans)
 docs/
+
+# local notes
+/notes/
