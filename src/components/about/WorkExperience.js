@@ -17,7 +17,7 @@ const JOBS = [
     company: "Fiverr",
     location: "Remote",
     role: "Freelancer",
-    dates: "Aug 2019 — Dec 2024",
+    dates: "Aug 2019 — Mar 2026",
     bullets: [
       "Delivered 400+ projects worldwide in AI, robotics, and automation.",
       "Built SaaS platforms & creative AI tools, including bots and Twitch-integrated AI agents.",
