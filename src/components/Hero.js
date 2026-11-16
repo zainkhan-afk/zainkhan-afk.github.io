@@ -33,7 +33,7 @@ export default function Hero() {
             Zain Khan
           </h1>
           <p
-            className="font-mono text-xs uppercase tracking-widest mb-3"
+            className="font-mono text-s uppercase tracking-widest mb-3"
             style={{
               color: "#c87941",
               textShadow: "0 1px 6px rgba(0,0,0,0.5)",

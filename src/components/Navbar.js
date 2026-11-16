@@ -34,13 +34,13 @@ export default function Navbar() {
         borderBottom: isHome ? "1px solid rgba(255,255,255,0.1)" : "1px solid var(--border)",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
         <Link
           href="/"
-          className="font-serif italic text-lg font-semibold"
+          className="font-serif text-lg font-semibold"
           style={{ color: isHome ? "#e8e0d5" : "var(--text-primary)" }}
         >
-          Zain Khan
+          Zain Khan | AI Developer
         </Link>
 
         {/* Desktop */}
@@ -49,7 +49,7 @@ export default function Navbar() {
             <Link
               key={label}
               href={`/${label.toLowerCase()}`}
-              className="font-mono text-xs uppercase tracking-widest transition-colors hover:text-accent"
+              className="font-mono text-s uppercase tracking-widest transition-colors hover:text-accent"
               style={{ color: isHome ? "rgba(232,224,213,0.75)" : "var(--text-secondary)" }}
             >
               {label}
