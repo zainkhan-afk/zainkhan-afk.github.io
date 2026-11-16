@@ -5,6 +5,7 @@ description: "A simulation of a differential drive robot being controlled using 
 github: "https://github.com/zainkhan-afk/Differential-Drive-Robot-Navigation"
 display_graphic: "https://raw.githubusercontent.com/zainkhan-afk/Differential-Drive-Robot-Navigation/refs/heads/main/media/MPC_PID_Comparison.gif"
 draft: false
+featured: true
 tech: [openCV, numpy, python, SciPy]
 further_reading: false
 ---
