@@ -10,9 +10,9 @@ let div = 10;
 let numRows;
 let numCols;
 
-let bauhaus1;
-let bauhaus2;
-let bauhaus3;
+let bauhaus;
+// let bauhaus2;
+// let bauhaus3;
 
 let genuary = ['G', 'E', 'N', 'U', 'A', 'R', 'Y', '', '2', '6'];
 
@@ -32,9 +32,9 @@ function setup()
 
     frameRate(60);
 
-    bauhaus1 = new BauhausPlanet(red, blue, yellow, black, 10);
-    bauhaus2 = new BauhausCircles(red, blue, yellow, black);
-    bauhaus3 = new BauhausPoster(red, blue, yellow, black);
+    // bauhaus = new BauhausPlanet(red, blue, yellow, black, 10);
+    // bauhaus = new BauhausCircles(red, blue, yellow, black);
+    bauhaus = new BauhausPoster(red, blue, yellow, black);
 }
 
 
@@ -47,7 +47,7 @@ function draw()
 
     // bauhaus1.Render();
     // bauhaus2.Render();
-    bauhaus3.Render();
+    bauhaus.Render();
     
     noLoop();
 }
