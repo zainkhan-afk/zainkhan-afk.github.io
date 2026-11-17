@@ -5,7 +5,7 @@ role: "Freelancer"
 date: "2019-08"
 description: "An application that localizes robots within an arena using visual markers and a single camera."
 tech: [Computer Vision]
-featured: true
+featured: false
 draft: false
 ---
 

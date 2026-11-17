@@ -5,7 +5,7 @@ role: "Research Associate"
 date: "2022-06"
 description: "An Urdu automatic speech recognition (ASR) system for broadcast media."
 tech: [ASR]
-featured: true
+featured: false
 draft: false
 ---
 
