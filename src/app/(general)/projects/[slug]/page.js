@@ -11,6 +11,16 @@ export async function generateStaticParams() {
   return getAllProjects().map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  if (!project) { return {}; }
+  return {
+    title: `${project.metadata.title} | Zain Khan`,
+    description: project.metadata.description,
+  };
+}
+
 export default async function ProjectPage({ params }) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);

@@ -11,6 +11,12 @@ import experiments from "@/content/lab/experiments.json";
 
 const MAX_FEATURED = 3;
 
+export const metadata = {
+  title: "Zain Khan | AI Developer: Computer Vision, Robotics & Document AI",
+  description:
+    "Zainullah (Zain) Khan, AI developer in Islamabad working on document AI, computer vision and robotics. Case studies from SiParadigm, NCAI and 400+ freelance projects.",
+};
+
 export default function Home() {
   const work = getAllWork().filter((w) => w.metadata.featured).slice(0, MAX_FEATURED);
   const projects = getAllProjects().filter((p) => p.metadata.featured).slice(0, MAX_FEATURED);
