@@ -5,6 +5,23 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Mermaid from "@/components/Mermaid";
+
+function hastText(node) {
+  if (node.type === "text") { return node.value; }
+  return (node.children || []).map(hastText).join("");
+}
+
+// ```mermaid fenced blocks render as diagrams; other code blocks stay as-is
+const markdownComponents = {
+  pre({ node, children, ...props }) {
+    const code = node?.children?.[0];
+    if (code?.tagName === "code" && code.properties?.className?.includes("language-mermaid")) {
+      return <Mermaid chart={hastText(code)} />;
+    }
+    return <pre {...props}>{children}</pre>;
+  },
+};
 
 export async function generateStaticParams() {
   const params = getAllWork().map((w) => ({ slug: w.slug }));
@@ -68,6 +85,7 @@ export default async function WorkPage({ params }) {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw, rehypeHighlight]}
+          components={markdownComponents}
         >
           {work.content}
         </ReactMarkdown>
