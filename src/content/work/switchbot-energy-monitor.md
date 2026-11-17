@@ -1,6 +1,7 @@
 ---
 title: "Smart-Plug Energy Monitoring Service"
 company: "Freelance client"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2024-02"
 description: "A multi-user web service that tracks per-appliance electricity use from SwitchBot smart plugs, with scheduled polling, a JWT-secured API and charts."

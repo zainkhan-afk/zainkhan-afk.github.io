@@ -1,6 +1,7 @@
 ---
 title: "Procedural Physics Video Generator with Collision-Driven Sound"
 company: "Freelance client"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2023-11"
 description: "Generates short-form 'satisfying physics' videos of nested bouncing circles, with a tone synthesised for every collision."

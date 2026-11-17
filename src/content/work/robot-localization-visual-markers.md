@@ -1,6 +1,7 @@
 ---
 title: "Single-Camera Robot Localization"
 company: "Freelance client (UK)"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2019-08"
 description: "An application that localizes robots within an arena using visual markers and a single camera."

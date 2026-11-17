@@ -1,6 +1,7 @@
 ---
 title: "Single-Camera 6-DoF Stylus Tracking with QR Markers"
 company: "Freelance client"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2023-08"
 description: "Tracking a hand-held stylus relative to a test surface in 3D with one calibrated webcam, two QR markers and Perspective-n-Point."

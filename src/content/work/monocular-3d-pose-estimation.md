@@ -1,6 +1,7 @@
 ---
 title: "Monocular 3D Position and Orientation from Coloured Markers"
 company: "Freelance client"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2023-10"
 description: "Estimating a rod's 3D position, roll and yaw from a single wide-angle camera using colour segmentation and known object size, with no depth sensor."

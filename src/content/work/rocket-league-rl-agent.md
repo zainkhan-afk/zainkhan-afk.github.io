@@ -1,6 +1,7 @@
 ---
 title: "Rocket League Agent Trained with Reinforcement Learning"
 company: "Freelance client"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2024-12"
 description: "A Rocket League bot that learns from scratch through PPO self-play against the live game, then ships as an RLBot-compatible bot."

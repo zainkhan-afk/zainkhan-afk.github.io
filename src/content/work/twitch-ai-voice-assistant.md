@@ -1,6 +1,7 @@
 ---
 title: "AI Voice Co-Host for Twitch Streams"
 company: "Freelance client (US)"
+workplace: "Freelance"
 role: "Freelancer"
 date: "2025-04"
 description: "A real-time AI co-host that reads Twitch chat, listens to the streamer's microphone, and answers out loud in a character voice with low latency."
