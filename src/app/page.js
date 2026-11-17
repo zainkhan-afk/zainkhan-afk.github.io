@@ -30,6 +30,7 @@ export default function Home() {
                 title={w.metadata.title}
                 description={w.metadata.description}
                 image={w.metadata.display_graphic}
+                diagram={w.diagram}
                 eyebrow={`${w.metadata.company} · ${w.metadata.role}`}
                 tech={w.metadata.tech}
                 href={`/work/${w.slug}`}

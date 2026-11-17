@@ -1,19 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Github } from "lucide-react";
+import Mermaid from "@/components/Mermaid";
 
-// Same look as the cards on /projects
-export default function ContentCard({ title, description, image, eyebrow, tech, href, linkLabel, github }) {
+// Same look as the cards on /projects. Without an image, a Mermaid `diagram`
+// (if given) fills the image slot instead.
+export default function ContentCard({ title, description, image, diagram, eyebrow, tech, href, linkLabel, github }) {
   return (
     <div
       className="rounded-xl overflow-hidden flex flex-col"
       style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
     >
-      {image && (
+      {image ? (
         <div className="relative w-full h-52">
           <Image src={image} alt={title} fill className="object-cover" />
         </div>
-      )}
+      ) : diagram ? (
+        <div className="w-full h-52" style={{ background: "var(--bg-primary)" }}>
+          <Mermaid chart={diagram} compact />
+        </div>
+      ) : null}
       <div className="p-5 flex flex-col flex-grow">
         {eyebrow && (
           <p

@@ -1,14 +1,30 @@
 "use client";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
-// Renders a ```mermaid code block from case-study Markdown, using the site's
-// CSS color variables so diagrams follow the light/dark theme.
-export default function Mermaid({ chart }) {
+// Renders a Mermaid diagram (```mermaid blocks in case studies, and card
+// thumbnails), using the site's CSS color variables so diagrams follow the
+// light/dark theme. The library loads only once the diagram nears the viewport.
+// `compact` scales the diagram to fill its (fixed-size) parent, for cards.
+export default function Mermaid({ chart, compact = false }) {
   const id = "mermaid-" + useId().replace(/[^a-zA-Z0-9]/g, "");
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
   const [svg, setSvg] = useState("");
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) { setVisible(true); observer.disconnect(); }
+      },
+      { rootMargin: "300px" }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) { return; }
     let cancelled = false;
 
     async function render() {
@@ -47,7 +63,9 @@ export default function Mermaid({ chart }) {
         },
       });
       try {
-        const { svg } = await mermaid.render(id, chart);
+        // Cards are wide and short, so lay flowcharts out left-to-right there
+        const source = compact ? chart.replace(/^(\s*flowchart)\s+(TD|TB)\b/, "$1 LR") : chart;
+        const { svg } = await mermaid.render(id, source);
         if (!cancelled) { setSvg(svg); setFailed(false); }
       } catch {
         if (!cancelled) { setFailed(true); }
@@ -59,14 +77,20 @@ export default function Mermaid({ chart }) {
     const observer = new MutationObserver(render);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => { cancelled = true; observer.disconnect(); };
-  }, [chart, id]);
+  }, [chart, compact, id, visible]);
 
-  if (failed) {
+  if (failed && !compact) {
     return <pre><code>{chart}</code></pre>;
   }
   return (
     <div
-      className="not-prose my-8 flex justify-center overflow-x-auto"
+      ref={ref}
+      className={
+        compact
+          ? "h-full w-full flex items-center justify-center p-4 [&>svg]:h-full [&>svg]:w-full"
+          : "not-prose my-8 min-h-px flex justify-center overflow-x-auto"
+      }
+      aria-hidden={compact || undefined}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );

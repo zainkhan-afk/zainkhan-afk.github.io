@@ -19,5 +19,14 @@ export function getWorkBySlug(slug) {
   if (!fs.existsSync(filePath)) { return null; }
   const { data, content } = matter(fs.readFileSync(filePath, "utf8"));
   if (data.draft) { return null; }
-  return { slug, metadata: data, content };
+  return { slug, metadata: data, content, diagram: firstFlowchart(content) };
+}
+
+// Source of the first ```mermaid flowchart block, used as a card thumbnail
+// when a case study has no display_graphic; null if there is none
+function firstFlowchart(content) {
+  for (const [, source] of content.matchAll(/```mermaid[^\n]*\n([\s\S]*?)```/g)) {
+    if (source.trim().startsWith("flowchart")) { return source; }
+  }
+  return null;
 }

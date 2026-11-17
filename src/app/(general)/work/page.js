@@ -47,6 +47,7 @@ export default function Work() {
                 title={item.metadata.title}
                 description={item.metadata.description}
                 image={item.metadata.display_graphic}
+                diagram={item.diagram}
                 eyebrow={`${item.metadata.company} · ${item.metadata.role}`}
                 tech={item.metadata.tech}
                 href={`/work/${item.slug}`}
