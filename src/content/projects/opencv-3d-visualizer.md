@@ -5,6 +5,7 @@ description: "A 3D renderer created from scratch using OpenCV and numpy."
 github: "https://github.com/zainkhan-afk/OpenCV-3D-Renderer"
 display_graphic: "https://raw.githubusercontent.com/zainkhan-afk/OpenCV-3D-Renderer/refs/heads/main/media/preview_gif.gif"
 draft: false
+featured: true
 tech: [openCV, numpy, python]
 further_reading: true
 ---

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, Mail, Linkedin, Twitter } from "lucide-react";
+import { Github, Mail, Linkedin, Twitter, Download } from "lucide-react";
+import { CV_PATH, CV_FILENAME, hasCV } from "@/lib/cv";
 
 export const metadata = {
   title: "Contact | Zain Khan",
@@ -34,6 +35,9 @@ const LINKS = [
 ];
 
 export default function Contact() {
+  const links = hasCV()
+    ? [...LINKS, { icon: Download, label: "CV", href: CV_PATH, sub: "Download PDF", download: CV_FILENAME }]
+    : LINKS;
   return (
     <div className="max-w-2xl w-full mx-auto px-4 sm:px-6 py-16 text-center">
       <h1
@@ -49,11 +53,12 @@ export default function Contact() {
         I&apos;m always open to new projects, collaborations, or just a good conversation.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-        {LINKS.map(({ icon: Icon, label, href, sub }) => (
+        {links.map(({ icon: Icon, label, href, sub, download }) => (
           <Link
             key={label}
             href={href}
-            target={href.startsWith("mailto") ? "_self" : "_blank"}
+            download={download}
+            target={download || href.startsWith("mailto") ? "_self" : "_blank"}
             className="flex items-center gap-4 p-5 rounded-xl transition-colors"
             style={{
               background: "var(--bg-secondary)",

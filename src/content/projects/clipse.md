@@ -6,6 +6,7 @@ github: "https://github.com/zainkhan-afk/Clipse"
 link: "https://clipse-app.vercel.app"
 display_graphic: "/projects/clipse-landing.png"
 draft: false
+featured: true
 tech: [Next.js, React, FastAPI, Python, Tailwind, PostgreSQL]
 further_reading: true
 ---

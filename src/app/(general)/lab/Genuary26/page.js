@@ -1,5 +1,5 @@
-import sketches from "@/content/craft/genuary26-manifest.json";
-import GenauryBrowser from "@/components/craft/GenauryBrowser";
+import sketches from "@/content/lab/genuary26-manifest.json";
+import GenauryBrowser from "@/components/lab/GenauryBrowser";
 
 export const metadata = {
   title: "Genuary 2026 | Zain Khan",

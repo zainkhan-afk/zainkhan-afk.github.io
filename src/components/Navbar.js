@@ -4,7 +4,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NAV_LINKS = ["About", "Projects", "Craft", "Blog", "Contact"];
+const NAV_LINKS = ["About", "Work", "Projects", "Lab", "Contact"];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

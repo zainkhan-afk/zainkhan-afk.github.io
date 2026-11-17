@@ -1,28 +1,19 @@
 import Link from "next/link";
+import experiments from "@/content/lab/experiments.json";
 
 export const metadata = {
-  title: "Craft | Zain Khan",
+  title: "Lab | Zain Khan",
   description: "Long-running experiments, series, and creative explorations.",
 };
 
-const CRAFTS = [
-  {
-    slug: "Genuary26",
-    title: "Genuary 2026",
-    description:
-      "31 days of creative code. One p5.js sketch per day, following the official Genuary prompts.",
-    dates: "Jan 2026",
-  },
-];
-
-export default function Craft() {
+export default function Lab() {
   return (
     <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 pb-16">
       <h1
         className="font-serif text-4xl sm:text-5xl font-bold mb-3 text-center"
         style={{ color: "var(--text-primary)" }}
       >
-        Craft
+        Lab
       </h1>
       <p
         className="font-serif italic text-center mb-12"
@@ -31,8 +22,8 @@ export default function Craft() {
         Long-running experiments, series, and creative explorations.
       </p>
       <div className="space-y-4">
-        {CRAFTS.map((craft) => (
-          <Link key={craft.slug} href={`/craft/${craft.slug}`}>
+        {experiments.map((craft) => (
+          <Link key={craft.slug} href={`/lab/${craft.slug}`}>
             <div
               className="flex justify-between items-start p-5 rounded-lg transition-colors"
               style={{
