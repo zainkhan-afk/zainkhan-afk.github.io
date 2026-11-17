@@ -12,15 +12,6 @@ const lora = Lora({ variable: "--font-lora", subsets: ["latin"] });
 export const metadata = {
   title: "Zain Khan",
   description: "A place for me to show my work.",
-  icons: {
-    icon: [
-      { url: 'portfolio-favicon.png' },
-      { url: 'portfolio-favicon.png', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/portfolio-favicon.png' },
-    ],
-  }
 };
 
 export default function RootLayout({ children }) {
